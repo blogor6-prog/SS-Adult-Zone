@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SS Movie Mini App</title>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #0f1015; color: #ffffff; padding: 12px; }
+
+    /* Header & Search */
+    .header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; position: relative; }
+    .search-box { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #2a2e3d; background: #1a1d26; color: #fff; font-size: 14px; outline: none; }
+    .menu-btn { background: #1a1d26; border: 1px solid #2a2e3d; color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+    
+    /* 3-Dot Dropdown Menu */
+    .dropdown-menu { display: none; position: absolute; right: 0; top: 48px; background: #1a1d26; border: 1px solid #333; border-radius: 8px; width: 140px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    .dropdown-menu a { display: block; padding: 10px 12px; color: #ddd; text-decoration: none; font-size: 13px; border-bottom: 1px solid #262a36; }
+    .dropdown-menu a:hover { background: #e50914; color: #fff; }
+
+    /* Ad Banners */
+    .ad-container { display: flex; gap: 8px; margin-bottom: 15px; }
+    .ad-box { flex: 1; height: 60px; background: #1e222d; border: 1px dashed #444b5d; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #7e8b9b; text-align: center; }
+
+    /* Movie Grid */
+    .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px; }
+    .movie-card { background: #161922; border-radius: 10px; overflow: hidden; border: 1px solid #222734; display: flex; flex-direction: column; }
+    .movie-poster { width: 100%; height: 210px; object-fit: cover; }
+    .movie-info { padding: 10px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .movie-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .movie-lang { font-size: 11px; color: #00d26a; background: rgba(0, 210, 106, 0.1); padding: 2px 6px; border-radius: 4px; align-self: flex-start; margin-bottom: 8px; }
+    
+    /* Download Button */
+    .dl-btn { width: 100%; padding: 8px 0; background: #e50914; color: #fff; border: none; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; transition: 0.2s; }
+    .dl-btn:disabled { background: #555; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Search & 3-Dot Menu -->
+  <div class="header">
+    <input type="text" id="searchInput" class="search-box" placeholder="মুভির নাম খুঁজুন..." onkeyup="searchMovie()">
+    <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+    <div id="dropMenu" class="dropdown-menu">
+      <a href="#" onclick="filterCat('All')">🌐 All Movies</a>
+      <a href="#" onclick="filterCat('Bangla')">🇧🇩 Bangla</a>
+      <a href="#" onclick="filterCat('Hindi')">🇮🇳 Hindi/South</a>
+      <a href="#" onclick="filterCat('English')">🎬 Hollywood</a>
+    </div>
+  </div>
+
+  <!-- Top 2 Native Ad Slots -->
+  <div class="ad-container">
+    <div class="ad-box">Native Ad 1 (উপরে)</div>
+    <div class="ad-box">Native Ad 2 (উপরে)</div>
+  </div>
+
+  <!-- Movie Grid List -->
+  <div class="movie-grid" id="movieList">
+    <!-- Movie 1 -->
+    <div class="movie-card" data-title="Jawan" data-lang="Hindi">
+      <img src="https://m.media-amazon.com/images/M/MV5BMjA4NzUyYzAtNGQ5MS00ZjY2LTlkMDItYTFmYjFmOGRhZTUxXkEyXkFqcGc@._V1_.jpg" class="movie-poster">
+      <div class="movie-info">
+        <div class="movie-title">Jawan (2023)</div>
+        <div class="movie-lang">Hindi / Dual Audio</div>
+        <button class="dl-btn" onclick="handleDownload(this, 'https://example.com/movie1-drive-link')">Download</button>
+      </div>
+    </div>
+
+    <!-- Movie 2 -->
+    <div class="movie-card" data-title="Toofan" data-lang="Bangla">
+      <img src="https://m.media-amazon.com/images/M/MV5BN2E0YmM4ZTMtNGE4Ny00YmUxLTgxNDItNGQ2MzcxOWIzMGU5XkEyXkFqcGc@._V1_.jpg" class="movie-poster">
+      <div class="movie-info">
+        <div class="movie-title">Toofan (2024)</div>
+        <div class="movie-lang">Bangla Original</div>
+        <button class="dl-btn" onclick="handleDownload(this, 'https://example.com/movie2-drive-link')">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom 2 Native Ad Slots -->
+  <div class="ad-container">
+    <div class="ad-box">Native Ad 3 (নিচে)</div>
+    <div class="ad-box">Native Ad 4 (নিচে)</div>
+  </div>
+
+  <script>
+    // Telegram WebApp Init
+    const tg = window.Telegram?.WebApp;
+    if (tg) tg.expand();
+
+    // অ্যাডভারটাইজমেন্ট লিংক (Adsterra বা Monetag ডিরেক্ট লিংক দিন)
+    const AD_LINK = "https://www.google.com"; // এখানে আপনার Ads লিংক বসান
+
+    // ৩-ক্লিক ডাউনলোড লজিক + ১০ সেকেন্ড টাইমার
+    function handleDownload(button, finalLink) {
+      let clicks = parseInt(button.getAttribute("data-clicks") || "0");
+      clicks++;
+      button.setAttribute("data-clicks", clicks);
+
+      if (clicks === 1) {
+        window.open(AD_LINK, '_blank');
+        button.innerText = "Click Again (1/2)";
+      } else if (clicks === 2) {
+        window.open(AD_LINK, '_blank');
+        button.innerText = "Click Again (2/2)";
+      } else if (clicks === 3) {
+        // ৩য় ক্লিক: ১০ সেকেন্ড টাইমার শুরু
+        let timeLeft = 10;
+        button.disabled = true;
+        button.style.background = "#ff9800";
+        
+        let timer = setInterval(() => {
+          button.innerText = `Please wait ${timeLeft}s...`;
+          timeLeft--;
+
+          if (timeLeft < 0) {
+            clearInterval(timer);
+            button.disabled = false;
+            button.style.background = "#00d26a";
+            button.innerText = "Get File 📥";
+            button.onclick = function() {
+              window.open(finalLink, '_blank');
+            };
+          }
+        }, 1000);
+      }
+    }
+
+    // 3-Dot মেনু টগল
+    function toggleMenu() {
+      const menu = document.getElementById('dropMenu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // সার্চ লজিক
+    function searchMovie() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let cards = document.getElementsByClassName('movie-card');
+      for (let card of cards) {
+        let title = card.getAttribute('data-title').toLowerCase();
+        card.style.display = title.includes(input) ? "flex" : "none";
+      }
+    }
+
+    // ক্যাটাগরি ফিল্টার
+    function filterCat(cat) {
+      let cards = document.getElementsByClassName('movie-card');
+      for (let card of cards) {
+        if (cat === 'All' || card.getAttribute('data-lang').includes(cat)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      }
+      toggleMenu();
+    }
+  </script>
+</body>
+</html>
