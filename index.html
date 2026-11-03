@@ -36,7 +36,6 @@
       min-height: 100vh;
     }
 
-    /* হেডার ও ৩-ডট মেনু */
     .header-bar {
       display: flex;
       align-items: center;
@@ -94,11 +93,8 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .dropdown-menu div:active {
-      background: var(--primary-hover);
-    }
+    .dropdown-menu div:active { background: var(--primary-hover); }
 
-    /* ক্যাটাগরি চিপস */
     .category-pills {
       display: flex;
       gap: 8px;
@@ -126,7 +122,6 @@
       font-weight: 700;
     }
 
-    /* স্পন্সর ব্যানার */
     .entry-ad-banner {
       background: linear-gradient(135deg, #1e3a8a, #0284c7);
       border-radius: 10px;
@@ -147,7 +142,6 @@
       margin-right: 6px;
     }
 
-    /* সার্চ বক্স */
     .search-box { margin-bottom: 14px; }
     .search-box input {
       width: 100%;
@@ -162,7 +156,6 @@
 
     .ad-container { text-align: center; margin: 12px 0; min-height: 50px; }
 
-    /* মুভি গ্রিড */
     .movies-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -350,10 +343,10 @@
   <div class="modal-overlay" id="downloadModal" onclick="checkOverlayClick(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <h3 id="modalTitle">মুভির নাম</h3>
-      <div class="ad-status-box" id="modalStatus">ডাউনলোড করতে বিজ্ঞাপনটি দেখুন।</div>
+      <div class="ad-status-box" id="modalStatus">ডাউনলোড আনলক করতে ১ম বিজ্ঞাপনটি দেখুন।</div>
 
       <button class="action-btn btn-ad1" id="mainActionBtn" onclick="handleAdClick()">
-        👉 বিজ্ঞাপন চালু করুন (১০ সে.)
+        👉 ধাপ ১: ১ম অ্যাড চালু করুন (১০ সে.)
       </button>
 
       <br>
@@ -362,9 +355,9 @@
   </div>
 
   <script>
-    // আপনার গুগল শিট আইডি সংযুক্ত করা হয়েছে
     var GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo"; 
     var ENTRY_AD_URL = "https://auctionr.org/4/65f43ffc33fe79a1323bfe7402ae52f3";
+    var DEFAULT_AD2 = "https://asiafilm.org/4/13ea836dfdd1e0cc3f590b100bff3fb6";
 
     var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
     if (tg) {
@@ -385,10 +378,11 @@
 
     var movies = [];
     var currentMovie = null;
+    var adStep = 1; 
     var timerInterval = null;
     var activeCategory = 'All';
 
-    // আপনার গুগল শিট থেকে অটোমেটিক ডাটা রিড করবে
+    // গুগল শিট থেকে ডাটা ফেচ
     function fetchMoviesFromSheet() {
       var url = "https://docs.google.com/spreadsheets/d/" + GOOGLE_SHEET_ID + "/gviz/tq?tqx=out:json";
 
@@ -402,16 +396,23 @@
           movies = [];
           for (var i = 0; i < rows.length; i++) {
             var c = rows[i].c;
-            if (!c || !c[0] || !c[0].v) continue; // খালি লাইন থাকলে এড়িয়ে যাবে
+            if (!c || !c[0] || !c[0].v) continue;
+
+            var titleStr = String(c[0].v).trim();
+            // প্রথম লাইনের 'title' শব্দটিকে মুভি হিসেবে নেওয়া বন্ধ করবে
+            if (titleStr.toLowerCase() === 'title') continue;
 
             movies.push({
               id: i + 1,
-              title: c[0] ? String(c[0].v) : 'No Title',
-              category: c[1] ? String(c[1].v).trim() : 'South',
-              rating: c[2] ? String(c[2].v) : '⭐ 8.0/10',
-              image: c[3] ? String(c[3].v) : '',
-              ad1: (c[4] && c[4].v) ? String(c[4].v) : ENTRY_AD_URL,
-              downloadUrl: (c[5] && c[5].v) ? String(c[5].v) : '#'
+              title: titleStr,
+              category: (c[1] && c[1].v) ? String(c[1].v).trim() : 'South',
+              rating: (c[2] && c[2].v) ? String(c[2].v).trim() : '⭐ 8.0/10',
+              image: (c[3] && c[3].v) ? String(c[3].v).trim() : '',
+              ad1: (c[4] && c[4].v) ? String(c[4].v).trim() : ENTRY_AD_URL,
+              // F কলামে ad2 থাকবে, না পেলে ডিফল্ট অ্যাড নেবে
+              ad2: (c[5] && c[5].v && String(c[5].v).startsWith('http')) ? String(c[5].v).trim() : DEFAULT_AD2,
+              // G কলামে downloadUrl থাকবে (অথবা F কলামে যদি ad2 না থাকে)
+              downloadUrl: (c[6] && c[6].v) ? String(c[6].v).trim() : ((c[5] && c[5].v) ? String(c[5].v).trim() : '#')
             });
           }
           renderMovies(movies);
@@ -419,7 +420,7 @@
         .catch(function(err) {
           console.error(err);
           document.getElementById('moviesList').innerHTML = 
-            '<p style="grid-column: span 2; text-align: center; color: #ef4444; padding: 30px;">মুভি লোড হতে সমস্যা হয়েছে! শিটের পারমিশন "Anyone with the link" দেওয়া আছে কিনা দেখে নিন।</p>';
+            '<p style="grid-column: span 2; text-align: center; color: #ef4444; padding: 30px;">মুভি লোড হতে সমস্যা হয়েছে!</p>';
         });
     }
 
@@ -479,7 +480,7 @@
     function filterMovies() {
       var q = document.getElementById('searchInput').value.toLowerCase().trim();
       var filtered = movies.filter(function(m) {
-        var matchesCategory = (activeCategory === 'All') || (m.category.toLowerCase().indexOf(activeCategory.toLowerCase()) !== -1);
+        var matchesCategory = (activeCategory === 'All') || (m.category.toLowerCase() === activeCategory.toLowerCase());
         var matchesSearch = m.title.toLowerCase().indexOf(q) !== -1;
         return matchesCategory && matchesSearch;
       });
@@ -490,26 +491,29 @@
       currentMovie = movies.find(function(m) { return m.id === id; });
       if (!currentMovie) return;
 
+      adStep = 1;
       clearInterval(timerInterval);
 
       document.getElementById('modalTitle').innerText = currentMovie.title;
-      document.getElementById('modalStatus').innerHTML = "ডাউনলোড আনলক করতে <b>বিজ্ঞাপনটি</b> দেখুন।";
+      document.getElementById('modalStatus').innerHTML = "ডাউনলোড আনলক করতে <b>১ম বিজ্ঞাপনটি</b> দেখুন।";
       
       var btn = document.getElementById('mainActionBtn');
       btn.className = "action-btn btn-ad1";
-      btn.innerText = "👉 বিজ্ঞাপন চালু করুন (১০ সে.)";
+      btn.innerText = "👉 ধাপ ১: ১ম অ্যাড চালু করুন (১০ সে.)";
       btn.disabled = false;
       btn.onclick = handleAdClick;
 
       document.getElementById('downloadModal').style.display = 'flex';
     }
 
+    // ২-ধাপের বিজ্ঞাপন হ্যান্ডলার
     function handleAdClick() {
       var btn = document.getElementById('mainActionBtn');
       var status = document.getElementById('modalStatus');
       btn.disabled = true;
 
-      openSafeUrl(currentMovie.ad1);
+      var targetAd = (adStep === 1) ? currentMovie.ad1 : currentMovie.ad2;
+      openSafeUrl(targetAd);
 
       var count = 10;
       status.innerHTML = '<span style="color:#38bdf8;">বিজ্ঞাপন চালু হয়েছে... ১০ সেকেন্ড অপেক্ষা করুন।</span>';
@@ -521,11 +525,20 @@
 
         if (count <= 0) {
           clearInterval(timerInterval);
-          status.innerHTML = "<b style='color:#4ade80;'>🎉 বিজ্ঞাপন দেখা সম্পন্ন হয়েছে!</b>";
-          btn.className = "action-btn btn-dl";
-          btn.innerText = "📥 আসল মুভি ডাউনলোড করুন 🎬";
-          btn.disabled = false;
-          btn.onclick = downloadFinalMovie;
+
+          if (adStep === 1) {
+            adStep = 2;
+            status.innerHTML = "✅ ১ম অ্যাড দেখা শেষ! এবার <b>২য় অ্যাডটি</b> দেখুন।";
+            btn.className = "action-btn btn-ad2";
+            btn.innerText = "👉 ধাপ ২: শেষ অ্যাড চালু করুন (১০ সে.)";
+            btn.disabled = false;
+          } else {
+            status.innerHTML = "<b style='color:#4ade80;'>🎉 ২টি বিজ্ঞাপন সফলভাবে সম্পন্ন হয়েছে!</b>";
+            btn.className = "action-btn btn-dl";
+            btn.innerText = "📥 আসল মুভি ডাউনলোড করুন 🎬";
+            btn.disabled = false;
+            btn.onclick = downloadFinalMovie;
+          }
         }
       }, 1000);
     }
@@ -544,7 +557,6 @@
       document.getElementById('downloadModal').style.display = 'none';
     }
 
-    // শিট থেকে মুভি লোড শুরু
     fetchMoviesFromSheet();
   </script>
 </body>
