@@ -404,7 +404,6 @@
             if (!c || !c[0] || !c[0].v) continue;
 
             var titleStr = String(c[0].v).trim();
-            // প্রথম লাইনের 'title' শব্দটিকে মুভি হিসেবে নেওয়া বন্ধ করবে
             if (titleStr.toLowerCase() === 'title') continue;
 
             movies.push({
@@ -414,12 +413,14 @@
               rating: (c[2] && c[2].v) ? String(c[2].v).trim() : '⭐ 8.0/10',
               image: (c[3] && c[3].v) ? String(c[3].v).trim() : '',
               ad1: (c[4] && c[4].v) ? String(c[4].v).trim() : ENTRY_AD_URL,
-              // F কলামে ad2 থাকবে, না পেলে ডিফল্ট অ্যাড নেবে
               ad2: (c[5] && c[5].v && String(c[5].v).startsWith('http')) ? String(c[5].v).trim() : DEFAULT_AD2,
-              // G কলামে downloadUrl থাকবে (অথবা F কলামে যদি ad2 না থাকে)
               downloadUrl: (c[6] && c[6].v) ? String(c[6].v).trim() : ((c[5] && c[5].v) ? String(c[5].v).trim() : '#')
             });
           }
+
+          // ✅ নতুন মুভিকে সবার উপরে দেখানোর জন্য রিভার্স (Reverse) করা হলো
+          movies.reverse();
+
           renderMovies(movies);
         })
         .catch(function(err) {
