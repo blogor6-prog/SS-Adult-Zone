@@ -8,7 +8,7 @@
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- ✅ সোসাল বার অ্যাড কোড -->
+  <!-- সোসাল বার অ্যাড কোড -->
   <script data-cfasync="false" src="https://bancadeltempoidea.org/14/792f5ba0b7985495531ab4621359d5f4"></script>
 
   <style>
@@ -23,7 +23,6 @@
       --accent-yellow: #facc15;
       --accent-green: #22c55e;
       --accent-orange: #f97316;
-      --accent-red: #ef4444;
     }
 
     * {
@@ -181,21 +180,21 @@
     /* পিন করা কার্ডের বিশেষ ডিজাইন */
     .movie-card.is-pinned {
       border: 1px solid #f59e0b;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
     }
 
     .pin-badge {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      background: #dc2626;
-      color: #fff;
-      font-size: 10px;
+      top: 6px;
+      right: 6px;
+      background: #f59e0b;
+      color: #000;
+      font-size: 9px;
       font-weight: 800;
-      padding: 3px 7px;
+      padding: 3px 6px;
       border-radius: 4px;
       z-index: 5;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.7);
     }
 
     .movie-poster-wrap {
@@ -341,7 +340,7 @@
     <input type="text" id="searchInput" placeholder="মুভির নাম খুঁজুন..." oninput="filterMovies()">
   </div>
 
-  <!-- ব্যানার অ্যাড -->
+  <!-- ব্যানার অ্যাড (320x50) -->
   <div class="ad-container">
     <script>
       atOptions = {
@@ -392,6 +391,7 @@
     }
 
     function openSafeUrl(url) {
+      if (!url || url === '#' || !url.startsWith('http')) return;
       if (tg && tg.openLink) {
         tg.openLink(url);
       } else {
@@ -409,45 +409,65 @@
     var timerInterval = null;
     var activeCategory = 'All';
 
+    // সেলের মান নিরাপদভাবে পড়ার ফাংশন
+    function getCellVal(c, index) {
+      if (!c || !c[index] || c[index].v === null || c[index].v === undefined) return '';
+      return String(c[index].v).trim();
+    }
+
     // গুগল শিট থেকে ডাটা ফেচ
     function fetchMoviesFromSheet() {
-      var url = "https://docs.google.com/spreadsheets/d/" + GOOGLE_SHEET_ID + "/gviz/tq?tqx=out:json";
+      var url = "https://docs.google.com/spreadsheets/d/" + GOOGLE_SHEET_ID + "/gviz/tq?tqx=out:json&t=" + new Date().getTime();
 
       fetch(url)
         .then(function(res) { return res.text(); })
         .then(function(data) {
-          var jsonString = data.substring(47).slice(0, -2);
-          var json = JSON.parse(jsonString);
-          var rows = json.table.rows;
+          var startIdx = data.indexOf('{');
+          var endIdx = data.lastIndexOf('}');
+          if (startIdx === -1 || endIdx === -1) {
+            throw new Error("Invalid sheet response");
+          }
+
+          var json = JSON.parse(data.substring(startIdx, endIdx + 1));
+          var rows = json.table && json.table.rows ? json.table.rows : [];
 
           var rawMovies = [];
           for (var i = 0; i < rows.length; i++) {
             var c = rows[i].c;
-            if (!c || !c[0] || !c[0].v) continue;
+            if (!c) continue;
 
-            var titleStr = String(c[0].v).trim();
-            if (titleStr.toLowerCase() === 'title') continue;
+            var titleStr = getCellVal(c, 0);
+            if (!titleStr || titleStr.toLowerCase() === 'title') continue;
 
-            // কলাম H (c[7]) চেক করবে 'yes' আছে কিনা
-            var isPinned = (c[7] && c[7].v && String(c[7].v).trim().toLowerCase() === 'yes');
+            var categoryVal = getCellVal(c, 1) || 'South';
+            var ratingVal = getCellVal(c, 2) || '8.0';
+            var imgVal = getCellVal(c, 3);
+            var ad1Val = getCellVal(c, 4) || ENTRY_AD_URL;
+            var ad2Val = getCellVal(c, 5).startsWith('http') ? getCellVal(c, 5) : DEFAULT_AD2;
+            
+            // ডাউনলোড লিংক G অথবা F কলাম থেকে নেবে
+            var dlVal = getCellVal(c, 6) || getCellVal(c, 5) || '#';
+
+            // কলাম H (Index 7) চেক করবে 'yes' আছে কিনা (পিন করার জন্য)
+            var isPinned = (getCellVal(c, 7).toLowerCase() === 'yes');
 
             rawMovies.push({
               id: i + 1,
               title: titleStr,
-              category: (c[1] && c[1].v) ? String(c[1].v).trim() : 'South',
-              rating: (c[2] && c[2].v) ? String(c[2].v).trim() : '⭐ 8.0/10',
-              image: (c[3] && c[3].v) ? String(c[3].v).trim() : '',
-              ad1: (c[4] && c[4].v) ? String(c[4].v).trim() : ENTRY_AD_URL,
-              ad2: (c[5] && c[5].v && String(c[5].v).startsWith('http')) ? String(c[5].v).trim() : DEFAULT_AD2,
-              downloadUrl: (c[6] && c[6].v) ? String(c[6].v).trim() : ((c[5] && c[5].v) ? String(c[5].v).trim() : '#'),
+              category: categoryVal,
+              rating: ratingVal.startsWith('⭐') ? ratingVal : '⭐ ' + ratingVal,
+              image: imgVal,
+              ad1: ad1Val,
+              ad2: ad2Val,
+              downloadUrl: dlVal,
               pinned: isPinned
             });
           }
 
-          // ১. সবগুলোকে উল্টে দেওয়া হলো (যাতে নতুনগুলো আগে আসে)
+          // ১. নতুন মুভিকে সবার উপরে তুলতে উল্টে দেওয়া হলো
           rawMovies.reverse();
 
-          // ২. পিন করা মুভিগুলোকে সবার উপরে নিয়ে আসা হলো
+          // ২. পিন করা মুভিগুলোকে সবার শীর্ষে নেওয়া হলো
           var pinnedList = rawMovies.filter(function(m) { return m.pinned; });
           var normalList = rawMovies.filter(function(m) { return !m.pinned; });
 
@@ -456,9 +476,9 @@
           renderMovies(movies);
         })
         .catch(function(err) {
-          console.error(err);
+          console.error("Sheet Error: ", err);
           document.getElementById('moviesList').innerHTML = 
-            '<p style="grid-column: span 2; text-align: center; color: #ef4444; padding: 30px;">মুভি লোড হতে সমস্যা হয়েছে!</p>';
+            '<p style="grid-column: span 2; text-align: center; color: #ef4444; padding: 30px;">মুভি লোড হতে সমস্যা হয়েছে! শিটটি পাবলিক (Anyone with the link) করা আছে কিনা দেখুন।</p>';
         });
     }
 
@@ -500,7 +520,7 @@
       list.forEach(function(m) {
         var card = document.createElement('div');
         card.className = 'movie-card' + (m.pinned ? ' is-pinned' : '');
-        
+
         var pinTag = m.pinned ? '<div class="pin-badge">📌 PINNED</div>' : '';
 
         card.innerHTML = 
@@ -571,4 +591,34 @@
             adStep = 2;
             status.innerHTML = "✅ ১ম অ্যাড দেখা শেষ! এবার <b>২য় অ্যাডটি</b> দেখুন।";
             btn.className = "action-btn btn-ad2";
-            btn.innerText = "👉 ধাপ ২: শেষ অ্যাড চালু করুন (১০
+            btn.innerText = "👉 ধাপ ২: শেষ অ্যাড চালু করুন (১০ সে.)";
+            btn.disabled = false;
+          } else {
+            status.innerHTML = "<b style='color:#4ade80;'>🎉 ২টি বিজ্ঞাপন সফলভাবে সম্পন্ন হয়েছে!</b>";
+            btn.className = "action-btn btn-dl";
+            btn.innerText = "📥 আসল মুভি ডাউনলোড করুন 🎬";
+            btn.disabled = false;
+            btn.onclick = downloadFinalMovie;
+          }
+        }
+      }, 1000);
+    }
+
+    function downloadFinalMovie() {
+      openSafeUrl(currentMovie.downloadUrl);
+      closeModal();
+    }
+
+    function checkOverlayClick(e) {
+      if (e.target.id === 'downloadModal') closeModal();
+    }
+
+    function closeModal() {
+      clearInterval(timerInterval);
+      document.getElementById('downloadModal').style.display = 'none';
+    }
+
+    fetchMoviesFromSheet();
+  </script>
+</body>
+</html>
