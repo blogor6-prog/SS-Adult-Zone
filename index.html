@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SS viral Zone</title>
-  
-  <!-- Telegram Web App SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- সোসাল বার অ্যাড কোড -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script data-cfasync="false" src="https://bancadeltempoidea.org/14/792f5ba0b7985495531ab4621359d5f4"></script>
 
   <style>
@@ -25,293 +22,58 @@
       --accent-orange: #f97316;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg-dark); color: var(--text-main); padding: 12px; padding-bottom: 80px; min-height: 100vh; }
 
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      padding: 12px;
-      padding-bottom: 80px;
-      min-height: 100vh;
-    }
-
-    .header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      position: relative;
-    }
-
-    .header-bar h1 {
-      font-size: 20px;
-      color: var(--primary);
-      font-weight: 800;
-      text-align: center;
-      width: 100%;
-    }
-
-    .menu-btn {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      color: var(--primary);
-      font-size: 20px;
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 20;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 45px;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-      z-index: 1000;
-      width: 160px;
-      overflow: hidden;
-    }
-
-    .dropdown-menu div {
-      padding: 12px 14px;
-      font-size: 13px;
-      color: #f1f5f9;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
+    .header-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; position: relative; }
+    .header-bar h1 { font-size: 20px; color: var(--primary); font-weight: 800; text-align: center; width: 100%; }
+    .menu-btn { position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: var(--card-bg); border: 1px solid var(--border-color); color: var(--primary); font-size: 20px; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; }
+    .dropdown-menu { display: none; position: absolute; right: 0; top: 45px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); z-index: 1000; width: 160px; overflow: hidden; }
+    .dropdown-menu div { padding: 12px 14px; font-size: 13px; color: #f1f5f9; cursor: pointer; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
     .dropdown-menu div:active { background: var(--primary-hover); }
 
-    .category-pills {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-      scrollbar-width: none;
-    }
+    .category-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; scrollbar-width: none; }
     .category-pills::-webkit-scrollbar { display: none; }
+    .pill { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 14px; border-radius: 20px; font-size: 12px; white-space: nowrap; cursor: pointer; }
+    .pill.active { background: var(--primary); border-color: var(--primary); color: #0b0f19; font-weight: 700; }
 
-    .pill {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .pill.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #0b0f19;
-      font-weight: 700;
-    }
-
-    .entry-ad-banner {
-      background: linear-gradient(135deg, #1e3a8a, #0284c7);
-      border-radius: 10px;
-      padding: 10px 14px;
-      text-align: center;
-      margin-bottom: 12px;
-      border: 1px dashed var(--primary);
-      cursor: pointer;
-    }
+    .entry-ad-banner { background: linear-gradient(135deg, #1e3a8a, #0284c7); border-radius: 10px; padding: 10px 14px; text-align: center; margin-bottom: 12px; border: 1px dashed var(--primary); cursor: pointer; }
     .entry-ad-banner p { font-size: 13px; color: #fff; font-weight: 600; }
-    .entry-ad-banner span {
-      font-size: 10px;
-      background: var(--accent-yellow);
-      color: #000;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: 800;
-      margin-right: 6px;
-    }
+    .entry-ad-banner span { font-size: 10px; background: var(--accent-yellow); color: #000; padding: 2px 6px; border-radius: 4px; font-weight: 800; margin-right: 6px; }
 
     .search-box { margin-bottom: 14px; }
-    .search-box input {
-      width: 100%;
-      padding: 11px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: var(--card-bg);
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-    }
-
+    .search-box input { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--card-bg); color: #fff; font-size: 14px; outline: none; }
     .ad-container { text-align: center; margin: 12px 0; min-height: 50px; }
 
-    .movies-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .movie-card {
-      background: var(--card-bg);
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    /* পিন করা কার্ডের বিশেষ ডিজাইন */
-    .movie-card.is-pinned {
-      border: 1px solid #f59e0b;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
-    }
-
-    .pin-badge {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      background: #f59e0b;
-      color: #000;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 3px 6px;
-      border-radius: 4px;
-      z-index: 5;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.7);
-    }
-
-    .movie-poster-wrap {
-      width: 100%;
-      height: 200px;
-      background: #0f172a;
-    }
+    .movies-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .movie-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; position: relative; }
+    .movie-card.is-pinned { border: 1px solid #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.25); }
+    .pin-badge { position: absolute; top: 6px; right: 6px; background: #f59e0b; color: #000; font-size: 9px; font-weight: 800; padding: 3px 6px; border-radius: 4px; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.7); }
+    .movie-poster-wrap { width: 100%; height: 200px; background: #0f172a; }
     .movie-card img { width: 100%; height: 100%; object-fit: cover; }
+    .movie-info { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .movie-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .movie-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--accent-yellow); margin-bottom: 10px; }
+    .dl-trigger-btn { background: var(--primary-hover); color: #fff; border: none; padding: 9px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .loader-box { grid-column: span 2; text-align: center; padding: 40px 10px; color: var(--primary); font-size: 14px; }
 
-    .movie-info {
-      padding: 10px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .movie-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .movie-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--accent-yellow);
-      margin-bottom: 10px;
-    }
-
-    .dl-trigger-btn {
-      background: var(--primary-hover);
-      color: #fff;
-      border: none;
-      padding: 9px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .loader-box {
-      grid-column: span 2;
-      text-align: center;
-      padding: 40px 10px;
-      color: var(--primary);
-      font-size: 14px;
-    }
-
-    /* পপআপ মডাল */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      padding: 20px;
-    }
-
-    .modal-content {
-      background: #111827;
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-      width: 100%;
-      max-width: 320px;
-      border: 1px solid var(--border-color);
-    }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 10000; padding: 20px; }
+    .modal-content { background: #111827; border-radius: 14px; padding: 20px; text-align: center; width: 100%; max-width: 320px; border: 1px solid var(--border-color); }
     .modal-content h3 { font-size: 15px; color: var(--primary); margin-bottom: 8px; }
-    .ad-status-box {
-      background: #0b0f19;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      margin: 12px 0;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-    }
-    .action-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-    }
+    .ad-status-box { background: #0b0f19; padding: 12px; border-radius: 8px; font-size: 12px; margin: 12px 0; border: 1px solid var(--border-color); color: var(--text-muted); }
+    .action-btn { width: 100%; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; }
     .btn-ad1 { background: var(--accent-yellow); color: #000; }
     .btn-ad2 { background: var(--accent-orange); color: #fff; }
     .btn-dl  { background: var(--accent-green);  color: #fff; }
     .action-btn:disabled { background: #334155 !important; color: #64748b !important; cursor: not-allowed; }
-    .close-btn {
-      margin-top: 14px;
-      background: transparent;
-      border: 1px solid #475569;
-      color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 12px;
-    }
+    .close-btn { margin-top: 14px; background: transparent; border: 1px solid #475569; color: var(--text-muted); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; }
   </style>
 </head>
 <body>
 
-  <!-- হেডার ও ৩-ডট মেনু -->
   <div class="header-bar">
     <h1>🎬 SS viral Zone</h1>
     <button class="menu-btn" onclick="toggleMenu(event)">⋮</button>
-    
     <div class="dropdown-menu" id="dropdownMenu">
       <div onclick="selectCategory('All', event)">🌐 All (সকল)</div>
       <div onclick="selectCategory('Bangla', event)">🇧🇩 Bangla</div>
@@ -321,7 +83,6 @@
     </div>
   </div>
 
-  <!-- ক্যাটাগরি চিপস -->
   <div class="category-pills">
     <div class="pill active" onclick="selectCategory('All', event)">All</div>
     <div class="pill" onclick="selectCategory('Bangla', event)">Bangla</div>
@@ -330,17 +91,14 @@
     <div class="pill" onclick="selectCategory('Hollywood', event)">Hollywood</div>
   </div>
 
-  <!-- স্পন্সর ব্যানার -->
   <div class="entry-ad-banner" onclick="openEntryAd()">
     <p><span>SPONSOR</span> স্পন্সরড অফার দেখতে এখানে ক্লিক করুন 🎁</p>
   </div>
 
-  <!-- সার্চ বক্স -->
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="মুভির নাম খুঁজুন..." oninput="filterMovies()">
   </div>
 
-  <!-- ব্যানার অ্যাড (320x50) -->
   <div class="ad-container">
     <script>
       atOptions = {
@@ -354,88 +112,74 @@
     <script src="https://bancadeltempoidea.org/22/8c51e3c6e22b700ea7f548944de49528"></script>
   </div>
 
-  <!-- মুভি গ্রিড -->
   <div class="movies-grid" id="moviesList">
-    <div class="loader-box">গুগল শিট থেকে মুভি লোড হচ্ছে... ⏳</div>
+    <div class="loader-box">ভিডিও লোড হচ্ছে... ⏳</div>
   </div>
 
-  <!-- নেগেটিভ অ্যাড -->
   <div class="ad-container" style="margin-top: 15px;">
     <script async="async" data-cfasync="false" src="https://bancadeltempoidea.org/21/ec72bbd193cb50eb90320e65f0081446"></script>
     <div id="container-ec72bbd193cb50eb90320e65f0081446"></div>
   </div>
 
-  <!-- মডাল -->
   <div class="modal-overlay" id="downloadModal" onclick="checkOverlayClick(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <h3 id="modalTitle">মুভির নাম</h3>
       <div class="ad-status-box" id="modalStatus">ডাউনলোড আনলক করতে ১ম বিজ্ঞাপনটি দেখুন।</div>
-
-      <button class="action-btn btn-ad1" id="mainActionBtn" onclick="handleAdClick()">
-        👉 ধাপ ১: ১ম অ্যাড চালু করুন (১০ সে.)
-      </button>
-
+      <button class="action-btn btn-ad1" id="mainActionBtn" onclick="handleAdClick()">👉 ধাপ ১: ১ম অ্যাড চালু করুন (১০ সে.)</button>
       <br>
       <button class="close-btn" onclick="closeModal()">বন্ধ করুন</button>
     </div>
   </div>
 
   <script>
-    var GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo"; 
+    var GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo";
     var ENTRY_AD_URL = "https://auctionr.org/4/65f43ffc33fe79a1323bfe7402ae52f3";
     var DEFAULT_AD2 = "https://asiafilm.org/4/13ea836dfdd1e0cc3f590b100bff3fb6";
 
     var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-    if (tg) {
-      try { tg.ready(); tg.expand(); } catch (e) {}
-    }
+    if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
 
     function openSafeUrl(url) {
-      if (!url || url === '#' || !url.startsWith('http')) return;
-      if (tg && tg.openLink) {
-        tg.openLink(url);
-      } else {
-        window.open(url, '_blank');
-      }
+      if (!url || url === '#' || !/^https?:\/\//i.test(url)) return;
+      if (tg && tg.openLink) tg.openLink(url);
+      else window.open(url, '_blank');
     }
 
-    function openEntryAd() {
-      openSafeUrl(ENTRY_AD_URL);
-    }
+    function openEntryAd() { openSafeUrl(ENTRY_AD_URL); }
 
     var movies = [];
     var currentMovie = null;
-    var adStep = 1; 
+    var adStep = 1;
     var timerInterval = null;
     var activeCategory = 'All';
 
-    // সেলের মান নিরাপদভাবে পড়ার ফাংশন
     function getCellVal(c, index) {
       if (!c || !c[index] || c[index].v === null || c[index].v === undefined) return '';
       return String(c[index].v).trim();
     }
 
-    // গুগল শিট থেকে ডাটা ফেচ
-    function fetchMoviesFromSheet() {
-      var url = "https://docs.google.com/spreadsheets/d/" + GOOGLE_SHEET_ID + "/gviz/tq?tqx=out:json&t=" + new Date().getTime();
+    function applySortAndPins(rawMovies) {
+      var pinnedList = rawMovies.filter(function(m) { return m.pinned; });
+      var normalList = rawMovies.filter(function(m) { return !m.pinned; });
+      return pinnedList.concat(normalList);
+    }
 
+    function fetchMoviesFromSheetFallback() {
+      var url = "https://docs.google.com/spreadsheets/d/" + GOOGLE_SHEET_ID + "/gviz/tq?tqx=out:json&t=" + new Date().getTime();
       fetch(url)
         .then(function(res) { return res.text(); })
         .then(function(data) {
           var startIdx = data.indexOf('{');
           var endIdx = data.lastIndexOf('}');
-          if (startIdx === -1 || endIdx === -1) {
-            throw new Error("Invalid sheet response");
-          }
+          if (startIdx === -1 || endIdx === -1) throw new Error("Invalid sheet response");
 
           var json = JSON.parse(data.substring(startIdx, endIdx + 1));
           var rows = json.table && json.table.rows ? json.table.rows : [];
-
           var rawMovies = [];
+
           for (var i = 0; i < rows.length; i++) {
             var c = rows[i].c;
             if (!c) continue;
-
             var titleStr = getCellVal(c, 0);
             if (!titleStr || titleStr.toLowerCase() === 'title') continue;
 
@@ -444,11 +188,7 @@
             var imgVal = getCellVal(c, 3);
             var ad1Val = getCellVal(c, 4) || ENTRY_AD_URL;
             var ad2Val = getCellVal(c, 5).startsWith('http') ? getCellVal(c, 5) : DEFAULT_AD2;
-            
-            // ডাউনলোড লিংক G অথবা F কলাম থেকে নেবে
             var dlVal = getCellVal(c, 6) || getCellVal(c, 5) || '#';
-
-            // কলাম H (Index 7) চেক করবে 'yes' আছে কিনা (পিন করার জন্য)
             var isPinned = (getCellVal(c, 7).toLowerCase() === 'yes');
 
             rawMovies.push({
@@ -464,21 +204,49 @@
             });
           }
 
-          // ১. নতুন মুভিকে সবার উপরে তুলতে উল্টে দেওয়া হলো
           rawMovies.reverse();
-
-          // ২. পিন করা মুভিগুলোকে সবার শীর্ষে নেওয়া হলো
-          var pinnedList = rawMovies.filter(function(m) { return m.pinned; });
-          var normalList = rawMovies.filter(function(m) { return !m.pinned; });
-
-          movies = pinnedList.concat(normalList);
-
+          movies = applySortAndPins(rawMovies);
           renderMovies(movies);
         })
         .catch(function(err) {
           console.error("Sheet Error: ", err);
-          document.getElementById('moviesList').innerHTML = 
-            '<p style="grid-column: span 2; text-align: center; color: #ef4444; padding: 30px;">মুভি লোড হতে সমস্যা হয়েছে! শিটটি পাবলিক (Anyone with the link) করা আছে কিনা দেখুন।</p>';
+          document.getElementById('moviesList').innerHTML =
+            '<p style="grid-column: span 2; text-align: center; color: #ef4444; padding: 30px;">মুভি লোড হতে সমস্যা হয়েছে!</p>';
+        });
+    }
+
+    function fetchMoviesFromGitHub() {
+      fetch("./movies.json?t=" + Date.now(), { cache: "no-store" })
+        .then(function(res) {
+          if (!res.ok) throw new Error("No movies.json");
+          return res.json();
+        })
+        .then(function(list) {
+          if (!Array.isArray(list) || list.length === 0) {
+            fetchMoviesFromSheetFallback();
+            return;
+          }
+          var rawMovies = list.map(function(m, idx) {
+            var r = String(m.rating || '8.0').trim();
+            var dl = m.downloadUrl || (Array.isArray(m.links) && m.links[0] ? m.links[0].link : '') || m.watchUrl || '#';
+            var ad2Val = (m.ad2 && /^https?:\/\//i.test(m.ad2)) ? m.ad2 : DEFAULT_AD2;
+            return {
+              id: m.id || (idx + 1),
+              title: m.title || 'Untitled',
+              category: m.category || 'South',
+              rating: r.startsWith('⭐') ? r : '⭐ ' + r,
+              image: m.image || '',
+              ad1: (m.ad1 && /^https?:\/\//i.test(m.ad1)) ? m.ad1 : ENTRY_AD_URL,
+              ad2: ad2Val,
+              downloadUrl: dl,
+              pinned: !!m.pinned
+            };
+          });
+          movies = applySortAndPins(rawMovies);
+          renderMovies(movies);
+        })
+        .catch(function() {
+          fetchMoviesFromSheetFallback();
         });
     }
 
@@ -492,14 +260,10 @@
       if (event) event.stopPropagation();
       activeCategory = cat;
       document.getElementById('dropdownMenu').style.display = 'none';
-
       var pills = document.querySelectorAll('.pill');
       pills.forEach(function(pill) {
-        if (pill.innerText.trim().toLowerCase() === cat.toLowerCase()) {
-          pill.classList.add('active');
-        } else {
-          pill.classList.remove('active');
-        }
+        if (pill.innerText.trim().toLowerCase() === cat.toLowerCase()) pill.classList.add('active');
+        else pill.classList.remove('active');
       });
       filterMovies();
     }
@@ -520,10 +284,9 @@
       list.forEach(function(m) {
         var card = document.createElement('div');
         card.className = 'movie-card' + (m.pinned ? ' is-pinned' : '');
-
         var pinTag = m.pinned ? '<div class="pin-badge">📌 PINNED</div>' : '';
 
-        card.innerHTML = 
+        card.innerHTML =
           pinTag +
           '<div class="movie-poster-wrap">' +
             '<img src="' + m.image + '" alt="' + m.title + '" onerror="this.onerror=null;this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 140%22><rect width=%22100%22 height=%22140%22 fill=%22%231e293b%22/><text x=%2250%%22 y=%2250%%22 fill=%22%2364748b%22 font-size=%2212%22 text-anchor=%22middle%22 dy=%22.3em%22>No Image</text></svg>\'">' +
@@ -533,7 +296,7 @@
               '<div class="movie-title">' + m.title + '</div>' +
               '<div class="movie-meta"><span>' + m.rating + '</span><span>' + m.category + '</span></div>' +
             '</div>' +
-            '<button class="dl-trigger-btn" onclick="openModal(' + m.id + ')">ডাউনলোড</button>' +
+            '<button class="dl-trigger-btn" onclick="openModal(\'' + m.id + '\')">ডাউনলোড</button>' +
           '</div>';
         container.appendChild(card);
       });
@@ -542,7 +305,7 @@
     function filterMovies() {
       var q = document.getElementById('searchInput').value.toLowerCase().trim();
       var filtered = movies.filter(function(m) {
-        var matchesCategory = (activeCategory === 'All') || (m.category.toLowerCase() === activeCategory.toLowerCase());
+        var matchesCategory = (activeCategory === 'All') || (m.category.toLowerCase().indexOf(activeCategory.toLowerCase()) !== -1);
         var matchesSearch = m.title.toLowerCase().indexOf(q) !== -1;
         return matchesCategory && matchesSearch;
       });
@@ -550,7 +313,7 @@
     }
 
     function openModal(id) {
-      currentMovie = movies.find(function(m) { return m.id === id; });
+      currentMovie = movies.find(function(m) { return String(m.id) === String(id); });
       if (!currentMovie) return;
 
       adStep = 1;
@@ -558,7 +321,7 @@
 
       document.getElementById('modalTitle').innerText = currentMovie.title;
       document.getElementById('modalStatus').innerHTML = "ডাউনলোড আনলক করতে <b>১ম বিজ্ঞাপনটি</b> দেখুন।";
-      
+
       var btn = document.getElementById('mainActionBtn');
       btn.className = "action-btn btn-ad1";
       btn.innerText = "👉 ধাপ ১: ১ম অ্যাড চালু করুন (১০ সে.)";
@@ -618,7 +381,7 @@
       document.getElementById('downloadModal').style.display = 'none';
     }
 
-    fetchMoviesFromSheet();
+    fetchMoviesFromGitHub();
   </script>
 </body>
 </html>
