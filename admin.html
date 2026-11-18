@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SS viral Zone — GitHub WP Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wp-dark: #1d2327;
+      --wp-darker: #101517;
+      --wp-blue: #2271b1;
+      --wp-blue-hover: #135e96;
+      --wp-bg: #f0f0f1;
+      --wp-border: #c3c4c7;
+      --wp-text: #1d2327;
+      --wp-muted: #646970;
+      --wp-red: #d63638;
+      --wp-green: #00a32a;
+      --wp-amber: #dba617;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+    body { background: var(--wp-bg); color: var(--wp-text); min-height: 100vh; }
+
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .login-box { width: 100%; max-width: 390px; }
+    .login-logo { text-align: center; margin-bottom: 18px; }
+    .login-logo-badge { display: inline-flex; align-items: center; justify-content: center; width: 62px; height: 62px; border-radius: 50%; background: var(--wp-dark); color: #fff; font-size: 26px; margin-bottom: 8px; }
+    .login-logo h1 { font-size: 20px; color: var(--wp-dark); }
+    .login-card { background: #fff; border: 1px solid var(--wp-border); padding: 22px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .wp-input, .wp-select, .wp-textarea { width: 100%; padding: 8px 10px; border: 1px solid #8c8f94; border-radius: 4px; font-size: 13.5px; background: #fff; outline: none; }
+    .wp-input:focus, .wp-select:focus, .wp-textarea:focus { border-color: var(--wp-blue); box-shadow: 0 0 0 1px var(--wp-blue); }
+
+    .wp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 14px; border-radius: 4px; border: 1px solid var(--wp-blue); background: var(--wp-blue); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .wp-btn:hover { background: var(--wp-blue-hover); }
+    .wp-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .wp-btn-secondary { background: #f6f7f7; color: var(--wp-blue); border-color: var(--wp-blue); }
+    .wp-btn-danger { background: var(--wp-red); border-color: var(--wp-red); color: #fff; }
+    .wp-btn-success { background: var(--wp-green); border-color: var(--wp-green); color: #fff; }
+    .wp-btn-sm { padding: 5px 10px; font-size: 12px; }
+
+    .wp-topbar { position: fixed; top: 0; left: 0; width: 100%; height: 44px; background: var(--wp-dark); color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; z-index: 1000; }
+    .wp-topbar-left { display: flex; align-items: center; gap: 10px; }
+    .mobile-menu-btn { display: none; background: transparent; border: 1px solid #50575e; color: #fff; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 15px; }
+    .wp-topbar-brand { font-size: 14px; font-weight: 700; }
+    .wp-topbar-link { color: #72aee6; font-size: 12.5px; font-weight: 700; cursor: pointer; text-decoration: none; }
+
+    .wp-shell { display: none; padding-top: 44px; min-height: 100vh; }
+    .wp-sidebar { position: fixed; top: 44px; left: 0; bottom: 0; width: 205px; background: var(--wp-dark); color: #f0f0f1; overflow-y: auto; z-index: 900; transition: transform 0.2s ease; }
+    .wp-menu { list-style: none; padding: 10px 0; }
+    .wp-menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13.5px; cursor: pointer; border-left: 4px solid transparent; }
+    .wp-menu-item:hover { background: var(--wp-darker); color: #72aee6; }
+    .wp-menu-item.active { background: var(--wp-blue); color: #fff; font-weight: 700; border-left-color: #fff; }
+    .wp-menu-divider { height: 1px; background: #2c3338; margin: 8px 0; }
+
+    .wp-main { margin-left: 205px; padding: 18px; }
+    .wp-page-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .wp-page-title { font-size: 20px; font-weight: 700; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .stat-card { background: #fff; border: 1px solid var(--wp-border); padding: 14px; border-left: 4px solid var(--wp-blue); }
+    .stat-card.green { border-left-color: var(--wp-green); }
+    .stat-card.amber { border-left-color: var(--wp-amber); }
+    .stat-card.red { border-left-color: var(--wp-red); }
+    .stat-num { font-size: 24px; font-weight: 800; }
+    .stat-label { font-size: 12px; color: var(--wp-muted); font-weight: 600; }
+
+    .wp-card { background: #fff; border: 1px solid var(--wp-border); margin-bottom: 16px; }
+    .wp-card-header { padding: 10px 14px; border-bottom: 1px solid var(--wp-border); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .wp-card-body { padding: 14px; }
+
+    .table-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .filter-tabs { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+    .filter-tab { color: var(--wp-blue); cursor: pointer; font-weight: 600; }
+    .filter-tab.active { color: var(--wp-dark); font-weight: 800; text-decoration: underline; }
+
+    .wp-table-wrap { width: 100%; overflow-x: auto; background: #fff; border: 1px solid var(--wp-border); }
+    table.wp-table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 13px; }
+    table.wp-table th, table.wp-table td { padding: 9px 11px; text-align: left; border-bottom: 1px solid #e5e5e5; vertical-align: middle; }
+    table.wp-table th { border-bottom: 1px solid var(--wp-border); font-weight: 700; }
+    table.wp-table tr:nth-child(even) { background: #f9f9f9; }
+    .thumb-img { width: 40px; height: 56px; object-fit: cover; border-radius: 3px; background: #1d2327; }
+    .badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 11px; font-weight: 700; background: #e5e5e5; }
+    .badge-ok { background: #edfaef; color: #007017; border: 1px solid #68de7c; }
+    .badge-warn { background: #fcf0f1; color: #b32d2e; border: 1px solid #f86368; }
+    .badge-pin { background: #fff8e1; color: #9a6700; border: 1px solid #dba617; }
+
+    .editor-grid { display: grid; grid-template-columns: 1fr 290px; gap: 16px; align-items: start; }
+    .two-col-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .poster-preview-box { width: 100%; max-width: 160px; height: 220px; border: 1px dashed #8c8f94; border-radius: 4px; background: #f6f7f7; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 10px auto 0 auto; }
+    .poster-preview-box img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cat-chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .cat-chip { display: inline-flex; align-items: center; gap: 5px; background: #f0f6fc; border: 1px solid var(--wp-blue); color: var(--wp-dark); padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .cat-chip span { color: var(--wp-red); cursor: pointer; font-weight: 900; }
+
+    .tmdb-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); gap: 10px; margin-top: 12px; max-height: 260px; overflow-y: auto; }
+    .tmdb-hit-card { border: 1px solid var(--wp-border); border-radius: 4px; padding: 6px; background: #f9f9f9; cursor: pointer; text-align: center; }
+    .tmdb-hit-card img { width: 100%; height: 130px; object-fit: cover; border-radius: 3px; }
+    .tmdb-hit-title { font-size: 11px; font-weight: 700; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .wp-check-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .wp-check-row input { width: 16px; height: 16px; accent-color: var(--wp-blue); }
+
+    .wp-toast { position: fixed; bottom: 20px; right: 20px; background: var(--wp-dark); color: #fff; padding: 11px 16px; border-radius: 4px; border-left: 4px solid var(--wp-green); font-size: 13px; font-weight: 700; z-index: 3000; display: none; }
+    .wp-toast.error { border-left-color: var(--wp-red); }
+
+    @media (max-width: 860px) { .editor-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: inline-block; }
+      .wp-sidebar { transform: translateX(-100%); }
+      .wp-sidebar.open { transform: translateX(0); }
+      .wp-main { margin-left: 0; padding: 12px; }
+      .two-col-inputs { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wp-toast" id="wpToast"></div>
+
+  <!-- LOGIN -->
+  <div class="login-wrap" id="loginView">
+    <div class="login-box">
+      <div class="login-logo">
+        <div class="login-logo-badge">🎬</div>
+        <h1>SS viral Zone GitHub Admin</h1>
+      </div>
+      <div class="login-card">
+        <div class="form-group">
+          <label>GitHub Username</label>
+          <input type="text" id="ghUser" class="wp-input" value="blogor6-prog">
+        </div>
+        <div class="form-group">
+          <label>GitHub Repository নাম</label>
+          <input type="text" id="ghRepo" class="wp-input" value="SS-Adult-Zone" placeholder="আপনার রিপোজিটরির নাম">
+        </div>
+        <div class="form-group">
+          <label>GitHub Token (ghp_...)</label>
+          <input type="password" id="ghToken" class="wp-input" placeholder="ghp_xxxxxxxxxxxx">
+        </div>
+        <div class="form-group">
+          <label>এডমিন পাসওয়ার্ড</label>
+          <input type="password" id="loginPassword" class="wp-input" placeholder="পাসওয়ার্ড (suaib5249)">
+        </div>
+        <button class="wp-btn" style="width:100%;" id="btnLogin" onclick="handleGitHubLogin()">লগইন করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="wp-shell" id="adminShell">
+    <header class="wp-topbar">
+      <div class="wp-topbar-left">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        <div class="wp-topbar-brand">🎬 SS viral Zone Admin</div>
+      </div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <a href="index.html" target="_blank" class="wp-topbar-link">🌐 সাইট দেখুন</a>
+        <span class="wp-topbar-link" style="color:#f86368;" onclick="logoutAdmin()">লগআউট</span>
+      </div>
+    </header>
+
+    <aside class="wp-sidebar" id="wpSidebar">
+      <ul class="wp-menu">
+        <li class="wp-menu-item active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 ড্যাশবোর্ড</li>
+        <div class="wp-menu-divider"></div>
+        <li class="wp-menu-item" data-tab="allMovies" onclick="switchTab('allMovies', 'All')">🎬 সব ভিডিও (All)</li>
+        <li class="wp-menu-item" data-tab="addMovie" onclick="openAddNewMovie()">➕ নতুন ভিডিও যোগ</li>
+        <li class="wp-menu-item" data-tab="pinnedOnly" onclick="switchTab('allMovies', 'Pinned')">📌 PINNED</li>
+        <div class="wp-menu-divider"></div>
+        <li class="wp-menu-item" onclick="logoutAdmin()" style="color:#f86368;">🚪 লগআউট</li>
+      </ul>
+    </aside>
+
+    <main class="wp-main">
+      <section id="tabDashboard">
+        <div class="wp-page-header">
+          <h2 class="wp-page-title">ড্যাশবোর্ড</h2>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="wp-btn wp-btn-success" id="btnImportSheet" onclick="importFromGoogleSheet()">📥 Google Sheet থেকে সব ভিডিও আনো</button>
+            <button class="wp-btn wp-btn-secondary" onclick="loadMoviesFromGitHub()">🔄 রিফ্রেশ</button>
+            <button class="wp-btn" onclick="openAddNewMovie()">➕ নতুন ভিডিও যোগ</button>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">মোট ভিডিও</div></div>
+          <div class="stat-card green"><div class="stat-num" id="statLinks">0</div><div class="stat-label">ডাউনলোড লিংক যুক্ত</div></div>
+          <div class="stat-card amber"><div class="stat-num" id="statPinned">0</div><div class="stat-label">📌 Pinned</div></div>
+        </div>
+        <div class="wp-card">
+          <div class="wp-card-header">
+            <span>🆕 সর্বশেষ যুক্ত করা ৫টি ভিডিও</span>
+            <button class="wp-btn wp-btn-sm wp-btn-secondary" onclick="switchTab('allMovies', 'All')">সব দেখুন ➔</button>
+          </div>
+          <div class="wp-card-body" id="recentFiveList">লোড হচ্ছে...</div>
+        </div>
+      </section>
+
+      <section id="tabAllMovies" style="display:none;">
+        <div class="wp-page-header">
+          <h2 class="wp-page-title">সব ভিডিও তালিকা</h2>
+          <div style="display:flex; gap:8px;">
+            <button class="wp-btn wp-btn-secondary" onclick="loadMoviesFromGitHub()">🔄 রিফ্রেশ</button>
+            <button class="wp-btn" onclick="openAddNewMovie()">➕ Add New</button>
+          </div>
+        </div>
+        <div class="table-toolbar">
+          <div class="filter-tabs">
+            <span class="filter-tab active" onclick="setTableFilter('All', this)">All</span> |
+            <span class="filter-tab" onclick="setTableFilter('Pinned', this)">Pinned</span> |
+            <span class="filter-tab" onclick="setTableFilter('Bangla', this)">Bangla</span> |
+            <span class="filter-tab" onclick="setTableFilter('Hindi', this)">Hindi</span> |
+            <span class="filter-tab" onclick="setTableFilter('South', this)">South</span> |
+            <span class="filter-tab" onclick="setTableFilter('Hollywood', this)">Hollywood</span>
+          </div>
+          <input type="text" id="adminSearchInput" class="wp-input" style="width:210px;" placeholder="নাম খুঁজুন..." oninput="renderMoviesTable()">
+        </div>
+        <div class="wp-table-wrap">
+          <table class="wp-table">
+            <thead>
+              <tr><th>ছবি</th><th>নাম ও রেটিং</th><th>ক্যাটাগরি</th><th>লিংক</th><th>অ্যাকশন</th></tr>
+            </thead>
+            <tbody id="moviesTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="tabEditor" style="display:none;">
+        <div class="wp-page-header">
+          <h2 class="wp-page-title" id="editorPageTitle">নতুন ভিডিও যোগ করুন</h2>
+          <button class="wp-btn wp-btn-secondary" onclick="switchTab('allMovies', 'All')">⬅️ তালিকায় ফিরুন</button>
+        </div>
+
+        <div class="wp-card">
+          <div class="wp-card-header">✨ TMDB অটো-ফিল (ঐচ্ছিক - নাম লিখে খুঁজলে পোস্টার ও রেটিং অটো বসবে)</div>
+          <div class="wp-card-body">
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="tmdbSearchInput" class="wp-input" placeholder="নাম লিখুন...">
+              <button class="wp-btn" onclick="searchTMDB()">🔍 খুঁজুন</button>
+            </div>
+            <div class="tmdb-results-grid" id="tmdbResultsGrid" style="display:none;"></div>
+          </div>
+        </div>
+
+        <div class="editor-grid">
+          <div>
+            <div class="wp-card">
+              <div class="wp-card-header">📝 মূল তথ্য</div>
+              <div class="wp-card-body">
+                <div class="form-group">
+                  <label>ভিডিও / মুভির নাম *</label>
+                  <input type="text" id="fTitle" class="wp-input" placeholder="নাম লিখুন...">
+                </div>
+
+                <div class="two-col-inputs">
+                  <div class="form-group"><label>⭐ রেটিং</label><input type="text" id="fRating" class="wp-input" placeholder="8.0"></div>
+                  <div class="form-group"><label>📥 ডাউনলোড লিংক *</label><input type="url" id="fDownloadUrl" class="wp-input" placeholder="https://..."></div>
+                </div>
+
+                <div class="form-group">
+                  <label>🏷️ ক্যাটাগরি (বেছে `+ ক্যাটাগরি যোগ` চাপুন)</label>
+                  <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <select id="catSelectDropdown" class="wp-select" style="flex:1; min-width:180px;"></select>
+                    <button type="button" class="wp-btn wp-btn-secondary" onclick="addSelectedCategory()">+ ক্যাটাগরি যোগ</button>
+                  </div>
+                  <div style="display:flex; gap:6px; margin-top:6px;">
+                    <input type="text" id="customCatInput" class="wp-input" placeholder="অথবা নিজে ক্যাটাগরি লিখে + দিন...">
+                    <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="addCustomCategory()">+ যোগ</button>
+                  </div>
+                  <div class="cat-chips-wrap" id="selectedCatChips"></div>
+                </div>
+
+                <div class="two-col-inputs">
+                  <div class="form-group"><label>📢 অ্যাড লিংক ১ (ঐচ্ছিক)</label><input type="text" id="fAd1" class="wp-input" placeholder="খালি রাখলে ডিফল্ট অ্যাড"></div>
+                  <div class="form-group"><label>📢 অ্যাড লিংক ২ (ঐচ্ছিক)</label><input type="text" id="fAd2" class="wp-input" placeholder="খালি রাখলে ডিফল্ট অ্যাড"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="wp-card">
+              <div class="wp-card-header">🚀 Publish</div>
+              <div class="wp-card-body">
+                <label class="wp-check-row"><input type="checkbox" id="fPinned"> 📌 সবার উপরে PINNED করুন</label>
+                <button class="wp-btn" style="width:100%; padding:10px;" id="btnSaveMovie" onclick="saveMovieToGitHub()">💾 পাবলিশ / সেভ করুন</button>
+              </div>
+            </div>
+
+            <div class="wp-card">
+              <div class="wp-card-header">🖼️ পোস্টার / থাম্বনেইল ছবি</div>
+              <div class="wp-card-body">
+                <div class="form-group"><label>ছবির URL</label><input type="url" id="fImage" class="wp-input" oninput="updatePosterPreview()"></div>
+                <div class="poster-preview-box">
+                  <img id="posterPreviewImg" src="" style="display:none;">
+                  <span id="posterPreviewPlaceholder" style="font-size:12px; color:#646970;">ছবির প্রিভিউ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo";
+    const TMDB_API_KEY = "8265bd1679663a7ea12ac168da84d2e8";
+    const ADMIN_PASS = "suaib5249";
+
+    const ALL_CATS = ["Bangla", "Hindi", "South", "Hollywood"];
+
+    let ghConfig = JSON.parse(localStorage.getItem("ssviral_gh_config") || "null");
+    let defaultBranch = "main";
+    let fileSha = null;
+    let allMovies = [];
+    let currentFilter = "All";
+    let editingIndex = null;
+    let pendingDeleteIndex = null;
+    let selectedCategories = [];
+
+    document.getElementById("catSelectDropdown").innerHTML = ALL_CATS.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+
+    (function autoDetectRepo() {
+      const host = window.location.hostname || "";
+      const pathParts = window.location.pathname.split("/").filter(Boolean);
+      if (host.endsWith(".github.io")) {
+        const u = host.split(".")[0];
+        const r = pathParts[0] || "";
+        if (u) document.getElementById("ghUser").value = u;
+        if (r) document.getElementById("ghRepo").value = r;
+      }
+    })();
+
+    if (ghConfig && ghConfig.user && ghConfig.repo && ghConfig.token) {
+      document.getElementById("ghUser").value = ghConfig.user;
+      document.getElementById("ghRepo").value = ghConfig.repo;
+      document.getElementById("ghToken").value = ghConfig.token;
+      if (localStorage.getItem("ssviral_gh_logged") === "1") {
+        openAdminFromSaved();
+      }
+    }
+
+    function utf8ToBase64(str) {
+      const bytes = new TextEncoder().encode(str);
+      let bin = "";
+      bytes.forEach(b => bin += String.fromCharCode(b));
+      return btoa(bin);
+    }
+
+    function base64ToUtf8(b64) {
+      const bin = atob(b64.replace(/\s/g, ""));
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return new TextDecoder().decode(bytes);
+    }
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById("wpToast");
+      toast.innerText = msg;
+      toast.className = "wp-toast" + (isError ? " error" : "");
+      toast.style.display = "block";
+      setTimeout(() => { toast.style.display = "none"; }, 3500);
+    }
+
+    function toggleSidebar() { document.getElementById("wpSidebar").classList.toggle("open"); }
+
+    async function handleGitHubLogin() {
+      const user = document.getElementById("ghUser").value.trim();
+      const repo = document.getElementById("ghRepo").value.trim();
+      const token = document.getElementById("ghToken").value.trim();
+      const pass = document.getElementById("loginPassword").value;
+
+      if (!user || !repo || !token || !pass) { showToast("সবগুলো ঘর পূরণ করুন!", true); return; }
+      if (pass !== ADMIN_PASS) { showToast("ভুল পাসওয়ার্ড!", true); return; }
+
+      ghConfig = { user, repo, token };
+      const btn = document.getElementById("btnLogin");
+      btn.disabled = true; btn.innerText = "কানেক্ট হচ্ছে...";
+
+      const ok = await connectAndLoadGitHub();
+      btn.disabled = false; btn.innerText = "লগইন করুন";
+
+      if (ok) {
+        localStorage.setItem("ssviral_gh_config", JSON.stringify(ghConfig));
+        localStorage.setItem("ssviral_gh_logged", "1");
+      }
+    }
+
+    async function openAdminFromSaved() { await connectAndLoadGitHub(); }
+
+    async function connectAndLoadGitHub() {
+      try {
+        const repoRes = await fetch(`https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}`, {
+          headers: { Authorization: `Bearer ${ghConfig.token}`, Accept: "application/vnd.github+json" },
+          cache: "no-store"
+        });
+        if (!repoRes.ok) { showToast("GitHub তথ্য বা Token সঠিক নয়!", true); return false; }
+        const repoInfo = await repoRes.json();
+        defaultBranch = repoInfo.default_branch || "main";
+
+        await loadMoviesFromGitHub(true);
+        document.getElementById("loginView").style.display = "none";
+        document.getElementById("adminShell").style.display = "block";
+        return true;
+      } catch (e) {
+        showToast("নেটওয়ার্ক সমস্যা!", true);
+        return false;
+      }
+    }
+
+    async function loadMoviesFromGitHub(silent = false) {
+      try {
+        if (!silent) showToast("🔄 GitHub থেকে লোড হচ্ছে...");
+        const res = await fetch(`https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}/contents/movies.json?ref=${defaultBranch}&t=${Date.now()}`, {
+          headers: { Authorization: `Bearer ${ghConfig.token}`, Accept: "application/vnd.github+json" },
+          cache: "no-store"
+        });
+        if (res.status === 404) { fileSha = null; allMovies = []; }
+        else if (res.ok) {
+          const data = await res.json();
+          fileSha = data.sha;
+          allMovies = JSON.parse(base64ToUtf8(data.content || "W10=") || "[]");
+        } else { showToast("movies.json লোড ব্যর্থ!", true); return; }
+        renderDashboardStats();
+        renderMoviesTable();
+        if (!silent) showToast("✅ তালিকা আপডেট হয়েছে!");
+      } catch (e) { showToast("লোড করতে সমস্যা হয়েছে!", true); }
+    }
+
+    async function pushMoviesToGitHub(newList, commitMsg) {
+      const body = {
+        message: commitMsg || "Update movies.json",
+        content: utf8ToBase64(JSON.stringify(newList, null, 2)),
+        branch: defaultBranch
+      };
+      if (fileSha) body.sha = fileSha;
+
+      let res = await fetch(`https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}/contents/movies.json`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${ghConfig.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+
+      if (res.status === 409) {
+        const cur = await (await fetch(`https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}/contents/movies.json?ref=${defaultBranch}&t=${Date.now()}`, {
+          headers: { Authorization: `Bearer ${ghConfig.token}` }, cache: "no-store"
+        })).json();
+        body.sha = cur.sha;
+        res = await fetch(`https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}/contents/movies.json`, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${ghConfig.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+      }
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "GitHub Token-এ repo পারমিশন নেই!");
+      }
+      const out = await res.json();
+      fileSha = out.content?.sha || null;
+      allMovies = newList;
+    }
+
+    async function importFromGoogleSheet() {
+      const btn = document.getElementById("btnImportSheet");
+      btn.disabled = true; btn.innerText = "⏳ ইমপোর্ট হচ্ছে...";
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&t=${Date.now()}`;
+        const data = await (await fetch(url)).text();
+        const json = JSON.parse(data.substring(data.indexOf('{'), data.lastIndexOf('}') + 1));
+        const rows = json.table?.rows || [];
+        const imported = [];
+        const cell = (c, idx) => (!c || !c[idx] || c[idx].v === null || c[idx].v === undefined) ? "" : String(c[idx].v).trim();
+
+        for (let i = 0; i < rows.length; i++) {
+          const c = rows[i]?.c;
+          if (!c) continue;
+          const title = cell(c, 0);
+          if (!title || title.toLowerCase() === "title") continue;
+
+          const dlVal = cell(c, 6) || cell(c, 5) || "#";
+          const ad2Raw = cell(c, 5);
+          const ad2Val = ad2Raw.startsWith("http") ? ad2Raw : "";
+
+          imported.push({
+            id: Date.now() + i,
+            title,
+            category: cell(c, 1) || "South",
+            rating: cell(c, 2) || "8.0",
+            image: cell(c, 3),
+            ad1: cell(c, 4),
+            ad2: ad2Val,
+            downloadUrl: dlVal,
+            pinned: cell(c, 7).toLowerCase() === "yes"
+          });
+        }
+        imported.reverse();
+
+        const existingTitles = new Set(allMovies.map(m => (m.title || "").trim().toLowerCase()));
+        const onlyNew = imported.filter(m => !existingTitles.has((m.title || "").trim().toLowerCase()));
+        const merged = [...allMovies, ...onlyNew];
+
+        await pushMoviesToGitHub(merged, "Import videos from Google Sheet");
+        renderDashboardStats();
+        renderMoviesTable();
+        showToast(`✅ মোট ${merged.length}টি ভিডিও সেভ হয়েছে! (নতুন ইমপোর্ট: ${onlyNew.length}টি)`);
+      } catch (e) {
+        showToast("ইমপোর্ট ব্যর্থ: " + e.message, true);
+      }
+      btn.disabled = false; btn.innerText = "📥 Google Sheet থেকে সব ভিডিও আনো";
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem("ssviral_gh_logged");
+      document.getElementById("adminShell").style.display = "none";
+      document.getElementById("loginView").style.display = "flex";
+      document.getElementById("loginPassword").value = "";
+    }
+
+    function switchTab(tab, filterCat = null) {
+      document.getElementById("tabDashboard").style.display = tab === "dashboard" ? "block" : "none";
+      document.getElementById("tabAllMovies").style.display = tab === "allMovies" ? "block" : "none";
+      document.getElementById("tabEditor").style.display = tab === "addMovie" ? "block" : "none";
+
+      document.querySelectorAll(".wp-menu-item").forEach(el => el.classList.remove("active"));
+      if (filterCat === "Pinned") document.querySelector('[data-tab="pinnedOnly"]').classList.add("active");
+      else {
+        const el = document.querySelector(`[data-tab="${tab}"]`);
+        if (el) el.classList.add("active");
+      }
+
+      if (filterCat) {
+        currentFilter = filterCat;
+        document.querySelectorAll(".filter-tab").forEach(t => t.classList.toggle("active", t.innerText.trim() === filterCat));
+        renderMoviesTable();
+      }
+      document.getElementById("wpSidebar").classList.remove("open");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderDashboardStats() {
+      document.getElementById("statTotal").innerText = allMovies.length;
+      document.getElementById("statLinks").innerText = allMovies.filter(m => m.downloadUrl && m.downloadUrl !== "#").length;
+      document.getElementById("statPinned").innerText = allMovies.filter(m => !!m.pinned).length;
+
+      const top5 = allMovies.slice(0, 5);
+      document.getElementById("recentFiveList").innerHTML = top5.length === 0 ? "<p>কোনো ভিডিও নেই। উপরে 'Google Sheet থেকে সব ভিডিও আনো' চাপুন অথবা নতুন ভিডিও যোগ করুন।</p>" : top5.map((m, idx) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #eee; gap:10px;">
+          <div><strong>${escapeHtml(m.title)}</strong><div style="font-size:12px; color:#646970;">${escapeHtml(m.category)} ${m.pinned ? "• 📌 PINNED" : ""}</div></div>
+          <button class="wp-btn wp-btn-sm wp-btn-secondary" onclick="openEditMovie(${idx})">✏️ এডিট</button>
+        </div>
+      `).join("");
+    }
+
+    function setTableFilter(cat, el) {
+      currentFilter = cat;
+      document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+      if (el) el.classList.add("active");
+      renderMoviesTable();
+    }
+
+    function renderMoviesTable() {
+      const tbody = document.getElementById("moviesTableBody");
+      const q = document.getElementById("adminSearchInput").value.trim().toLowerCase();
+      const rows = allMovies.map((m, idx) => ({ m, idx })).filter(({ m }) => {
+        if (q && !m.title.toLowerCase().includes(q) && !(m.category || "").toLowerCase().includes(q)) return false;
+        if (currentFilter === "All") return true;
+        if (currentFilter === "Pinned") return !!m.pinned;
+        return (m.category || "").toLowerCase().includes(currentFilter.toLowerCase());
+      });
+
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:25px;">কোনো ভিডিও পাওয়া যায়নি!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = rows.map(({ m, idx }) => `
+        <tr>
+          <td><img class="thumb-img" src="${escapeHtml(m.image)}" onerror="this.style.display='none'"></td>
+          <td><strong>${escapeHtml(m.title)}</strong><br><span style="font-size:11.5px; color:#646970;">⭐ ${escapeHtml(m.rating || "8.0")} ${m.pinned ? '<span class="badge badge-pin">📌 PINNED</span>' : ''}</span></td>
+          <td><span class="badge">${escapeHtml(m.category)}</span></td>
+          <td>${(m.downloadUrl && m.downloadUrl !== "#") ? '<span class="badge badge-ok">✔ যুক্ত আছে</span>' : '<span class="badge badge-warn">নেই</span>'}</td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <button class="wp-btn wp-btn-sm wp-btn-secondary" onclick="openEditMovie(${idx})">✏️</button>
+              <button class="wp-btn wp-btn-sm wp-btn-danger" id="delBtn_${idx}" onclick="deleteMovieRow(${idx})">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function renderCategoryChips() {
+      document.getElementById("selectedCatChips").innerHTML = selectedCategories.map((c, idx) =>
+        `<div class="cat-chip">${escapeHtml(c)} <span onclick="removeCategoryChip(${idx})">✕</span></div>`
+      ).join("");
+    }
+    function addCategoryName(cat) {
+      const clean = String(cat || "").trim();
+      if (!clean || clean.toLowerCase() === "all") return;
+      if (!selectedCategories.some(x => x.toLowerCase() === clean.toLowerCase())) {
+        selectedCategories.push(clean);
+        renderCategoryChips();
+      }
+    }
+    function addSelectedCategory() { addCategoryName(document.getElementById("catSelectDropdown").value); }
+    function addCustomCategory() { const inp = document.getElementById("customCatInput"); addCategoryName(inp.value); inp.value = ""; }
+    function removeCategoryChip(idx) { selectedCategories.splice(idx, 1); renderCategoryChips(); }
+
+    function openAddNewMovie() {
+      editingIndex = null;
+      document.getElementById("editorPageTitle").innerText = "➕ নতুন ভিডিও যোগ করুন";
+      document.getElementById("btnSaveMovie").innerText = "💾 পাবলিশ করুন";
+      ["fTitle","fRating","fDownloadUrl","fImage","fAd1","fAd2","tmdbSearchInput","customCatInput"].forEach(id => document.getElementById(id).value = "");
+      document.getElementById("fRating").value = "8.0";
+      document.getElementById("fPinned").checked = false;
+      selectedCategories = ["South"];
+      renderCategoryChips();
+      document.getElementById("tmdbResultsGrid").style.display = "none";
+      updatePosterPreview();
+      switchTab("addMovie");
+    }
+
+    function openEditMovie(idx) {
+      const m = allMovies[idx];
+      if (!m) return;
+      editingIndex = idx;
+      document.getElementById("editorPageTitle").innerText = "✏️ ভিডিও এডিট করুন";
+      document.getElementById("btnSaveMovie").innerText = "💾 আপডেট সেভ করুন";
+      document.getElementById("fTitle").value = m.title || "";
+      document.getElementById("fRating").value = String(m.rating || "8.0").replace(/⭐/g, "").trim();
+      document.getElementById("fDownloadUrl").value = m.downloadUrl || "";
+      document.getElementById("fImage").value = m.image || "";
+      document.getElementById("fAd1").value = m.ad1 || "";
+      document.getElementById("fAd2").value = m.ad2 || "";
+      document.getElementById("fPinned").checked = !!m.pinned;
+
+      selectedCategories = (m.category || "").split(",").map(s => s.trim()).filter(s => s && s.toLowerCase() !== "all");
+      renderCategoryChips();
+      updatePosterPreview();
+      switchTab("addMovie");
+    }
+
+    function updatePosterPreview() {
+      const url = document.getElementById("fImage").value.trim();
+      const img = document.getElementById("posterPreviewImg"), ph = document.getElementById("posterPreviewPlaceholder");
+      if (url) { img.src = url; img.style.display = "block"; ph.style.display = "none"; }
+      else { img.style.display = "none"; ph.style.display = "block"; }
+    }
+
+    async function saveMovieToGitHub() {
+      const title = document.getElementById("fTitle").value.trim();
+      if (!title) { showToast("নাম দিন!", true); return; }
+
+      const movieObj = {
+        id: editingIndex !== null ? allMovies[editingIndex].id : Date.now(),
+        title,
+        category: selectedCategories.length > 0 ? selectedCategories.join(", ") : "South",
+        rating: document.getElementById("fRating").value.trim() || "8.0",
+        image: document.getElementById("fImage").value.trim(),
+        ad1: document.getElementById("fAd1").value.trim(),
+        ad2: document.getElementById("fAd2").value.trim(),
+        downloadUrl: document.getElementById("fDownloadUrl").value.trim() || "#",
+        pinned: document.getElementById("fPinned").checked
+      };
+
+      const updated = [...allMovies];
+      if (editingIndex !== null) updated[editingIndex] = movieObj;
+      else updated.unshift(movieObj);
+
+      const btn = document.getElementById("btnSaveMovie");
+      btn.disabled = true; btn.innerText = "⏳ সেভ হচ্ছে...";
+      try {
+        await pushMoviesToGitHub(updated, (editingIndex !== null ? "Edit: " : "Add: ") + title);
+        renderDashboardStats();
+        renderMoviesTable();
+        showToast("✅ GitHub-এ সেভ হয়েছে! ৩০-৪৫ সেকেন্ড পর সাইটে দেখাবে।");
+        switchTab("allMovies", "All");
+      } catch (e) {
+        showToast("সেভ ব্যর্থ: " + e.message, true);
+      }
+      btn.disabled = false; btn.innerText = editingIndex !== null ? "💾 আপডেট সেভ করুন" : "💾 পাবলিশ করুন";
+    }
+
+    async function deleteMovieRow(idx) {
+      if (pendingDeleteIndex !== idx) {
+        pendingDeleteIndex = idx;
+        const btn = document.getElementById("delBtn_" + idx);
+        if (btn) btn.innerText = "নিশ্চিত?";
+        showToast("ডিলিট করতে আরেকবার ক্লিক করুন", true);
+        setTimeout(() => { if (pendingDeleteIndex === idx) { pendingDeleteIndex = null; renderMoviesTable(); } }, 4000);
+        return;
+      }
+      pendingDeleteIndex = null;
+      const updated = allMovies.filter((_, i) => i !== idx);
+      try {
+        showToast("🗑️ ডিলিট হচ্ছে...");
+        await pushMoviesToGitHub(updated, "Delete video");
+        renderDashboardStats();
+        renderMoviesTable();
+        showToast("✅ ডিলিট হয়েছে!");
+      } catch (e) {
+        showToast("ডিলিট ব্যর্থ: " + e.message, true);
+      }
+    }
+
+    async function searchTMDB() {
+      const q = document.getElementById("tmdbSearchInput").value.trim(), grid = document.getElementById("tmdbResultsGrid");
+      if (!q) return;
+      grid.style.display = "grid"; grid.innerHTML = "<p style='grid-column:1/-1; padding:10px;'>খুঁজছে...</p>";
+      try {
+        const data = await (await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`)).json();
+        const items = (data.results || []).filter(i => (i.media_type === "movie" || i.media_type === "tv") && i.poster_path).slice(0, 12);
+        if (items.length === 0) { grid.innerHTML = "<p style='grid-column:1/-1; padding:10px;'>কিছু পাওয়া যায়নি।</p>"; return; }
+        grid.innerHTML = items.map(item => {
+          const title = item.title || item.name || "", rel = (item.release_date || item.first_air_date || "").split("-")[0], poster = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
+          const rate = item.vote_average ? item.vote_average.toFixed(1) : "8.0";
+          return `<div class="tmdb-hit-card" onclick="applyTmdb('${escapeHtml(title)}', '${poster}', '${rate}')"><img src="${poster}"><div class="tmdb-hit-title">${escapeHtml(title)}</div><div style="font-size:10px; color:#646970;">${rel}</div></div>`;
+        }).join("");
+      } catch (e) { grid.innerHTML = "<p style='grid-column:1/-1; padding:10px;'>TMDB লোড ব্যর্থ।</p>"; }
+    }
+
+    function applyTmdb(title, poster, rate) {
+      document.getElementById("tmdbResultsGrid").style.display = "none";
+      document.getElementById("fTitle").value = title;
+      document.getElementById("fRating").value = rate;
+      document.getElementById("fImage").value = poster;
+      updatePosterPreview();
+      showToast("✅ তথ্য বসে গেছে!");
+    }
+
+    function escapeHtml(str) { return String(str || "").replace(/[&<>"']/g, s => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[s])); }
+  </script>
+</body>
+</html>
