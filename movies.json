@@ -997,12 +997,24 @@
     "id": 1795000204902,
     "title": "এই কচি মালের অস্থির ভিডিও দেখলে মজা পাবেন",
     "category": "bangla",
-    "rating": "⭐",
+    "rating": "8.0",
+    "sortOrder": null,
+    "pinned": false,
+    "trending": true,
     "image": "https://i.postimg.cc/8cMBQsgh/taniya.jpg",
     "ad1": "https://auctionr.org/4/81600715177eea404486411b72771077",
     "ad2": "https://asiafilm.org/4/a555ec6bc7d6af27618f9ba45943fffd",
+    "links": [
+      {
+        "link": "https://t.me/vitarvideo_bot?start=c712bfac-c3af-4e6c-acc3-6fb56f937d48",
+        "label": "Download HD"
+      }
+    ],
     "downloadUrl": "https://t.me/vitarvideo_bot?start=c712bfac-c3af-4e6c-acc3-6fb56f937d48",
-    "pinned": true
+    "badge": "1080p",
+    "episodes": "",
+    "language": "বাংলা",
+    "releaseDate": "2026"
   },
   {
     "id": 1795000204901,
