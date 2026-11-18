@@ -103,11 +103,6 @@
     .episode-card { border: 1px solid #dcdcde; border-radius: 6px; padding: 10px; margin-bottom: 10px; background: #f9f9f9; }
     .episode-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
 
-    .tmdb-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); gap: 10px; margin-top: 12px; max-height: 260px; overflow-y: auto; }
-    .tmdb-hit-card { border: 1px solid var(--wp-border); border-radius: 4px; padding: 6px; background: #f9f9f9; cursor: pointer; text-align: center; }
-    .tmdb-hit-card img { width: 100%; height: 130px; object-fit: cover; border-radius: 3px; }
-    .tmdb-hit-title { font-size: 11px; font-weight: 700; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
     .wp-check-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; font-weight: 700; cursor: pointer; }
     .wp-check-row input { width: 16px; height: 16px; accent-color: var(--wp-blue); }
 
@@ -138,7 +133,7 @@
       <div class="login-card">
         <div class="form-group">
           <label>GitHub Username</label>
-          <input type="text" id="ghUser" class="wp-input" value="blogor6-prog" placeholder="যেমন: blogor6-prog">
+          <input type="text" id="ghUser" class="wp-input" value="blogor6-prog">
         </div>
         <div class="form-group">
           <label>GitHub Repository নাম</label>
@@ -174,10 +169,10 @@
       <ul class="wp-menu">
         <li class="wp-menu-item active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 ড্যাশবোর্ড</li>
         <div class="wp-menu-divider"></div>
-        <li class="wp-menu-item" data-tab="allMovies" onclick="switchTab('allMovies', 'All')">🎬 সব মুভি (All)</li>
-        <li class="wp-menu-item" data-tab="addMovie" onclick="openAddNewMovie()">➕ নতুন মুভি যোগ</li>
-        <li class="wp-menu-item" data-tab="seriesOnly" onclick="switchTab('allMovies', 'Series')">📺 ওয়েব সিরিজ</li>
-        <li class="wp-menu-item" data-tab="adultOnly" onclick="switchTab('allMovies', '18+ Adult')">🔞 18+ Adult</li>
+        <li class="wp-menu-item" data-tab="allMovies" onclick="switchTab('allMovies', 'All')">🎬 সব ভিডিও (All)</li>
+        <li class="wp-menu-item" data-tab="addMovie" onclick="openAddNewMovie()">➕ নতুন ভিডিও যোগ</li>
+        <li class="wp-menu-item" data-tab="trendingOnly" onclick="switchTab('allMovies', 'Trending')">🔥 Trending</li>
+        <li class="wp-menu-item" data-tab="pinnedOnly" onclick="switchTab('allMovies', 'Pinned')">📌 Pinned</li>
         <div class="wp-menu-divider"></div>
         <li class="wp-menu-item" onclick="logoutAdmin()" style="color:#f86368;">🚪 লগআউট</li>
       </ul>
@@ -188,20 +183,20 @@
         <div class="wp-page-header">
           <h2 class="wp-page-title">ড্যাশবোর্ড</h2>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="wp-btn wp-btn-success" id="btnImportSheet" onclick="importFromGoogleSheet()">📥 Google Sheet থেকে সব মুভি আনো</button>
+            <button class="wp-btn wp-btn-success" id="btnImportSheet" onclick="importFromGoogleSheet()">📥 Google Sheet থেকে সব ভিডিও আনো</button>
             <button class="wp-btn wp-btn-secondary" onclick="loadMoviesFromGitHub()">🔄 রিফ্রেশ</button>
-            <button class="wp-btn" onclick="openAddNewMovie()">➕ নতুন মুভি যোগ</button>
+            <button class="wp-btn" onclick="openAddNewMovie()">➕ নতুন ভিডিও যোগ</button>
           </div>
         </div>
         <div class="stats-grid">
-          <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">মোট মুভি ও সিরিজ</div></div>
-          <div class="stat-card green"><div class="stat-num" id="statWatch">0</div><div class="stat-label">Watch / ডাউনলোড লিংক যুক্ত</div></div>
-          <div class="stat-card amber"><div class="stat-num" id="statSeries">0</div><div class="stat-label">ওয়েব সিরিজ</div></div>
-          <div class="stat-card red"><div class="stat-num" id="statAdult">0</div><div class="stat-label">18+ Adult</div></div>
+          <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">মোট ভিডিও</div></div>
+          <div class="stat-card green"><div class="stat-num" id="statLinks">0</div><div class="stat-label">ডাউনলোড লিংক যুক্ত</div></div>
+          <div class="stat-card amber"><div class="stat-num" id="statTrending">0</div><div class="stat-label">🔥 Trending</div></div>
+          <div class="stat-card red"><div class="stat-num" id="statPinned">0</div><div class="stat-label">📌 Pinned</div></div>
         </div>
         <div class="wp-card">
           <div class="wp-card-header">
-            <span>🆕 সর্বশেষ যুক্ত করা ৫টি মুভি</span>
+            <span>🆕 সর্বশেষ যুক্ত করা ৫টি ভিডিও</span>
             <button class="wp-btn wp-btn-sm wp-btn-secondary" onclick="switchTab('allMovies', 'All')">সব দেখুন ➔</button>
           </div>
           <div class="wp-card-body" id="recentFiveList">লোড হচ্ছে...</div>
@@ -210,28 +205,28 @@
 
       <section id="tabAllMovies" style="display:none;">
         <div class="wp-page-header">
-          <h2 class="wp-page-title">সব মুভি তালিকা</h2>
+          <h2 class="wp-page-title">সব ভিডিও তালিকা</h2>
           <div style="display:flex; gap:8px;">
             <button class="wp-btn wp-btn-secondary" onclick="loadMoviesFromGitHub()">🔄 রিফ্রেশ</button>
             <button class="wp-btn" onclick="openAddNewMovie()">➕ Add New</button>
           </div>
         </div>
         <div class="table-toolbar">
-          <div class="filter-tabs">
+          <div class="filter-tabs" id="tableFilterTabs">
             <span class="filter-tab active" onclick="setTableFilter('All', this)">All</span> |
-            <span class="filter-tab" onclick="setTableFilter('Bangla', this)">Bangla</span> |
-            <span class="filter-tab" onclick="setTableFilter('Hindi', this)">Hindi</span> |
-            <span class="filter-tab" onclick="setTableFilter('South', this)">South</span> |
-            <span class="filter-tab" onclick="setTableFilter('Hollywood', this)">Hollywood</span> |
-            <span class="filter-tab" onclick="setTableFilter('Series', this)">Series</span> |
-            <span class="filter-tab" onclick="setTableFilter('18+ Adult', this)">18+ Adult</span>
+            <span class="filter-tab" onclick="setTableFilter('Trending', this)">Trending</span> |
+            <span class="filter-tab" onclick="setTableFilter('Pinned', this)">Pinned</span> |
+            <span class="filter-tab" onclick="setTableFilter('কক্সবাজার', this)">কক্সবাজার</span> |
+            <span class="filter-tab" onclick="setTableFilter('কট খাওয়া', this)">কট খাওয়া</span> |
+            <span class="filter-tab" onclick="setTableFilter('পরকীয়া', this)">পরকীয়া</span> |
+            <span class="filter-tab" onclick="setTableFilter('ভাবি', this)">ভাবি</span>
           </div>
-          <input type="text" id="adminSearchInput" class="wp-input" style="width:210px;" placeholder="মুভির নাম খুঁজুন..." oninput="renderMoviesTable()">
+          <input type="text" id="adminSearchInput" class="wp-input" style="width:210px;" placeholder="ভিডিওর নাম খুঁজুন..." oninput="renderMoviesTable()">
         </div>
         <div class="wp-table-wrap">
           <table class="wp-table">
             <thead>
-              <tr><th>পোস্টার</th><th>নাম ও তথ্য</th><th>ক্যাটাগরি</th><th>সিরিয়াল</th><th>লিংক</th><th>অ্যাকশন</th></tr>
+              <tr><th>পোস্টার</th><th>নাম ও তথ্য</th><th>ক্যাটাগরি</th><th>সিরিয়াল</th><th>ডাউনলোড লিংক</th><th>অ্যাকশন</th></tr>
             </thead>
             <tbody id="moviesTableBody"></tbody>
           </table>
@@ -240,19 +235,8 @@
 
       <section id="tabEditor" style="display:none;">
         <div class="wp-page-header">
-          <h2 class="wp-page-title" id="editorPageTitle">নতুন মুভি যোগ করুন</h2>
+          <h2 class="wp-page-title" id="editorPageTitle">নতুন ভিডিও যোগ করুন</h2>
           <button class="wp-btn wp-btn-secondary" onclick="switchTab('allMovies', 'All')">⬅️ তালিকায় ফিরুন</button>
-        </div>
-
-        <div class="wp-card">
-          <div class="wp-card-header">✨ TMDB অটো-ফিল (নাম লিখলেই সব তথ্য, ল্যাঙ্গুয়েজ, রিলিজ ডেট, জেনরা ও ক্যাটাগরি অটো বসবে)</div>
-          <div class="wp-card-body">
-            <div style="display:flex; gap:8px;">
-              <input type="text" id="tmdbSearchInput" class="wp-input" placeholder="মুভি বা সিরিজের নাম লিখুন...">
-              <button class="wp-btn" onclick="searchTMDB()">🔍 খুঁজুন</button>
-            </div>
-            <div class="tmdb-results-grid" id="tmdbResultsGrid" style="display:none;"></div>
-          </div>
         </div>
 
         <div class="editor-grid">
@@ -261,19 +245,19 @@
               <div class="wp-card-header">📝 মূল তথ্য</div>
               <div class="wp-card-body">
                 <div class="form-group">
-                  <label>মুভি বা সিরিজের নাম *</label>
+                  <label>ভিডিওর নাম *</label>
                   <input type="text" id="fTitle" class="wp-input" placeholder="নাম লিখুন...">
                 </div>
 
                 <div class="three-col-inputs">
-                  <div class="form-group"><label>🗣️ Language</label><input type="text" id="fLanguage" class="wp-input" placeholder="Bangla / Hindi"></div>
-                  <div class="form-group"><label>📅 Release Date</label><input type="text" id="fReleaseDate" class="wp-input" placeholder="2026-05-01"></div>
-                  <div class="form-group"><label>🎬 Genre</label><input type="text" id="fGenre" class="wp-input" placeholder="Action, Drama"></div>
+                  <div class="form-group"><label>🗣️ Language</label><input type="text" id="fLanguage" class="wp-input" value="বাংলা"></div>
+                  <div class="form-group"><label>📅 Release Date</label><input type="text" id="fReleaseDate" class="wp-input" placeholder="2026"></div>
+                  <div class="form-group"><label>⭐ রেটিং</label><input type="text" id="fRating" class="wp-input" placeholder="8.0"></div>
                 </div>
 
-                <div class="two-col-inputs">
-                  <div class="form-group"><label>⭐ IMDb রেটিং</label><input type="text" id="fRating" class="wp-input" placeholder="8.0"></div>
-                  <div class="form-group"><label>🔢 সিরিয়াল নম্বর (২ বা ৩ দিলে ওই নম্বরে যাবে)</label><input type="number" min="1" id="fSortOrder" class="wp-input" placeholder="যেমন: 1 বা 2"></div>
+                <div class="form-group">
+                  <label>🔢 সিরিয়াল নম্বর (১, ২ বা ৩ দিলে ওই নম্বরে যাবে)</label>
+                  <input type="number" min="1" id="fSortOrder" class="wp-input" placeholder="যেমন: 1 বা 2">
                 </div>
 
                 <div class="form-group">
@@ -288,31 +272,21 @@
                   </div>
                   <div class="cat-chips-wrap" id="selectedCatChips"></div>
                 </div>
-
-                <div class="form-group">
-                  <label>🎬 সরাসরি Watch Online লিংক (MP4 / R2 / Drive / Embed)</label>
-                  <input type="url" id="fWatchUrl" class="wp-input" placeholder="https://...">
-                </div>
-
-                <div class="two-col-inputs">
-                  <div class="form-group"><label>🎞️ ট্রেলার লিংক</label><input type="url" id="fTrailer" class="wp-input"></div>
-                  <div class="form-group"><label>🎭 কাস্ট / অভিনয়শিল্পী</label><input type="text" id="fCast" class="wp-input"></div>
-                </div>
               </div>
             </div>
 
             <div class="wp-card">
               <div class="wp-card-header">
-                <span>📥 মুভি ডাউনলোড লিংক</span>
-                <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="addDownloadRow()">+ আরও লিংক</button>
+                <span>📥 ডাউনলোড লিংক ও কোয়ালিটি (যত ইচ্ছা কোয়ালিটি যোগ করুন)</span>
+                <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="addDownloadRow()">+ আরও কোয়ালিটি</button>
               </div>
               <div class="wp-card-body"><div id="downloadLinksContainer"></div></div>
             </div>
 
             <div class="wp-card">
               <div class="wp-card-header">
-                <span>📺 ওয়েব সিরিজ এপিসোড (প্রতিটি এপিসোডের নিচে যত ইচ্ছা কোয়ালিটি)</span>
-                <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="addEpisodeBlock()">+ নতুন এপিসোড</button>
+                <span>📺 পার্ট / এপিসোড ও কোয়ালিটি (ঐচ্ছিক - একাধিক পার্টের জন্য)</span>
+                <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="addEpisodeBlock()">+ নতুন পার্ট</button>
               </div>
               <div class="wp-card-body"><div id="episodesBuilderContainer"></div></div>
             </div>
@@ -321,8 +295,8 @@
               <div class="wp-card-header">📢 অ্যাড লিংক (ঐচ্ছিক)</div>
               <div class="wp-card-body">
                 <div class="two-col-inputs">
-                  <div class="form-group"><label>অ্যাড লিংক ১</label><input type="text" id="fAd1" class="wp-input"></div>
-                  <div class="form-group"><label>অ্যাড লিংক ২</label><input type="text" id="fAd2" class="wp-input"></div>
+                  <div class="form-group"><label>অ্যাড লিংক ১</label><input type="text" id="fAd1" class="wp-input" placeholder="খালি রাখলে ডিফল্ট অ্যাড"></div>
+                  <div class="form-group"><label>অ্যাড লিংক ২</label><input type="text" id="fAd2" class="wp-input" placeholder="খালি রাখলে ডিফল্ট অ্যাড"></div>
                 </div>
               </div>
             </div>
@@ -332,14 +306,15 @@
             <div class="wp-card">
               <div class="wp-card-header">🚀 Publish</div>
               <div class="wp-card-body">
+                <label class="wp-check-row"><input type="checkbox" id="fTrending"> 🔥 Trending-এ রাখুন</label>
                 <label class="wp-check-row"><input type="checkbox" id="fPinned"> 📌 সবার উপরে PINNED করুন</label>
                 <div class="form-group">
                   <label>কোয়ালিটি / ধরন ব্যাজ</label>
                   <input type="text" id="fBadge" class="wp-input" value="1080p">
                   <div style="display:flex; flex-wrap:wrap; gap:5px; margin-top:6px;">
                     <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="document.getElementById('fBadge').value='1080p'">1080p</button>
-                    <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="document.getElementById('fBadge').value='WEB-DL'">WEB-DL</button>
-                    <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="document.getElementById('fBadge').value='SERIES'">SERIES</button>
+                    <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="document.getElementById('fBadge').value='720p'">720p</button>
+                    <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="document.getElementById('fBadge').value='HD'">HD</button>
                     <button type="button" class="wp-btn wp-btn-sm wp-btn-danger" onclick="document.getElementById('fBadge').value='18+ Adult'">18+ Adult</button>
                   </div>
                 </div>
@@ -348,9 +323,9 @@
             </div>
 
             <div class="wp-card">
-              <div class="wp-card-header">🖼️ পোস্টার ছবি</div>
+              <div class="wp-card-header">🖼️ পোস্টার / থাম্বনেইল ছবি</div>
               <div class="wp-card-body">
-                <div class="form-group"><label>পোস্টার URL</label><input type="url" id="fImage" class="wp-input" oninput="updatePosterPreview()"></div>
+                <div class="form-group"><label>ছবির URL</label><input type="url" id="fImage" class="wp-input" oninput="updatePosterPreview()"></div>
                 <div class="poster-preview-box">
                   <img id="posterPreviewImg" src="" style="display:none;">
                   <span id="posterPreviewPlaceholder" style="font-size:12px; color:#646970;">ছবির প্রিভিউ</span>
@@ -365,25 +340,22 @@
 
   <script>
     const GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo";
-    const TMDB_API_KEY = "8265bd1679663a7ea12ac168da84d2e8";
     const ADMIN_PASS = "suaib5249";
 
-    const ALL_WORLD_CATEGORIES = [
-      "Bangla", "Hindi", "South", "Hollywood", "Trending", "Series",
-      "Bangla Dubbed", "Hindi Dubbed", "Bollywood", "English", "South Indian",
-      "Tamil", "Telugu", "Malayalam", "Kannada", "18+ Adult",
-      "Action", "Action & Adventure", "Adventure", "Animation", "Anime",
-      "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy",
-      "History", "Horror", "Kids", "Korean", "K-Drama", "Japanese", "Chinese",
-      "Mystery", "Natok", "Pakistani", "Romance", "Sci-Fi & Fantasy",
-      "Science Fiction", "Short Film", "Thriller", "Turkish", "War", "Dual Audio"
+    const ALL_CATEGORIES = [
+      "কক্সবাজার",
+      "কট খাওয়া",
+      "গার্লফ্রেন্ড – বয়ফ্রেন্ড",
+      "ট্রেন্ডিং ভিডিও",
+      "পরকীয়া",
+      "পর্ণ সিনেমা",
+      "বাংলা কথা",
+      "ভাই – বোন",
+      "ভাবি",
+      "সেলিব্রিটি",
+      "স্কুল – কলেজের ছাত্র-ছাত্রী",
+      "Trending"
     ];
-    const LANG_NAME_MAP = {
-      hi: "Hindi (हिंदी)", en: "English", bn: "Bengali (বাংলা)", ta: "Tamil (தமிழ்)",
-      te: "Telugu (తెలుగు)", ml: "Malayalam (മലയാളം)", kn: "Kannada (ಕನ್ನಡ)",
-      ko: "Korean (한국어)", ja: "Japanese (日本語)", zh: "Chinese (中文)",
-      es: "Spanish (Español)", tr: "Turkish (Türkçe)", fr: "French (Français)", ur: "Urdu"
-    };
 
     let ghConfig = JSON.parse(localStorage.getItem("ssviral_gh_config") || "null");
     let defaultBranch = "main";
@@ -395,7 +367,7 @@
     let selectedCategories = [];
     let episodeCounter = 0;
 
-    document.getElementById("catSelectDropdown").innerHTML = ALL_WORLD_CATEGORIES.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+    document.getElementById("catSelectDropdown").innerHTML = ALL_CATEGORIES.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
 
     (function autoDetectRepo() {
       const host = window.location.hostname || "";
@@ -556,19 +528,20 @@
       const btn = document.getElementById("btnImportSheet");
       btn.disabled = true; btn.innerText = "⏳ ইমপোর্ট হচ্ছে...";
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&headers=0&t=${Date.now()}`;
+        const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&t=${Date.now()}`;
         const data = await (await fetch(url)).text();
         const json = JSON.parse(data.substring(data.indexOf('{'), data.lastIndexOf('}') + 1));
         const rows = json.table?.rows || [];
         const imported = [];
-
         const cell = (c, idx) => (!c || !c[idx]) ? "" : String(c[idx].v ?? c[idx].f ?? "").trim();
+
         for (let i = 0; i < rows.length; i++) {
           const c = rows[i]?.c;
           if (!c) continue;
           const title = cell(c, 0);
           if (!title || title.toLowerCase() === "title") continue;
 
+          const cat = cell(c, 1) || "ট্রেন্ডিং ভিডিও";
           const dlVal = cell(c, 6) || cell(c, 5) || "#";
           const ad2Raw = cell(c, 5);
           const ad2Val = ad2Raw.startsWith("http") ? ad2Raw : "";
@@ -582,14 +555,14 @@
               if (cl.includes("|")) {
                 const p = cl.split("|");
                 linksArr.push({ link: p[0].trim(), label: p.slice(1).join("|").trim() });
-              } else linksArr.push({ link: cl, label: "Download" });
+              } else linksArr.push({ link: cl, label: "Download HD" });
             });
           }
 
           imported.push({
             id: Date.now() + i,
             title,
-            category: cell(c, 1) || "South",
+            category: cat,
             rating: cell(c, 2) || "8.0",
             image: cell(c, 3),
             ad1: cell(c, 4),
@@ -597,15 +570,12 @@
             links: linksArr,
             downloadUrl: dlVal,
             pinned: isPinned,
-            badge: "1080p",
+            trending: isPinned || cat.indexOf("ট্রেন্ডিং") !== -1 || cat.toLowerCase().indexOf("trending") !== -1,
+            badge: "HD",
             sortOrder: null,
             episodes: "",
-            cast: "",
-            trailer: "",
-            watchUrl: "",
-            language: "",
-            releaseDate: "",
-            genre: ""
+            language: "বাংলা",
+            releaseDate: "2026"
           });
         }
         imported.reverse();
@@ -614,14 +584,14 @@
         const onlyNewFromSheet = imported.filter(m => !existingTitles.has((m.title || "").trim().toLowerCase()));
         const merged = [...allMovies, ...onlyNewFromSheet];
 
-        await pushMoviesToGitHub(merged, "Import movies from Google Sheet");
+        await pushMoviesToGitHub(merged, "Import videos from Google Sheet");
         renderDashboardStats();
         renderMoviesTable();
-        showToast(`✅ মোট ${merged.length}টি মুভি সেভ হয়েছে! (নতুন ইমপোর্ট: ${onlyNewFromSheet.length}টি)`);
+        showToast(`✅ মোট ${merged.length}টি ভিডিও সেভ হয়েছে! (নতুন ইমপোর্ট: ${onlyNewFromSheet.length}টি)`);
       } catch (e) {
         showToast("ইমপোর্ট ব্যর্থ: " + e.message, true);
       }
-      btn.disabled = false; btn.innerText = "📥 Google Sheet থেকে সব মুভি আনো";
+      btn.disabled = false; btn.innerText = "📥 Google Sheet থেকে সব ভিডিও আনো";
     }
 
     function logoutAdmin() {
@@ -637,8 +607,8 @@
       document.getElementById("tabEditor").style.display = tab === "addMovie" ? "block" : "none";
 
       document.querySelectorAll(".wp-menu-item").forEach(el => el.classList.remove("active"));
-      if (filterCat === "Series") document.querySelector('[data-tab="seriesOnly"]').classList.add("active");
-      else if (filterCat === "18+ Adult") document.querySelector('[data-tab="adultOnly"]').classList.add("active");
+      if (filterCat === "Trending") document.querySelector('[data-tab="trendingOnly"]').classList.add("active");
+      else if (filterCat === "Pinned") document.querySelector('[data-tab="pinnedOnly"]').classList.add("active");
       else {
         const el = document.querySelector(`[data-tab="${tab}"]`);
         if (el) el.classList.add("active");
@@ -653,19 +623,18 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function isAdultRow(m) {
-      return (m.badge || "").toLowerCase().includes("18+") || (m.badge || "").toLowerCase().includes("adult") ||
-             (m.category || "").toLowerCase().includes("18+") || (m.category || "").toLowerCase().includes("adult");
+    function isTrendingItem(m) {
+      return !!m.trending || !!m.pinned || (m.category || "").indexOf("ট্রেন্ডিং") !== -1 || (m.category || "").toLowerCase().indexOf("trending") !== -1;
     }
 
     function renderDashboardStats() {
       document.getElementById("statTotal").innerText = allMovies.length;
-      document.getElementById("statWatch").innerText = allMovies.filter(m => m.watchUrl || (m.downloadUrl && m.downloadUrl !== "#") || (m.links && m.links.length > 0)).length;
-      document.getElementById("statSeries").innerText = allMovies.filter(m => (m.category || "").toLowerCase().includes("series")).length;
-      document.getElementById("statAdult").innerText = allMovies.filter(m => isAdultRow(m)).length;
+      document.getElementById("statLinks").innerText = allMovies.filter(m => (m.links && m.links.length > 0) || (m.downloadUrl && m.downloadUrl !== "#") || m.episodes).length;
+      document.getElementById("statTrending").innerText = allMovies.filter(isTrendingItem).length;
+      document.getElementById("statPinned").innerText = allMovies.filter(m => !!m.pinned).length;
 
       const top5 = allMovies.slice(0, 5);
-      document.getElementById("recentFiveList").innerHTML = top5.length === 0 ? "<p>কোনো মুভি নেই। উপরে 'Google Sheet থেকে সব মুভি আনো' চাপুন অথবা নতুন মুভি যোগ করুন।</p>" : top5.map((m, idx) => `
+      document.getElementById("recentFiveList").innerHTML = top5.length === 0 ? "<p>কোনো ভিডিও নেই। উপরে 'Google Sheet থেকে সব ভিডিও আনো' চাপুন অথবা নতুন ভিডিও যোগ করুন।</p>" : top5.map((m, idx) => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #eee; gap:10px;">
           <div><strong>${escapeHtml(m.title)}</strong><div style="font-size:12px; color:#646970;">${escapeHtml(m.category)} ${m.pinned ? "• 📌 PINNED" : ""} ${m.sortOrder ? "• #" + m.sortOrder : ""}</div></div>
           <button class="wp-btn wp-btn-sm wp-btn-secondary" onclick="openEditMovie(${idx})">✏️ এডিট</button>
@@ -686,22 +655,22 @@
       const rows = allMovies.map((m, idx) => ({ m, idx })).filter(({ m }) => {
         if (q && !m.title.toLowerCase().includes(q) && !(m.category || "").toLowerCase().includes(q)) return false;
         if (currentFilter === "All") return true;
-        if (currentFilter === "18+ Adult") return isAdultRow(m);
-        if (currentFilter === "Series") return (m.category || "").toLowerCase().includes("series");
-        return (m.category || "").toLowerCase().includes(currentFilter.toLowerCase());
+        if (currentFilter === "Pinned") return !!m.pinned;
+        if (currentFilter === "Trending") return isTrendingItem(m);
+        return (m.category || "").toLowerCase().indexOf(currentFilter.toLowerCase()) !== -1;
       });
 
       if (rows.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:25px;">কোনো মুভি পাওয়া যায়নি!</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:25px;">কোনো ভিডিও পাওয়া যায়নি!</td></tr>`;
         return;
       }
 
       tbody.innerHTML = rows.map(({ m, idx }) => {
-        const hasLink = m.watchUrl || (m.downloadUrl && m.downloadUrl !== "#") || (m.links && m.links.length > 0);
+        const hasLink = (m.links && m.links.length > 0) || (m.downloadUrl && m.downloadUrl !== "#") || m.episodes;
         return `
         <tr>
           <td><img class="thumb-img" src="${escapeHtml(m.image)}" onerror="this.style.display='none'"></td>
-          <td><strong>${escapeHtml(m.title)}</strong><br><span style="font-size:11.5px; color:#646970;">⭐ ${escapeHtml(m.rating || "8.0")} · ${escapeHtml(m.badge || "HD")} ${m.releaseDate ? "· " + escapeHtml(m.releaseDate) : ""} ${m.pinned ? '<span class="badge badge-pin">📌 PINNED</span>' : ''}</span></td>
+          <td><strong>${escapeHtml(m.title)}</strong><br><span style="font-size:11.5px; color:#646970;">⭐ ${escapeHtml(m.rating || "8.0")} · ${escapeHtml(m.badge || "HD")} ${m.pinned ? '<span class="badge badge-pin">📌 PINNED</span>' : ''}</span></td>
           <td><span class="badge">${escapeHtml(m.category)}</span></td>
           <td>${m.sortOrder ? `<span class="badge badge-ok">#${m.sortOrder}</span>` : "—"}</td>
           <td>${hasLink ? '<span class="badge badge-ok">✔ যুক্ত আছে</span>' : '<span class="badge badge-warn">নেই</span>'}</td>
@@ -739,7 +708,7 @@
       row.className = "builder-row dl-row";
       row.innerHTML = `
         <input type="text" class="wp-input dl-url" style="flex:2; min-width:160px;" placeholder="ডাউনলোড লিংক দিন..." value="${escapeHtml(url)}">
-        <input type="text" class="wp-input dl-label" style="flex:1; min-width:110px;" placeholder="কোয়ালিটি নাম (যেমন: 480p)" value="${escapeHtml(label)}">
+        <input type="text" class="wp-input dl-label" style="flex:1; min-width:110px;" placeholder="কোয়ালিটি নাম (যেমন: 480p / 720p / 1080p)" value="${escapeHtml(label)}">
         <button type="button" class="wp-btn wp-btn-sm wp-btn-danger" onclick="this.parentElement.remove()">✕</button>
       `;
       container.appendChild(row);
@@ -749,7 +718,7 @@
       const list = [];
       document.querySelectorAll("#downloadLinksContainer .dl-row").forEach(r => {
         const link = r.querySelector(".dl-url").value.trim();
-        const label = r.querySelector(".dl-label").value.trim() || "Download";
+        const label = r.querySelector(".dl-label").value.trim() || "Download HD";
         if (link) list.push({ link, label });
       });
       return list;
@@ -765,7 +734,7 @@
       card.id = epId;
       card.innerHTML = `
         <div class="episode-card-head">
-          <input type="text" class="wp-input ep-name" style="font-weight:700; max-width:220px;" value="${escapeHtml(epName || `Episode ${currentNum}`)}" placeholder="Episode 1">
+          <input type="text" class="wp-input ep-name" style="font-weight:700; max-width:220px;" value="${escapeHtml(epName || `Part ${currentNum}`)}" placeholder="Part 1">
           <div style="display:flex; gap:6px;">
             <button type="button" class="wp-btn wp-btn-sm wp-btn-secondary" onclick="addQualityToEpisode('${epId}')">+ কোয়ালিটি</button>
             <button type="button" class="wp-btn wp-btn-sm wp-btn-danger" onclick="this.closest('.episode-card').remove()">✕</button>
@@ -784,7 +753,7 @@
       const row = document.createElement("div");
       row.className = "builder-row ep-q-row";
       row.innerHTML = `
-        <input type="text" class="wp-input ep-q-url" style="flex:2; min-width:150px;" placeholder="ভিডিও / ডাউনলোড লিংক..." value="${escapeHtml(url)}">
+        <input type="text" class="wp-input ep-q-url" style="flex:2; min-width:150px;" placeholder="ডাউনলোড লিংক..." value="${escapeHtml(url)}">
         <input type="text" class="wp-input ep-q-label" style="flex:1; min-width:95px;" placeholder="কোয়ালিটি (যেমন: 720p)" value="${escapeHtml(label)}">
         <button type="button" class="wp-btn wp-btn-sm wp-btn-danger" onclick="this.parentElement.remove()">✕</button>
       `;
@@ -794,7 +763,7 @@
     function collectEpisodesData() {
       const eps = [];
       document.querySelectorAll("#episodesBuilderContainer .episode-card").forEach((card, idx) => {
-        const epName = card.querySelector(".ep-name").value.trim() || `Episode ${idx + 1}`;
+        const epName = card.querySelector(".ep-name").value.trim() || `Part ${idx + 1}`;
         const qList = [];
         card.querySelectorAll(".ep-q-row").forEach(qr => {
           const u = qr.querySelector(".ep-q-url").value.trim();
@@ -819,31 +788,26 @@
           }).filter(x => x.url);
           if (qs.length > 0) addEpisodeBlock(epName.trim(), qs);
         });
-      } else {
-        raw.split(/,|\n/).forEach((item, idx) => {
-          const clean = item.trim();
-          if (!clean) return;
-          if (clean.includes("|")) {
-            const p = clean.split("|");
-            addEpisodeBlock(p[1].trim() || `Episode ${idx + 1}`, [{ url: p[0].trim(), label: "HD" }]);
-          } else addEpisodeBlock(`Episode ${idx + 1}`, [{ url: clean, label: "HD" }]);
-        });
       }
     }
 
     function openAddNewMovie() {
       editingIndex = null;
-      document.getElementById("editorPageTitle").innerText = "➕ নতুন মুভি যোগ করুন";
+      document.getElementById("editorPageTitle").innerText = "➕ নতুন ভিডিও যোগ করুন";
       document.getElementById("btnSaveMovie").innerText = "💾 পাবলিশ করুন";
-      ["fTitle","fLanguage","fReleaseDate","fGenre","fRating","fSortOrder","fImage","fAd1","fAd2","fCast","fTrailer","fWatchUrl","tmdbSearchInput","customCatInput"].forEach(id => document.getElementById(id).value = "");
+      ["fTitle","fReleaseDate","fRating","fSortOrder","fImage","fAd1","fAd2","customCatInput"].forEach(id => document.getElementById(id).value = "");
+      document.getElementById("fLanguage").value = "বাংলা";
+      document.getElementById("fRating").value = "8.0";
       document.getElementById("fBadge").value = "1080p";
       document.getElementById("fPinned").checked = false;
+      document.getElementById("fTrending").checked = false;
       selectedCategories = [];
       renderCategoryChips();
       document.getElementById("downloadLinksContainer").innerHTML = "";
       addDownloadRow("", "480p");
+      addDownloadRow("", "720p");
+      addDownloadRow("", "1080p");
       document.getElementById("episodesBuilderContainer").innerHTML = "";
-      document.getElementById("tmdbResultsGrid").style.display = "none";
       updatePosterPreview();
       switchTab("addMovie");
     }
@@ -852,22 +816,19 @@
       const m = allMovies[idx];
       if (!m) return;
       editingIndex = idx;
-      document.getElementById("editorPageTitle").innerText = "✏️ মুভি এডিট করুন";
+      document.getElementById("editorPageTitle").innerText = "✏️ ভিডিও এডিট করুন";
       document.getElementById("btnSaveMovie").innerText = "💾 আপডেট সেভ করুন";
       document.getElementById("fTitle").value = m.title || "";
-      document.getElementById("fLanguage").value = m.language || "";
+      document.getElementById("fLanguage").value = m.language || "বাংলা";
       document.getElementById("fReleaseDate").value = m.releaseDate || "";
-      document.getElementById("fGenre").value = m.genre || "";
-      document.getElementById("fRating").value = String(m.rating || "").replace(/⭐/g, "").trim();
+      document.getElementById("fRating").value = String(m.rating || "8.0").replace(/⭐/g, "").trim();
       document.getElementById("fSortOrder").value = m.sortOrder || "";
       document.getElementById("fImage").value = m.image || "";
       document.getElementById("fAd1").value = m.ad1 || "";
       document.getElementById("fAd2").value = m.ad2 || "";
       document.getElementById("fBadge").value = m.badge || "1080p";
-      document.getElementById("fCast").value = m.cast || "";
-      document.getElementById("fTrailer").value = m.trailer || "";
-      document.getElementById("fWatchUrl").value = m.watchUrl || "";
       document.getElementById("fPinned").checked = !!m.pinned;
+      document.getElementById("fTrending").checked = !!m.trending;
 
       selectedCategories = (m.category || "").split(",").map(s => s.trim()).filter(s => s && s.toLowerCase() !== "all");
       renderCategoryChips();
@@ -875,7 +836,7 @@
       const dlBox = document.getElementById("downloadLinksContainer");
       dlBox.innerHTML = "";
       if (m.links && m.links.length > 0) m.links.forEach(l => addDownloadRow(l.link, l.label));
-      else if (m.downloadUrl && m.downloadUrl !== "#") addDownloadRow(m.downloadUrl, "Download");
+      else if (m.downloadUrl && m.downloadUrl !== "#") addDownloadRow(m.downloadUrl, "Download HD");
       else addDownloadRow("", "720p");
 
       populateEpisodesFromStr(m.episodes || "");
@@ -892,31 +853,27 @@
 
     async function saveMovieToGitHub() {
       const title = document.getElementById("fTitle").value.trim();
-      if (!title) { showToast("মুভির নাম দিন!", true); return; }
+      if (!title) { showToast("ভিডিওর নাম দিন!", true); return; }
       const sortRaw = parseInt(document.getElementById("fSortOrder").value.trim(), 10);
       const collectedLinks = collectDownloadLinks();
-      const watchUrlVal = document.getElementById("fWatchUrl").value.trim();
 
       const movieObj = {
         id: editingIndex !== null ? allMovies[editingIndex].id : Date.now(),
         title,
-        category: selectedCategories.length > 0 ? selectedCategories.join(", ") : "South",
+        category: selectedCategories.length > 0 ? selectedCategories.join(", ") : "ট্রেন্ডিং ভিডিও",
         rating: document.getElementById("fRating").value.trim() || "8.0",
         sortOrder: (!isNaN(sortRaw) && sortRaw > 0) ? sortRaw : null,
         pinned: document.getElementById("fPinned").checked,
+        trending: document.getElementById("fTrending").checked,
         image: document.getElementById("fImage").value.trim(),
         ad1: document.getElementById("fAd1").value.trim(),
         ad2: document.getElementById("fAd2").value.trim(),
         links: collectedLinks,
-        downloadUrl: (collectedLinks[0] && collectedLinks[0].link) ? collectedLinks[0].link : (watchUrlVal || "#"),
+        downloadUrl: (collectedLinks[0] && collectedLinks[0].link) ? collectedLinks[0].link : "#",
         badge: document.getElementById("fBadge").value.trim() || "1080p",
         episodes: collectEpisodesData(),
-        cast: document.getElementById("fCast").value.trim(),
-        trailer: document.getElementById("fTrailer").value.trim(),
-        watchUrl: watchUrlVal,
-        language: document.getElementById("fLanguage").value.trim(),
-        releaseDate: document.getElementById("fReleaseDate").value.trim(),
-        genre: document.getElementById("fGenre").value.trim()
+        language: document.getElementById("fLanguage").value.trim() || "বাংলা",
+        releaseDate: document.getElementById("fReleaseDate").value.trim() || "2026"
       };
 
       const updated = [...allMovies];
@@ -950,67 +907,13 @@
       const updated = allMovies.filter((_, i) => i !== idx);
       try {
         showToast("🗑️ ডিলিট হচ্ছে...");
-        await pushMoviesToGitHub(updated, "Delete movie");
+        await pushMoviesToGitHub(updated, "Delete video");
         renderDashboardStats();
         renderMoviesTable();
-        showToast("✅ মুভি ডিলিট হয়েছে!");
+        showToast("✅ ডিলিট হয়েছে!");
       } catch (e) {
         showToast("ডিলিট ব্যর্থ: " + e.message, true);
       }
-    }
-
-    async function searchTMDB() {
-      const q = document.getElementById("tmdbSearchInput").value.trim(), grid = document.getElementById("tmdbResultsGrid");
-      if (!q) return;
-      grid.style.display = "grid"; grid.innerHTML = "<p style='grid-column:1/-1; padding:10px;'>খুঁজছে...</p>";
-      try {
-        const data = await (await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`)).json();
-        const items = (data.results || []).filter(i => (i.media_type === "movie" || i.media_type === "tv") && i.poster_path).slice(0, 12);
-        if (items.length === 0) { grid.innerHTML = "<p style='grid-column:1/-1; padding:10px;'>কিছু পাওয়া যায়নি।</p>"; return; }
-        grid.innerHTML = items.map(item => {
-          const title = item.title || item.name || "", rel = (item.release_date || item.first_air_date || "").split("-")[0], poster = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
-          return `<div class="tmdb-hit-card" onclick="applyTmdbItem(${item.id}, '${item.media_type}')"><img src="${poster}"><div class="tmdb-hit-title">${escapeHtml(title)}</div><div style="font-size:10px; color:#646970;">${rel} · ${item.media_type.toUpperCase()}</div></div>`;
-        }).join("");
-      } catch (e) { grid.innerHTML = "<p style='grid-column:1/-1; padding:10px;'>TMDB লোড ব্যর্থ।</p>"; }
-    }
-
-    async function applyTmdbItem(tmdbId, type) {
-      document.getElementById("tmdbResultsGrid").style.display = "none";
-      showToast("⏳ TMDB থেকে সব তথ্য লোড হচ্ছে...");
-      try {
-        const [detRes, credRes, vidRes] = await Promise.all([
-          fetch(`https://api.themoviedb.org/3/${type}/${tmdbId}?api_key=${TMDB_API_KEY}`),
-          fetch(`https://api.themoviedb.org/3/${type}/${tmdbId}/credits?api_key=${TMDB_API_KEY}`),
-          fetch(`https://api.themoviedb.org/3/${type}/${tmdbId}/videos?api_key=${TMDB_API_KEY}`)
-        ]);
-        const det = await detRes.json(), cred = await credRes.json(), vid = await vidRes.json();
-        const title = det.title || det.name || "", relDate = det.release_date || det.first_air_date || "", year = relDate ? relDate.split("-")[0] : "";
-        const genres = (det.genres || []).map(g => g.name), origLang = det.original_language || "";
-
-        document.getElementById("fTitle").value = year ? `${title} (${year})` : title;
-        document.getElementById("fRating").value = det.vote_average ? det.vote_average.toFixed(1) : "8.0";
-        document.getElementById("fLanguage").value = LANG_NAME_MAP[origLang] || origLang.toUpperCase() || "English";
-        document.getElementById("fReleaseDate").value = relDate;
-        document.getElementById("fGenre").value = genres.join(", ");
-
-        if (det.poster_path) { document.getElementById("fImage").value = `https://image.tmdb.org/t/p/w500${det.poster_path}`; updatePosterPreview(); }
-
-        selectedCategories = [];
-        if (type === "tv") { addCategoryName("Series"); document.getElementById("fBadge").value = "SERIES"; }
-        else document.getElementById("fBadge").value = "1080p";
-        if (origLang === "bn") addCategoryName("Bangla");
-        else if (origLang === "hi") addCategoryName("Hindi");
-        else if (origLang === "en") addCategoryName("Hollywood");
-        else if (["ta","te","ml","kn"].includes(origLang)) addCategoryName("South");
-        genres.forEach(g => addCategoryName(g));
-
-        const actors = (cred.cast || []).slice(0, 6).map(a => a.name).join(", ");
-        if (actors) document.getElementById("fCast").value = actors;
-        const yt = (vid.results || []).find(v => v.site === "YouTube" && v.type === "Trailer") || (vid.results || []).find(v => v.site === "YouTube");
-        if (yt && yt.key) document.getElementById("fTrailer").value = `https://www.youtube.com/watch?v=${yt.key}`;
-
-        showToast("✅ TMDB-এর সব তথ্য বসে গেছে!");
-      } catch (e) { showToast("TMDB তথ্য আনতে সমস্যা হয়েছে!", true); }
     }
 
     function escapeHtml(str) { return String(str || "").replace(/[&<>"']/g, s => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[s])); }
