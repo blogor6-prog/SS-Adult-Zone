@@ -411,12 +411,24 @@
     "id": 1795000204952,
     "title": "আপুটা কিন্তু আসলেই অনেক সুন্দর",
     "category": "bangla",
-    "rating": "⭐",
+    "rating": "8.0",
+    "sortOrder": null,
+    "pinned": false,
+    "trending": false,
     "image": "https://i.postimg.cc/W1J0KX0j/IMG-20260817-175829-751.jpg",
     "ad1": "https://auctionr.org/4/81600715177eea404486411b72771077",
     "ad2": "https://asiafilm.org/4/a555ec6bc7d6af27618f9ba45943fffd",
+    "links": [
+      {
+        "link": "https://t.me/vitarvideo_bot?start=29498449-0e81-48bb-8e59-405ab3f41b3c",
+        "label": "Download HD"
+      }
+    ],
     "downloadUrl": "https://t.me/vitarvideo_bot?start=29498449-0e81-48bb-8e59-405ab3f41b3c",
-    "pinned": true
+    "badge": "1080p",
+    "episodes": "",
+    "language": "বাংলা",
+    "releaseDate": "2026"
   },
   {
     "id": 1795000204951,
