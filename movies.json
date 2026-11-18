@@ -1174,12 +1174,24 @@
     "id": 1795000204887,
     "title": "এসব দেখলে কি আর মাথা ঠিক থাকে",
     "category": "bangla",
-    "rating": "⭐",
+    "rating": "8.0",
+    "sortOrder": null,
+    "pinned": false,
+    "trending": true,
     "image": "https://i.postimg.cc/mrP8hXyG/IMG-20261106-11020768.jpg",
     "ad1": "https://auctionr.org/4/81600715177eea404486411b72771077",
     "ad2": "https://asiafilm.org/4/a555ec6bc7d6af27618f9ba45943fffd",
+    "links": [
+      {
+        "link": "https://t.me/vitarvideo_bot?start=a80b0c7b-d290-483c-b9fb-74f4103e18ab",
+        "label": "Download HD"
+      }
+    ],
     "downloadUrl": "https://t.me/vitarvideo_bot?start=a80b0c7b-d290-483c-b9fb-74f4103e18ab",
-    "pinned": true
+    "badge": "1080p",
+    "episodes": "",
+    "language": "বাংলা",
+    "releaseDate": "2026"
   },
   {
     "id": 1795000204886,
