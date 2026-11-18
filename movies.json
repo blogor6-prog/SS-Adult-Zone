@@ -974,12 +974,24 @@
     "id": 1795000204903,
     "title": "মালটা কিন্তু অস্থির পছন্দ হয় না কি",
     "category": "bangla",
-    "rating": "⭐",
+    "rating": "8.0",
+    "sortOrder": null,
+    "pinned": false,
+    "trending": true,
     "image": "https://i.postimg.cc/J4B48JFP/8-img-4210.jpg",
     "ad1": "https://auctionr.org/4/81600715177eea404486411b72771077",
     "ad2": "https://asiafilm.org/4/a555ec6bc7d6af27618f9ba45943fffd",
+    "links": [
+      {
+        "link": "https://t.me/vitarvideo_bot?start=320f3c9c-9070-485c-b115-93c2f4681825",
+        "label": "Download HD"
+      }
+    ],
     "downloadUrl": "https://t.me/vitarvideo_bot?start=320f3c9c-9070-485c-b115-93c2f4681825",
-    "pinned": true
+    "badge": "1080p",
+    "episodes": "",
+    "language": "বাংলা",
+    "releaseDate": "2026"
   },
   {
     "id": 1795000204902,
