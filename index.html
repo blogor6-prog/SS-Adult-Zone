@@ -204,7 +204,7 @@
     .nav-item.active { color: var(--primary); font-weight: 800; }
     .nav-icon { font-size: 18px; }
 
-    /* ডিটেইল ভিউ (শুধু ডাউনলোড অপশন — কোনো ওয়াচ/ট্রেইলার/কাস্ট/দৃশ্য নেই) */
+    /* ডিটেইল ভিউ */
     .cine-detail-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050507; z-index: 2000; overflow-y: auto; display: none; padding-bottom: 50px; -webkit-overflow-scrolling: touch; }
     .cine-top-nav {
       position: sticky; top: 0; left: 0; width: 100%; background: rgba(5, 5, 7, 0.94);
@@ -231,11 +231,12 @@
     .cine-section-box { margin: 12px 14px; background: #12131a; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; }
     .cine-box-title { font-size: 14px; font-weight: 800; color: #facc15; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 
-    .ad-unlock-box { background: #0a0a0f; border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; text-align: center; }
+    /* ১ম কোডের হুবহু ৩-স্টেপ + প্রোগ্রেস বার + ভেরিফিকেশন মডাল স্টাইল */
+    .ad-unlock-box { background: #0a0a0f; border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; text-align: center; margin-bottom: 12px; }
+    .unlock-progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; margin-bottom: 11px; }
+    .unlock-progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #e11d48, #f97316, #22c55e); border-radius: 999px; transition: width 0.35s ease; }
     .ad-step-btn { width: 100%; padding: 13px; border: none; border-radius: 999px; font-size: 13.5px; font-weight: 800; cursor: pointer; color: #fff; background: linear-gradient(135deg, #e11d48, #be123c); transition: all 0.2s ease; }
-    .ad-step-btn.step2 { background: linear-gradient(135deg, #f97316, #ea580c); }
-    .ad-step-btn.step3 { background: linear-gradient(135deg, #22c55e, #16a34a); }
-    .ad-step-btn:disabled { background: #3f3f46 !important; cursor: not-allowed; opacity: 0.85; }
+    .ad-step-btn:disabled { background: #3f3f46; cursor: not-allowed; opacity: 0.85; }
 
     .quality-options-list { display: flex; flex-direction: column; gap: 10px; }
     .quality-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 13px 15px; background: #0a0a0f; border: 1px solid rgba(225, 29, 72, 0.5); color: #ffffff; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; }
@@ -245,6 +246,20 @@
     .episode-group-box { background: #0a0a0f; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; }
     .episode-group-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: rgba(225, 29, 72, 0.14); border: none; color: #ffffff; font-size: 13.5px; font-weight: 800; cursor: pointer; }
     .episode-qualities-wrap { padding: 10px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border-color); }
+
+    /* ভেরিফিকেশন পপআপ মডাল */
+    .monetag-overlay-modal { display: none; position: fixed; inset: 0; background: rgba(3, 4, 8, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 9500; justify-content: center; align-items: center; padding: 14px; }
+    .monetag-ad-card { width: 100%; max-width: 380px; max-height: 92vh; overflow-y: auto; background: linear-gradient(160deg, #161824 0%, #0b0c12 100%); border: 1px solid rgba(225, 29, 72, 0.55); border-radius: 18px; padding: 14px 13px; position: relative; text-align: center; box-shadow: 0 20px 55px rgba(0, 0, 0, 0.9); }
+    .monetag-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .monetag-timer-pill { background: rgba(250, 204, 21, 0.16); border: 1px solid rgba(250, 204, 21, 0.45); color: #facc15; font-size: 11.5px; font-weight: 800; padding: 4px 10px; border-radius: 999px; }
+    .monetag-close-x { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff; padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; cursor: pointer; }
+    .monetag-close-x.ready { background: linear-gradient(135deg, #22c55e, #16a34a); border-color: #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.55); }
+    .monetag-offer-box { background: rgba(225, 29, 72, 0.12); border: 1px dashed rgba(249, 115, 22, 0.55); border-radius: 12px; padding: 14px 12px; margin-bottom: 10px; }
+    .sponsor-tag { display: inline-block; background: #facc15; color: #000; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.4px; }
+    .monetag-offer-box h4 { font-size: 14.5px; color: #fff; font-weight: 800; margin-bottom: 6px; }
+    .monetag-offer-box p { font-size: 11.5px; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px; }
+    .monetag-visit-btn { width: 100%; padding: 11px 14px; border: none; border-radius: 999px; background: linear-gradient(135deg, #e11d48, #f97316); color: #fff; font-size: 12.5px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4); }
+    .monetag-warn-note { font-size: 11px; color: #fca5a5; line-height: 1.4; }
   </style>
 </head>
 <body>
@@ -452,11 +467,29 @@
       <div class="cine-box-title"><span>📥 Download Options:</span></div>
 
       <div class="ad-unlock-box" id="adUnlockBox">
-        <p id="adStepNotice" style="font-size:12.5px; color:#cbd5e1; margin-bottom:12px;">ডাউনলোড লিংক আনলক করতে ১ম বিজ্ঞাপনটি দেখুন:</p>
-        <button class="ad-step-btn" id="adStepBtn" onclick="handleAdUnlockStep()">👉 ধাপ ১: ১ম অ্যাড চালু করুন (১০ সে.)</button>
+        <div class="unlock-progress-track"><div class="unlock-progress-fill" id="unlockProgressFill"></div></div>
+        <p id="adStepNotice" style="font-size:12.5px; color:#cbd5e1; margin-bottom:12px;">ডাউনলোড লিংক আনলক করতে নিচের বাটনে ক্লিক করুন:</p>
+        <button class="ad-step-btn" id="adStepBtn" onclick="handleAdUnlockStep()">🚀 ডাউনলোড লিংক আনলক করুন (স্টেপ ১/৩)</button>
       </div>
 
       <div class="quality-options-list" id="qualityContainer" style="display: none;"></div>
+    </div>
+  </div>
+
+  <!-- ভেরিফিকেশন মডাল (হুবহু ১ম কোডের মতো ৫ সেকেন্ডের টাইমার ও প্রটেকশন) -->
+  <div class="monetag-overlay-modal" id="monetagUnlockModal">
+    <div class="monetag-ad-card">
+      <div class="monetag-top-row">
+        <span class="monetag-timer-pill" id="monetagTimerPill">⏳ অপেক্ষা করুন: 5s</span>
+        <button type="button" class="monetag-close-x" id="monetagCloseBtn" onclick="handleMonetagCloseClick()">✕</button>
+      </div>
+      <div class="monetag-offer-box">
+        <span class="sponsor-tag" style="margin-bottom:6px;">SPONSOR AD</span>
+        <h4 id="monetagStepHeading">🔓 ধাপ ভেরিফিকেশন চলছে...</h4>
+        <p id="monetagStepDesc">নিচের অ্যাডটি ৫ সেকেন্ড দেখুন। সময় শেষ হলে উপরের <b>✕</b> বাটনে ক্লিক করলেই পরের ধাপ আনলক হবে।</p>
+        <button type="button" class="monetag-visit-btn" id="monetagOfferBtn" onclick="openCurrentMonetagLink()">🎁 স্পনসর অফার দেখুন (Click Here)</button>
+      </div>
+      <div class="monetag-warn-note">⚠️ ৫ সেকেন্ড শেষ হওয়ার আগে <b>✕</b> চাপলে আবার ১ম ধাপ থেকে শুরু হবে!</div>
     </div>
   </div>
 
@@ -464,6 +497,11 @@
     var GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo";
     var ENTRY_AD_URL = "https://auctionr.org/4/65f43ffc33fe79a1323bfe7402ae52f3";
     var DEFAULT_AD2 = "https://asiafilm.org/4/13ea836dfdd1e0cc3f590b100bff3fb6";
+    var UNLOCK_WAIT_SEC = 5;
+
+    var toBnDigits = function(n) {
+      return String(n).replace(/\d/g, function(d) { return '০১২৩৪৫৬৭৮৯'[d]; });
+    };
 
     var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
     if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
@@ -504,9 +542,30 @@
     var fullListPage = 1;
     var fullListMovies = [];
     var itemsPerPage = 21;
-    var currentUnlockStep = 1;
-    var stepCountdownTimer = null;
     var previousScrollY = 0;
+
+    /* ১ম কোডের মতো ৩-স্টেপ আনলক ভ্যারিয়েবল */
+    var currentUnlockStep = 1;
+    var waitingReturnStep = 0;
+    var returnFallbackTimer = null;
+    var monetagCountdownTimer = null;
+    var monetagTimeLeft = UNLOCK_WAIT_SEC;
+    var monetagCompleted = false;
+    var monetagActiveStep = 1;
+
+    function handleUserReturnToSite() {
+      if (waitingReturnStep > 0 && document.getElementById('detailView').style.display === 'block') {
+        var step = waitingReturnStep;
+        waitingReturnStep = 0;
+        clearTimeout(returnFallbackTimer);
+        returnFallbackTimer = null;
+        openMonetagCountdownOverlay(step);
+      }
+    }
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'visible') handleUserReturnToSite();
+    });
+    window.addEventListener('focus', handleUserReturnToSite);
 
     function getCellVal(c, index) {
       if (!c || !c[index] || c[index].v === null || c[index].v === undefined) return '';
@@ -919,7 +978,138 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* ডিটেইল পেজ — সাধারণ ক্লিকে সরাসরি এখানেই ওপেন হবে */
+    /* ১ম কোডের হুবহু ৩-স্টেপ + ৫ সেকেন্ড ভেরিফিকেশন আনলক সিস্টেম */
+    function clearMonetagAndTimers() {
+      clearInterval(monetagCountdownTimer);
+      clearTimeout(returnFallbackTimer);
+      monetagCountdownTimer = null;
+      returnFallbackTimer = null;
+      waitingReturnStep = 0;
+      monetagCompleted = false;
+      var mModal = document.getElementById('monetagUnlockModal');
+      if (mModal) mModal.style.display = 'none';
+    }
+
+    function resetUnlockFlowUI(customWarningMsg) {
+      clearMonetagAndTimers();
+      currentUnlockStep = 1;
+      var btn = document.getElementById('adStepBtn');
+      var notice = document.getElementById('adStepNotice');
+      var fill = document.getElementById('unlockProgressFill');
+      if (btn) { btn.disabled = false; btn.innerText = '🚀 ডাউনলোড লিংক আনলক করুন (স্টেপ ১/৩)'; }
+      if (notice) notice.innerText = customWarningMsg || 'ডাউনলোড লিংক আনলক করতে নিচের বাটনে ক্লিক করুন:';
+      if (fill) fill.style.width = '0%';
+    }
+
+    function getAdUrlForStep(step) {
+      if (!currentMovie) return ENTRY_AD_URL;
+      if (step === 1) return currentMovie.ad1 || ENTRY_AD_URL;
+      if (step === 2) return currentMovie.ad2 || DEFAULT_AD2;
+      return ENTRY_AD_URL || DEFAULT_AD2;
+    }
+
+    function openCurrentMonetagLink() {
+      if (monetagActiveStep === 1) openSafeUrl(ENTRY_AD_URL);
+      else if (monetagActiveStep === 2) openSafeUrl(DEFAULT_AD2);
+      else openSafeUrl((currentMovie && currentMovie.ad1) || ENTRY_AD_URL);
+    }
+
+    function openMonetagCountdownOverlay(step) {
+      monetagActiveStep = step;
+      monetagCompleted = false;
+      monetagTimeLeft = UNLOCK_WAIT_SEC;
+      var bnSec = toBnDigits(UNLOCK_WAIT_SEC);
+
+      var modal = document.getElementById('monetagUnlockModal');
+      var timerPill = document.getElementById('monetagTimerPill');
+      var closeBtn = document.getElementById('monetagCloseBtn');
+      var heading = document.getElementById('monetagStepHeading');
+      var desc = document.getElementById('monetagStepDesc');
+      var warnNote = document.querySelector('.monetag-warn-note');
+
+      if (heading) heading.innerText = '🔓 স্টেপ ' + step + '/৩ ভেরিফিকেশন চলছে...';
+      if (desc) desc.innerHTML = 'নিচের অ্যাডটি ' + bnSec + ' সেকেন্ড দেখুন। সময় শেষ হলে উপরের <b>✕</b> বাটনে চাপলেই পরের ধাপ আসবে।';
+      if (warnNote) warnNote.innerHTML = '⚠️ ' + bnSec + ' সেকেন্ড শেষ হওয়ার আগে <b>✕</b> চাপলে আবার ১ম ধাপ থেকে শুরু হবে!';
+      if (timerPill) timerPill.innerText = '⏳ অপেক্ষা করুন: ' + monetagTimeLeft + 's';
+      if (closeBtn) { closeBtn.classList.remove('ready'); closeBtn.innerText = '✕'; }
+      if (modal) modal.style.display = 'flex';
+
+      clearInterval(monetagCountdownTimer);
+      monetagCountdownTimer = setInterval(function() {
+        monetagTimeLeft--;
+        if (monetagTimeLeft > 0) {
+          if (timerPill) timerPill.innerText = '⏳ অপেক্ষা করুন: ' + monetagTimeLeft + 's';
+        } else {
+          clearInterval(monetagCountdownTimer);
+          monetagCountdownTimer = null;
+          monetagCompleted = true;
+          if (timerPill) timerPill.innerText = '✅ ' + bnSec + ' সেকেন্ড পূর্ণ হয়েছে!';
+          if (closeBtn) { closeBtn.classList.add('ready'); closeBtn.innerText = '✕ এগিয়ে যান'; }
+        }
+      }, 1000);
+    }
+
+    function handleMonetagCloseClick() {
+      clearInterval(monetagCountdownTimer);
+      monetagCountdownTimer = null;
+      var modal = document.getElementById('monetagUnlockModal');
+      if (modal) modal.style.display = 'none';
+
+      if (!monetagCompleted) {
+        resetUnlockFlowUI('⚠️ ' + toBnDigits(UNLOCK_WAIT_SEC) + ' সেকেন্ড পূর্ণ হওয়ার আগেই ক্রস করায় আবার ১ম ধাপ থেকে শুরু করতে হবে:');
+        return;
+      }
+
+      var btn = document.getElementById('adStepBtn');
+      var notice = document.getElementById('adStepNotice');
+      var fill = document.getElementById('unlockProgressFill');
+
+      if (monetagActiveStep === 1) {
+        currentUnlockStep = 2;
+        if (btn) { btn.disabled = false; btn.innerText = '🚀 ২য় ধাপ কনফার্ম করুন (স্টেপ ২/৩)'; }
+        if (notice) notice.innerText = '✅ স্টেপ ১ সম্পন্ন (৩৩%)! এবার ২য় ধাপে ক্লিক করুন:';
+        if (fill) fill.style.width = '33%';
+      } else if (monetagActiveStep === 2) {
+        currentUnlockStep = 3;
+        if (btn) { btn.disabled = false; btn.innerText = '🚀 ৩য় ধাপ কনফার্ম করুন (স্টেপ ৩/৩)'; }
+        if (notice) notice.innerText = '✅ স্টেপ ২ সম্পন্ন (৬৬%)! আর মাত্র ১টি ধাপ বাকি:';
+        if (fill) fill.style.width = '66%';
+      } else if (monetagActiveStep === 3) {
+        currentUnlockStep = 4;
+        if (btn) { btn.disabled = false; btn.innerText = '🔓 ৪র্থ ক্লিকে ডাউনলোড লিংক দেখুন'; }
+        if (notice) notice.innerText = '🎉 ১০০% আনলক সম্পন্ন! নিচের বাটনে ক্লিক করে ডাউনলোড লিংক দেখুন:';
+        if (fill) fill.style.width = '100%';
+      }
+    }
+
+    function handleAdUnlockStep() {
+      if (!currentMovie) return;
+      var btn = document.getElementById('adStepBtn');
+      var notice = document.getElementById('adStepNotice');
+
+      if (currentUnlockStep === 4) {
+        document.getElementById('adUnlockBox').style.display = 'none';
+        renderDownloadButtons();
+        document.getElementById('qualityContainer').style.display = 'flex';
+        return;
+      }
+
+      var stepToRun = currentUnlockStep;
+      waitingReturnStep = stepToRun;
+      if (btn) { btn.disabled = true; btn.innerText = '⏳ বিজ্ঞাপন দেখে ব্যাক আসুন...'; }
+      if (notice) notice.innerText = 'স্টেপ ' + stepToRun + '/৩: বিজ্ঞাপন ওপেন হয়েছে—ব্যাক এলেই ' + toBnDigits(UNLOCK_WAIT_SEC) + ' সেকেন্ডের ভেরিফিকেশন চালু হবে।';
+      openSafeUrl(getAdUrlForStep(stepToRun));
+
+      clearTimeout(returnFallbackTimer);
+      returnFallbackTimer = setTimeout(function() {
+        if (waitingReturnStep === stepToRun && document.visibilityState === 'visible') {
+          waitingReturnStep = 0;
+          openMonetagCountdownOverlay(stepToRun);
+        }
+      }, 1800);
+    }
+
+    /* ডিটেইল পেজ */
     function openDetailView(id) {
       var m = movies.find(function(x) { return String(x.id) === String(id); });
       if (!m) return;
@@ -937,15 +1127,9 @@
         '<div>📺 <b>Quality:</b> ' + (m.badge || '18+ HD') + '</div>' +
         '<div>📅 <b>Release:</b> ' + (m.releaseDate || '2026') + '</div>';
 
-      currentUnlockStep = 1;
-      clearInterval(stepCountdownTimer);
+      resetUnlockFlowUI();
       document.getElementById('qualityContainer').style.display = 'none';
       document.getElementById('adUnlockBox').style.display = 'block';
-      var btn = document.getElementById('adStepBtn');
-      btn.className = 'ad-step-btn';
-      btn.disabled = false;
-      btn.innerText = '👉 ধাপ ১: ১ম অ্যাড চালু করুন (১০ সে.)';
-      document.getElementById('adStepNotice').innerText = 'ডাউনলোড লিংক আনলক করতে ১ম বিজ্ঞাপনটি দেখুন:';
 
       var view = document.getElementById('detailView');
       view.style.display = 'block';
@@ -954,57 +1138,10 @@
     }
 
     function closeDetailView() {
-      clearInterval(stepCountdownTimer);
+      clearMonetagAndTimers();
       document.getElementById('detailView').style.display = 'none';
       if (tg && tg.BackButton) tg.BackButton.hide();
       window.scrollTo({ top: previousScrollY, behavior: 'auto' });
-    }
-
-    function handleAdUnlockStep() {
-      var btn = document.getElementById('adStepBtn');
-      var notice = document.getElementById('adStepNotice');
-
-      if (currentUnlockStep === 1) {
-        openSafeUrl(currentMovie.ad1 || ENTRY_AD_URL);
-        var t = 10;
-        btn.disabled = true;
-        btn.innerText = '⏳ অপেক্ষা করুন (' + t + 's)...';
-        notice.innerText = '১ম বিজ্ঞাপন চালু হয়েছে... ১০ সেকেন্ড অপেক্ষা করুন।';
-        stepCountdownTimer = setInterval(function() {
-          t--;
-          if (t > 0) btn.innerText = '⏳ অপেক্ষা করুন (' + t + 's)...';
-          else {
-            clearInterval(stepCountdownTimer);
-            currentUnlockStep = 2;
-            btn.disabled = false;
-            btn.className = 'ad-step-btn step2';
-            btn.innerText = '👉 ধাপ ২: শেষ অ্যাড চালু করুন (১০ সে.)';
-            notice.innerText = '✅ ১ম অ্যাড শেষ! এবার ২য় অ্যাডটি দেখুন:';
-          }
-        }, 1000);
-      } else if (currentUnlockStep === 2) {
-        openSafeUrl(currentMovie.ad2 || DEFAULT_AD2);
-        var t2 = 10;
-        btn.disabled = true;
-        btn.innerText = '⏳ অপেক্ষা করুন (' + t2 + 's)...';
-        notice.innerText = '২য় বিজ্ঞাপন চালু হয়েছে... ১০ সেকেন্ড অপেক্ষা করুন।';
-        stepCountdownTimer = setInterval(function() {
-          t2--;
-          if (t2 > 0) btn.innerText = '⏳ অপেক্ষা করুন (' + t2 + 's)...';
-          else {
-            clearInterval(stepCountdownTimer);
-            currentUnlockStep = 3;
-            btn.disabled = false;
-            btn.className = 'ad-step-btn step3';
-            btn.innerText = '📥 আসল ডাউনলোড অপশন দেখুন 🔞';
-            notice.innerText = '🎉 ২টি বিজ্ঞাপন সফলভাবে সম্পন্ন হয়েছে! নিচে ক্লিক করুন:';
-          }
-        }, 1000);
-      } else {
-        document.getElementById('adUnlockBox').style.display = 'none';
-        renderDownloadButtons();
-        document.getElementById('qualityContainer').style.display = 'flex';
-      }
     }
 
     function toggleEpisodePanel(idx) {
@@ -1076,4 +1213,4 @@
     fetchMoviesFromGitHub();
   </script>
 </body>
-</html>
+  </html>
