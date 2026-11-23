@@ -7,6 +7,18 @@
   <meta name="theme-color" content="#050507">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script>
+    // শুধু শেয়ার/ডাইরেক্ট মুভি লিংক (?id=...) হয়ে আসলে সাথে সাথে CineVibeBD-তে পাঠাবে
+    (function() {
+      var p = new URLSearchParams(window.location.search);
+      var sharedId = p.get('id');
+      var cvPass = p.get('cv_pass');
+      if (sharedId && cvPass !== '1') {
+        var ssBase = window.location.origin + window.location.pathname;
+        window.location.replace("https://cinevibebd.pages.dev/?viral_id=" + encodeURIComponent(sharedId) + "&ss_url=" + encodeURIComponent(ssBase));
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -182,7 +194,7 @@
 
     .bottom-ad-section { margin: 16px 12px 10px 12px; padding-top: 12px; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 12px; }
 
-    /* বটম নেভিগেশন (শুধু Home, Trending, Recently Added) */
+    /* বটম নেভিগেশন */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; width: 100%; height: 58px;
       background: rgba(10, 10, 14, 0.96); backdrop-filter: blur(12px);
@@ -343,12 +355,10 @@
 
   <!-- হোম সেকশন (শুধু Trending Now আর Recently Added) -->
   <div class="main-container" id="homeSectionsContainer">
-    <!-- স্পন্সর ব্যানার -->
     <div class="entry-ad-banner" onclick="openEntryAd()">
       <p><span>SPONSOR</span> স্পন্সরড অফার দেখতে এখানে ক্লিক করুন 🎁</p>
     </div>
 
-    <!-- ব্যানার অ্যাড (320x50) -->
     <div class="ad-container">
       <script>
         atOptions = {
@@ -362,7 +372,6 @@
       <script src="https://bancadeltempoidea.org/22/8c51e3c6e22b700ea7f548944de49528"></script>
     </div>
 
-    <!-- Trending Now -->
     <div id="trendingSectionBlock" style="display: none;">
       <div class="section-header">
         <span class="section-title">🔥 Trending Now</span>
@@ -371,7 +380,6 @@
       <div class="horizontal-scroll-row" id="trendingRow"></div>
     </div>
 
-    <!-- Recently Added -->
     <div id="recentSectionBlock">
       <div class="section-header">
         <span class="section-title">🆕 Recently Added</span>
@@ -454,7 +462,6 @@
 
   <script>
     var GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo";
-    var CINEVIBE_URL = "https://cinevibebd.pages.dev/";
     var ENTRY_AD_URL = "https://auctionr.org/4/65f43ffc33fe79a1323bfe7402ae52f3";
     var DEFAULT_AD2 = "https://asiafilm.org/4/13ea836dfdd1e0cc3f590b100bff3fb6";
 
@@ -500,27 +507,6 @@
     var currentUnlockStep = 1;
     var stepCountdownTimer = null;
     var previousScrollY = 0;
-
-    /* CineVibeBD গেট চেক ও রিডাইরেক্ট লজিক */
-    function isCineVibeVerified() {
-      if (sessionStorage.getItem('ss_cv_verified') === '1') return true;
-      var params = new URLSearchParams(window.location.search);
-      if (params.get('cv_pass') === '1') {
-        sessionStorage.setItem('ss_cv_verified', '1');
-        return true;
-      }
-      if (document.referrer && document.referrer.toLowerCase().indexOf('cinevibebd') !== -1) {
-        sessionStorage.setItem('ss_cv_verified', '1');
-        return true;
-      }
-      return false;
-    }
-
-    function redirectToCineVibe(movieId) {
-      var ssBase = window.location.origin + window.location.pathname;
-      var target = CINEVIBE_URL + "?viral_id=" + encodeURIComponent(movieId) + "&ss_url=" + encodeURIComponent(ssBase);
-      window.location.href = target;
-    }
 
     function getCellVal(c, index) {
       if (!c || !c[index] || c[index].v === null || c[index].v === undefined) return '';
@@ -933,13 +919,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* ডিটেইল পেজ ও ২-ধাপের ডাউনলোড আনলক (কোনো ওয়াচ/ট্রেইলার/কাস্ট/দৃশ্য নেই) */
+    /* ডিটেইল পেজ — সাধারণ ক্লিকে সরাসরি এখানেই ওপেন হবে */
     function openDetailView(id) {
-      if (!isCineVibeVerified()) {
-        redirectToCineVibe(id);
-        return;
-      }
-
       var m = movies.find(function(x) { return String(x.id) === String(id); });
       if (!m) return;
       currentMovie = m;
@@ -1087,7 +1068,7 @@
     function checkDirectLink() {
       var params = new URLSearchParams(window.location.search);
       var id = params.get('id');
-      if (id) {
+      if (id && params.get('cv_pass') === '1') {
         openDetailView(id);
       }
     }
