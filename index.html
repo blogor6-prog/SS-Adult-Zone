@@ -3,247 +3,445 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SS viral Zone</title>
-  <meta name="theme-color" content="#0b0f19">
+  <title>SS Viral Zone - 18+ Exclusive</title>
+  <meta name="theme-color" content="#050507">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script data-cfasync="false" src="https://bancadeltempoidea.org/14/792f5ba0b7985495531ab4621359d5f4"></script>
 
   <style>
     :root {
-      --bg-dark: #0b0f19;
-      --card-bg: #1e293b;
-      --border-color: #334155;
-      --primary: #38bdf8;
-      --primary-hover: #0284c7;
+      --bg-dark: #050507;
+      --card-bg: #12131a;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --glass-bg: rgba(20, 20, 28, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.14);
+      --primary: #e11d48;
+      --primary-hover: #be123c;
+      --accent-blue: #38bdf8;
       --text-main: #ffffff;
-      --text-muted: #94a3b8;
+      --text-muted: #a1a1aa;
       --accent-yellow: #facc15;
       --accent-green: #22c55e;
       --accent-orange: #f97316;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg-dark); color: var(--text-main); padding: 12px; padding-bottom: 85px; min-height: 100vh; overflow-x: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg-dark); color: var(--text-main); padding-bottom: 80px; min-height: 100vh; overflow-x: hidden; }
 
-    .header-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; position: relative; }
-    .header-bar h1 { font-size: 20px; color: var(--primary); font-weight: 800; text-align: center; width: 100%; cursor: pointer; }
-    .menu-btn { position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: var(--card-bg); border: 1px solid var(--border-color); color: var(--primary); font-size: 20px; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; }
-    .dropdown-menu { display: none; position: absolute; right: 0; top: 45px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1000; width: 175px; overflow: hidden; }
-    .dropdown-menu div { padding: 12px 14px; font-size: 13.5px; font-weight: 700; color: #f1f5f9; cursor: pointer; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
-    .dropdown-menu div:hover, .dropdown-menu div:active { background: var(--primary-hover); }
+    /* ১৮+ স্প্ল্যাশ ঝলক */
+    .ss-splash-overlay {
+      position: fixed; inset: 0; background: rgba(5, 5, 9, 0.78);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      transition: opacity 0.65s ease, visibility 0.65s ease;
+    }
+    .ss-splash-overlay.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .splash-card {
+      background: rgba(16, 17, 26, 0.85); border: 1px solid rgba(225, 29, 72, 0.55);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 45px rgba(225, 29, 72, 0.35);
+      padding: 26px 32px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      animation: splashZoom 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .splash-logo-wrap { display: flex; align-items: center; gap: 11px; }
+    .splash-brand-text {
+      font-size: 28px; font-weight: 800; letter-spacing: 0.3px;
+      background: linear-gradient(90deg, #ffffff 0%, #fda4af 45%, #f97316 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .splash-sub { font-size: 10.5px; letter-spacing: 2.6px; color: #fda4af; font-weight: 800; text-transform: uppercase; }
+    .splash-bar-track { width: 175px; height: 3.5px; background: rgba(255,255,255,0.14); border-radius: 999px; overflow: hidden; margin-top: 4px; }
+    .splash-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #e11d48, #f97316, #facc15); border-radius: 999px; animation: splashBar 1.8s ease forwards; }
+    @keyframes splashZoom { 0% { transform: scale(0.75); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes splashBar { 0% { width: 0%; } 100% { width: 100%; } }
 
-    .category-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; scrollbar-width: none; }
-    .category-pills::-webkit-scrollbar { display: none; }
-    .pill { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; }
-    .pill.active { background: var(--primary); border-color: var(--primary); color: #0b0f19; font-weight: 800; }
+    /* টপ গ্লাস হেডার */
+    .top-glass-header {
+      position: fixed; top: 0; left: 0; width: 100%; padding: 10px 12px;
+      display: flex; align-items: center; justify-content: space-between; gap: 6px; z-index: 500;
+      background: linear-gradient(180deg, rgba(5, 5, 7, 0.94) 0%, rgba(5, 5, 7, 0.5) 70%, transparent 100%);
+      transition: background 0.3s ease;
+    }
+    .top-glass-header.scrolled { background: rgba(5, 5, 7, 0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); }
+    .brand-logo { display: flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 800; color: #ffffff; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+    .brand-text-grad { background: linear-gradient(90deg, #ffffff 10%, #fda4af 55%, #f97316 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
 
-    .entry-ad-banner { background: linear-gradient(135deg, #1e3a8a, #0284c7); border-radius: 10px; padding: 10px 14px; text-align: center; margin-bottom: 12px; border: 1px dashed var(--primary); cursor: pointer; }
-    .entry-ad-banner p { font-size: 13px; color: #fff; font-weight: 600; }
-    .entry-ad-banner span { font-size: 10px; background: var(--accent-yellow); color: #000; padding: 2px 6px; border-radius: 4px; font-weight: 800; margin-right: 6px; }
+    .glass-nav-pills {
+      display: flex; align-items: center; gap: 3px; background: var(--glass-bg);
+      backdrop-filter: blur(14px); border: 1px solid var(--glass-border);
+      padding: 3px; border-radius: 999px; overflow-x: auto; scrollbar-width: none; flex: 1; max-width: 62%;
+    }
+    .glass-nav-pills::-webkit-scrollbar { display: none; }
+    .pill { color: #d4d4d8; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; cursor: pointer; transition: all 0.2s ease; }
+    .pill.active { background: rgba(225, 29, 72, 0.92); color: #ffffff; font-weight: 700; box-shadow: 0 2px 8px rgba(225, 29, 72, 0.45); }
 
-    .search-box { position: relative; margin-bottom: 12px; }
-    .search-box input { width: 100%; padding: 11px 38px 11px 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--card-bg); color: #fff; font-size: 14px; outline: none; }
+    .top-right-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative; }
+    .glass-icon-btn {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--glass-bg);
+      backdrop-filter: blur(14px); border: 1px solid var(--glass-border); color: #fff;
+      font-size: 13px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .dropdown-menu {
+      display: none; position: absolute; right: 0; top: 40px; background: #12131a;
+      border: 1px solid var(--glass-border); border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.85); z-index: 1000; width: 215px; max-height: 68vh; overflow-y: auto;
+    }
+    .dropdown-menu div { padding: 10px 14px; font-size: 13px; font-weight: 600; color: #f1f5f9; cursor: pointer; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .dropdown-menu div:hover { background: rgba(225, 29, 72, 0.18); }
+
+    /* সার্চ প্যানেল */
+    .search-bar-panel {
+      display: none; position: fixed; top: 54px; left: 0; width: 100%; padding: 10px 12px;
+      background: rgba(10, 10, 14, 0.96); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border-color); z-index: 490;
+    }
+    .search-bar-panel.open { display: block; }
+    .search-box { position: relative; width: 100%; }
+    .search-box input { width: 100%; padding: 9px 36px 9px 14px; border-radius: 999px; border: 1px solid var(--glass-border); background: #16161e; color: #fff; font-size: 13.5px; outline: none; }
     .search-box input:focus { border-color: var(--primary); }
-    .clear-search-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.15); border: none; color: #fff; font-size: 11px; font-weight: 800; display: none; align-items: center; justify-content: center; cursor: pointer; }
+    .clear-search-btn {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      width: 20px; height: 20px; border-radius: 50%; background: rgba(255, 255, 255, 0.16);
+      border: none; color: #ffffff; font-size: 11px; font-weight: 800; display: none; align-items: center; justify-content: center; cursor: pointer;
+    }
 
-    .ad-container { text-align: center; margin: 12px 0; min-height: 50px; }
+    /* হিরো ব্যানার স্লাইডার */
+    .hero-banner-wrap { position: relative; width: 100%; height: 390px; overflow: hidden; background: #0a0a0f; margin-bottom: 10px; }
+    .hero-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: opacity 0.4s ease; }
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, #050507 4%, rgba(5, 5, 7, 0.88) 30%, rgba(5, 5, 7, 0.35) 68%, rgba(5, 5, 7, 0.55) 100%),
+                  linear-gradient(90deg, rgba(5, 5, 7, 0.85) 0%, rgba(5, 5, 7, 0.3) 55%, transparent 100%);
+    }
+    .hero-content { position: absolute; bottom: 20px; left: 14px; right: 14px; z-index: 10; }
+    .hero-type-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.4px; color: #fda4af; text-transform: uppercase; margin-bottom: 4px; }
+    .hero-title { font-size: 23px; font-weight: 800; color: #ffffff; line-height: 1.2; margin-bottom: 7px; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .hero-meta-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 11.5px; color: #d4d4d8; font-weight: 600; }
+    .hero-rating-pill { background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(8px); padding: 2px 7px; border-radius: 4px; font-weight: 700; color: #facc15; font-size: 11px; }
+    .hero-actions-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .hero-btns-left { display: flex; align-items: center; gap: 8px; }
+    .btn-hero-dl {
+      background: linear-gradient(135deg, #e11d48, #f97316); color: #ffffff; border: none; padding: 8px 18px;
+      border-radius: 999px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.45);
+    }
+    .btn-hero-info {
+      background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff; padding: 8px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    }
+    .hero-dots-pill { background: rgba(20, 20, 28, 0.72); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.12); padding: 5px 8px; border-radius: 999px; display: flex; align-items: center; gap: 5px; }
+    .hero-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255, 255, 255, 0.35); cursor: pointer; transition: all 0.2s ease; }
+    .hero-dot.active { width: 14px; border-radius: 999px; background: #e11d48; }
 
+    .main-container { padding: 0 12px; }
+
+    /* অ্যাড ও স্পন্সর বক্স */
+    .entry-ad-banner {
+      background: linear-gradient(135deg, #1f1024, #3b0a18); border-radius: 10px; padding: 10px 12px;
+      text-align: center; border: 1px dashed rgba(225, 29, 72, 0.6); cursor: pointer; margin: 6px 0 10px 0;
+    }
+    .entry-ad-banner p { font-size: 12.5px; color: #f8fafc; font-weight: 700; }
+    .entry-ad-banner span { background: #e11d48; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 6px; }
+    .ad-container { width: 100%; min-height: 54px; background: rgba(18, 19, 26, 0.8); border: 1px solid var(--border-color); border-radius: 10px; display: flex; justify-content: center; align-items: center; margin: 8px 0 12px 0; overflow: hidden; }
+
+    /* সেকশন হেডার ও কার্ড গ্রিড */
     .section-header { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 10px 0; }
-    .section-title { font-size: 15.5px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 6px; }
-    .see-all-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--primary); font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+    .section-title { font-size: 15px; font-weight: 800; color: #f8fafc; display: flex; align-items: center; gap: 6px; }
+    .see-all-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-color); color: #e4e4e7; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; cursor: pointer; }
 
     .horizontal-scroll-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
     .horizontal-scroll-row::-webkit-scrollbar { display: none; }
-    .horizontal-scroll-row .movie-card { flex: 0 0 142px; }
-    .horizontal-scroll-row .movie-poster-wrap { height: 175px; }
+    .horizontal-scroll-row .movie-card { flex: 0 0 130px; }
+    .horizontal-scroll-row .movie-poster-wrap { height: 185px; }
 
-    .movies-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 14px; }
-    .movie-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; position: relative; cursor: pointer; transition: transform 0.15s ease; }
-    .movie-card:active { transform: scale(0.98); }
-    .movie-card.is-pinned { border: 1px solid #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.25); }
-
-    .pin-badge { position: absolute; top: 6px; right: 6px; background: #f59e0b; color: #000; font-size: 9px; font-weight: 800; padding: 3px 6px; border-radius: 4px; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.7); }
-    .quality-badge { position: absolute; top: 6px; left: 6px; background: rgba(11, 15, 25, 0.85); border: 1px solid var(--border-color); color: var(--primary); font-size: 9.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px; z-index: 5; }
-
-    .movie-poster-wrap { width: 100%; height: 200px; background: #0f172a; position: relative; overflow: hidden; }
+    .movies-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+    .movie-card { background: transparent; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; position: relative; transition: transform 0.2s ease; }
+    .movie-card:active { transform: scale(0.97); }
+    .movie-card.is-pinned .movie-poster-wrap { border: 1.5px solid #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.35); }
+    .movie-poster-wrap { width: 100%; height: 176px; background: #12131a; position: relative; overflow: hidden; border-radius: 8px; border: 1px solid var(--border-color); }
     .movie-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .movie-info { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .movie-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
-    .movie-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--accent-yellow); margin-bottom: 9px; gap: 6px; }
-    .movie-meta span:last-child { color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 65%; }
-    .dl-trigger-btn { background: var(--primary-hover); color: #fff; border: none; padding: 8px; border-radius: 6px; font-size: 12.5px; font-weight: 700; cursor: pointer; width: 100%; }
+    .card-rating-badge { position: absolute; top: 6px; left: 6px; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(4px); color: #ffffff; font-size: 9.5px; font-weight: 700; padding: 2px 6px; border-radius: 4px; z-index: 3; display: flex; align-items: center; gap: 3px; }
+    .card-rating-badge span { color: #facc15; }
+    .quality-badge { position: absolute; top: 6px; right: 6px; background: linear-gradient(135deg, #e11d48, #dc2626); color: #fff; font-size: 8.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px; z-index: 3; }
+    .pin-badge { position: absolute; bottom: 6px; left: 6px; background: #f59e0b; color: #000; font-size: 8.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px; z-index: 4; }
+    .movie-info { padding: 6px 2px 2px 2px; }
+    .movie-title { font-size: 11.5px; font-weight: 800; color: #f4f4f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .movie-submeta { font-size: 10px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .full-view-header { display: flex; align-items: center; justify-content: space-between; margin: 12px 0 14px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
-    .full-view-header h2 { font-size: 15.5px; color: var(--primary); font-weight: 800; }
-    .back-home-btn { background: var(--primary-hover); color: #fff; border: none; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .full-view-header { display: flex; align-items: center; justify-content: space-between; margin: 70px 0 14px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+    .full-view-header h2 { font-size: 16px; color: #ffffff; font-weight: 800; }
+    .back-home-btn { background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-    .pagination-bar { display: flex; justify-content: center; align-items: center; gap: 6px; margin: 14px 0 22px 0; flex-wrap: wrap; }
-    .page-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
-    .page-btn.active { background: var(--primary); color: #0b0f19; border-color: var(--primary); }
+    .pagination-bar { display: flex; justify-content: center; align-items: center; gap: 6px; margin: 15px 0 22px 0; flex-wrap: wrap; }
+    .page-btn { background: #14151c; border: 1px solid var(--border-color); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+    .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .loader-box { grid-column: span 2; text-align: center; padding: 40px 10px; color: var(--primary); font-size: 14px; }
+    .bottom-ad-section { margin: 16px 12px 10px 12px; padding-top: 12px; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 12px; }
 
-    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 58px; background: rgba(11, 15, 25, 0.96); backdrop-filter: blur(10px); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 999; }
+    /* বটম নেভিগেশন (শুধু Home, Trending, Recently Added) */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; width: 100%; height: 58px;
+      background: rgba(10, 10, 14, 0.96); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 999;
+    }
     .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10.5px; cursor: pointer; gap: 2px; }
-    .nav-item.active { color: var(--primary); font-weight: 700; }
-    .nav-icon { font-size: 17px; }
+    .nav-item.active { color: var(--primary); font-weight: 800; }
+    .nav-icon { font-size: 18px; }
 
-    /* Detail View Overlay (Only Download Options - NO Watch / NO Trailer) */
-    .detail-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); z-index: 5000; overflow-y: auto; display: none; padding-bottom: 50px; }
-    .detail-top-nav { position: sticky; top: 0; left: 0; width: 100%; background: rgba(11, 15, 25, 0.95); backdrop-filter: blur(10px); padding: 11px 14px; display: flex; align-items: center; justify-content: space-between; z-index: 5100; border-bottom: 1px solid var(--border-color); }
-    .detail-nav-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: #fff; padding: 6px 13px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .detail-hero { width: 100%; height: 210px; position: relative; background-size: cover; background-position: center; overflow: hidden; }
-    .detail-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg-dark) 8%, rgba(11, 15, 25, 0.6) 65%, transparent 100%); }
-    .detail-main { padding: 0 14px; margin-top: -65px; position: relative; z-index: 10; display: flex; gap: 14px; }
-    .detail-poster { width: 105px; height: 150px; border-radius: 10px; object-fit: cover; border: 1px solid var(--border-color); background: var(--card-bg); flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.75); }
-    .detail-info { display: flex; flex-direction: column; justify-content: flex-end; flex: 1; min-width: 0; }
-    .detail-title { font-size: 17px; font-weight: 800; color: #fff; line-height: 1.3; margin-bottom: 6px; }
-    .detail-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-    .detail-chip { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 5px; }
-    .detail-meta-box { margin: 12px 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; font-size: 12.5px; color: #e2e8f0; line-height: 1.65; }
+    /* ডিটেইল ভিউ (শুধু ডাউনলোড অপশন — কোনো ওয়াচ/ট্রেইলার/কাস্ট/দৃশ্য নেই) */
+    .cine-detail-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050507; z-index: 2000; overflow-y: auto; display: none; padding-bottom: 50px; -webkit-overflow-scrolling: touch; }
+    .cine-top-nav {
+      position: sticky; top: 0; left: 0; width: 100%; background: rgba(5, 5, 7, 0.94);
+      backdrop-filter: blur(10px); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;
+      z-index: 2100; border-bottom: 1px solid var(--border-color);
+    }
+    .cine-back-btn { background: #16161e; border: 1px solid var(--border-color); color: #fff; padding: 6px 14px; border-radius: 999px; font-size: 12.5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; }
 
-    .download-section-box { margin: 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; }
-    .download-box-title { font-size: 14.5px; font-weight: 800; color: var(--accent-yellow); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .cine-hero-banner { width: 100%; height: 215px; position: relative; background-size: cover; background-position: center; overflow: hidden; }
+    .cine-hero-banner::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(0deg, #050507 4%, rgba(5, 5, 7, 0.45) 45%, transparent 100%); pointer-events: none; }
 
-    .ad-unlock-box { background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; text-align: center; }
-    .ad-step-btn { width: 100%; padding: 13px; border: none; border-radius: 999px; font-size: 13.5px; font-weight: 800; cursor: pointer; color: #0b0f19; background: var(--accent-yellow); transition: all 0.2s ease; }
-    .ad-step-btn.step2 { background: var(--accent-orange); color: #fff; }
-    .ad-step-btn.step3 { background: var(--accent-green); color: #fff; }
-    .ad-step-btn:disabled { background: #334155 !important; color: #94a3b8 !important; cursor: not-allowed; }
+    .cine-main-info { padding: 0 14px; margin-top: -65px; position: relative; z-index: 10; display: flex; gap: 14px; }
+    .cine-poster { width: 112px; height: 162px; border-radius: 8px; object-fit: cover; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.9); border: 1px solid var(--glass-border); flex-shrink: 0; background: #12131a; }
+    .cine-text-info { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 4px; flex: 1; min-width: 0; }
+    .cine-title { font-size: 16.5px; font-weight: 800; color: #ffffff; line-height: 1.3; margin-bottom: 6px; }
+    .cine-badges-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+    .cine-chip { background: #16161e; border: 1px solid var(--border-color); color: #d4d4d8; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    .chip-yellow { color: #facc15; border-color: rgba(250, 204, 21, 0.3); }
+    .chip-red { color: #fda4af; border-color: rgba(225, 29, 72, 0.45); }
+
+    .cine-details-desc-box { font-size: 12px; color: #e4e4e7; line-height: 1.65; background: #12131a; border: 1px solid var(--border-color); border-radius: 10px; padding: 11px 13px; margin: 12px 14px 4px 14px; }
+    .cine-details-desc-box div { margin-bottom: 3px; }
+
+    .cine-section-box { margin: 12px 14px; background: #12131a; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; }
+    .cine-box-title { font-size: 14px; font-weight: 800; color: #facc15; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+
+    .ad-unlock-box { background: #0a0a0f; border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; text-align: center; }
+    .ad-step-btn { width: 100%; padding: 13px; border: none; border-radius: 999px; font-size: 13.5px; font-weight: 800; cursor: pointer; color: #fff; background: linear-gradient(135deg, #e11d48, #be123c); transition: all 0.2s ease; }
+    .ad-step-btn.step2 { background: linear-gradient(135deg, #f97316, #ea580c); }
+    .ad-step-btn.step3 { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .ad-step-btn:disabled { background: #3f3f46 !important; cursor: not-allowed; opacity: 0.85; }
 
     .quality-options-list { display: flex; flex-direction: column; gap: 10px; }
-    .quality-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 13px 15px; background: var(--bg-dark); border: 1px solid rgba(56, 189, 248, 0.5); color: #ffffff; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
-    .quality-btn:hover, .quality-btn:active { background: var(--primary-hover); border-color: var(--primary); }
-    .indicator-light { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-green); }
+    .quality-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 13px 15px; background: #0a0a0f; border: 1px solid rgba(225, 29, 72, 0.5); color: #ffffff; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .quality-btn:active, .quality-btn:hover { background: var(--primary); border-color: var(--primary); }
+    .indicator-light { width: 10px; height: 10px; border-radius: 50%; background-color: #22c55e; }
 
-    .episode-group-box { background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; }
-    .episode-group-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: rgba(56, 189, 248, 0.14); border: none; color: #ffffff; font-size: 13.5px; font-weight: 800; cursor: pointer; }
+    .episode-group-box { background: #0a0a0f; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; }
+    .episode-group-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: rgba(225, 29, 72, 0.14); border: none; color: #ffffff; font-size: 13.5px; font-weight: 800; cursor: pointer; }
     .episode-qualities-wrap { padding: 10px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border-color); }
   </style>
 </head>
 <body>
 
-  <!-- হেডার ও ৩-ডট মেনু (শুধু Trending ও Recently Added) -->
-  <div class="header-bar">
-    <h1 onclick="goHome()">🎬 SS viral Zone</h1>
-    <button class="menu-btn" onclick="toggleMenu(event)">⋮</button>
-    <div class="dropdown-menu" id="dropdownMenu">
-      <div onclick="openTrendingView(event)">🔥 Trending</div>
-      <div onclick="openRecentlyAddedView(event)">🆕 Recently Added</div>
+  <!-- ১৮+ স্প্ল্যাশ ঝলক -->
+  <div class="ss-splash-overlay" id="ssSplashOverlay" onclick="hideSplash()">
+    <div class="splash-card">
+      <div class="splash-logo-wrap">
+        <svg width="46" height="46" viewBox="0 0 48 48" fill="none">
+          <defs>
+            <linearGradient id="ssSplashGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#e11d48"/><stop offset="100%" stop-color="#f97316"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#ssSplashGrad)"/>
+          <circle cx="24" cy="24" r="15.5" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <text x="24" y="29" fill="#ffffff" font-size="14" font-weight="900" font-family="sans-serif" text-anchor="middle">18+</text>
+        </svg>
+        <div class="splash-brand-text">SS Viral Zone</div>
+      </div>
+      <div class="splash-sub">18+ Exclusive Viral Collections</div>
+      <div class="splash-bar-track"><div class="splash-bar-fill"></div></div>
     </div>
   </div>
 
-  <!-- ক্যাটাগরি চিপস (তোমার দেওয়া সব ক্যাটাগরি) -->
-  <div class="category-pills" id="categoryPillsBar">
-    <div class="pill active" onclick="selectCategory('All', event)">All</div>
-    <div class="pill" onclick="selectCategory('কক্সবাজার', event)">কক্সবাজার</div>
-    <div class="pill" onclick="selectCategory('কট খাওয়া', event)">কট খাওয়া</div>
-    <div class="pill" onclick="selectCategory('গার্লফ্রেন্ড – বয়ফ্রেন্ড', event)">গার্লফ্রেন্ড – বয়ফ্রেন্ড</div>
-    <div class="pill" onclick="selectCategory('ট্রেন্ডিং ভিডিও', event)">ট্রেন্ডিং ভিডিও</div>
-    <div class="pill" onclick="selectCategory('পরকীয়া', event)">পরকীয়া</div>
-    <div class="pill" onclick="selectCategory('পর্ণ সিনেমা', event)">পর্ণ সিনেমা</div>
-    <div class="pill" onclick="selectCategory('বাংলা কথা', event)">বাংলা কথা</div>
-    <div class="pill" onclick="selectCategory('ভাই – বোন', event)">ভাই – বোন</div>
-    <div class="pill" onclick="selectCategory('ভাবি', event)">ভাবি</div>
-    <div class="pill" onclick="selectCategory('সেলিব্রিটি', event)">সেলিব্রিটি</div>
-    <div class="pill" onclick="selectCategory('স্কুল – কলেজের ছাত্র-ছাত্রী', event)">স্কুল – কলেজের ছাত্র-ছাত্রী</div>
+  <!-- টপ গ্লাস হেডার -->
+  <header class="top-glass-header" id="topGlassHeader">
+    <div class="brand-logo" onclick="goHome()">
+      <svg width="26" height="26" viewBox="0 0 48 48" fill="none">
+        <defs>
+          <linearGradient id="ssTopGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#e11d48"/><stop offset="100%" stop-color="#f97316"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#ssTopGrad)"/>
+        <text x="24" y="29" fill="#ffffff" font-size="15" font-weight="900" font-family="sans-serif" text-anchor="middle">18+</text>
+      </svg>
+      <span class="brand-text-grad">SS Viral Zone</span>
+    </div>
+
+    <div class="glass-nav-pills" id="categoryPillsBar">
+      <div class="pill active" onclick="selectCategory('All', event)">All</div>
+      <div class="pill" onclick="selectCategory('কক্সবাজার', event)">কক্সবাজার</div>
+      <div class="pill" onclick="selectCategory('কট খাওয়া', event)">কট খাওয়া</div>
+      <div class="pill" onclick="selectCategory('গার্লফ্রেন্ড – বয়ফ্রেন্ড', event)">গার্লফ্রেন্ড – বয়ফ্রেন্ড</div>
+      <div class="pill" onclick="selectCategory('ট্রেন্ডিং ভিডিও', event)">ট্রেন্ডিং ভিডিও</div>
+      <div class="pill" onclick="selectCategory('পরকীয়া', event)">পরকীয়া</div>
+      <div class="pill" onclick="selectCategory('পর্ণ সিনেমা', event)">পর্ণ সিনেমা</div>
+      <div class="pill" onclick="selectCategory('বাংলা কথা', event)">বাংলা কথা</div>
+      <div class="pill" onclick="selectCategory('ভাই – বোন', event)">ভাই – বোন</div>
+      <div class="pill" onclick="selectCategory('ভাবি', event)">ভাবি</div>
+      <div class="pill" onclick="selectCategory('সেলিব্রিটি', event)">সেলিব্রিটি</div>
+      <div class="pill" onclick="selectCategory('স্কুল – কলেজের ছাত্র-ছাত্রী', event)">স্কুল – কলেজের ছাত্র-ছাত্রী</div>
+    </div>
+
+    <div class="top-right-actions">
+      <button class="glass-icon-btn" onclick="toggleSearchPanel()" title="Search">🔍</button>
+      <button class="glass-icon-btn" onclick="toggleMenu(event)" title="Menu" aria-label="Menu">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+      </button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <div onclick="openTrendingView(event)">🔥 Trending Now</div>
+        <div onclick="openRecentlyAddedView(event)">🆕 Recently Added</div>
+        <div onclick="selectCategory('All', event)">🌐 All Videos</div>
+        <div onclick="selectCategory('কক্সবাজার', event)">🏖️ কক্সবাজার</div>
+        <div onclick="selectCategory('কট খাওয়া', event)">🔥 কট খাওয়া</div>
+        <div onclick="selectCategory('গার্লফ্রেন্ড – বয়ফ্রেন্ড', event)">💑 গার্লফ্রেন্ড – বয়ফ্রেন্ড</div>
+        <div onclick="selectCategory('ট্রেন্ডিং ভিডিও', event)">⚡ ট্রেন্ডিং ভিডিও</div>
+        <div onclick="selectCategory('পরকীয়া', event)">💔 পরকীয়া</div>
+        <div onclick="selectCategory('পর্ণ সিনেমা', event)">🔞 পর্ণ সিনেমা</div>
+        <div onclick="selectCategory('বাংলা কথা', event)">🎙️ বাংলা কথা</div>
+        <div onclick="selectCategory('ভাই – বোন', event)">👫 ভাই – বোন</div>
+        <div onclick="selectCategory('ভাবি', event)">💃 ভাবি</div>
+        <div onclick="selectCategory('সেলিব্রিটি', event)">⭐ সেলিব্রিটি</div>
+        <div onclick="selectCategory('স্কুল – কলেজের ছাত্র-ছাত্রী', event)">🎒 স্কুল – কলেজের ছাত্র-ছাত্রী</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- সার্চ প্যানেল -->
+  <div class="search-bar-panel" id="searchBarPanel">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="ভিডিওর নাম লিখুন..." oninput="toggleClearBtn(); filterMovies();" onkeyup="toggleClearBtn()">
+      <button class="clear-search-btn" id="clearSearchBtn" onclick="clearSearchInput()" title="মুছে ফেলুন">✕</button>
+    </div>
   </div>
 
-  <!-- স্পন্সর ব্যানার -->
-  <div class="entry-ad-banner" onclick="openEntryAd()">
-    <p><span>SPONSOR</span> স্পন্সরড অফার দেখতে এখানে ক্লিক করুন 🎁</p>
-  </div>
+  <!-- হিরো ব্যানার স্লাইডার -->
+  <section class="hero-banner-wrap" id="heroBannerSection">
+    <img id="heroBgImg" class="hero-bg-img" src="" alt="Featured Video" onerror="handleImageError(this)">
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <div class="hero-type-tag" id="heroTypeTag">18+ EXCLUSIVE · HD</div>
+      <h1 class="hero-title" id="heroTitle">SS Viral Zone</h1>
+      <div class="hero-meta-line">
+        <span class="hero-rating-pill" id="heroRatingPill">★ 8.0</span>
+        <span id="heroCatText">ট্রেন্ডিং ভিডিও</span>
+      </div>
+      <div class="hero-actions-row">
+        <div class="hero-btns-left">
+          <button class="btn-hero-dl" onclick="openHeroDetail()">📥 Download Now</button>
+          <button class="btn-hero-info" onclick="openHeroDetail()">ⓘ Details</button>
+        </div>
+        <div class="hero-dots-pill" id="heroDotsContainer"></div>
+      </div>
+    </div>
+  </section>
 
-  <!-- সার্চ বক্স -->
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="ভিডিওর নাম লিখুন..." oninput="toggleClearBtn(); filterMovies();">
-    <button class="clear-search-btn" id="clearSearchBtn" onclick="clearSearchInput()">✕</button>
-  </div>
+  <!-- হোম সেকশন (শুধু Trending Now আর Recently Added) -->
+  <div class="main-container" id="homeSectionsContainer">
+    <!-- স্পন্সর ব্যানার -->
+    <div class="entry-ad-banner" onclick="openEntryAd()">
+      <p><span>SPONSOR</span> স্পন্সরড অফার দেখতে এখানে ক্লিক করুন 🎁</p>
+    </div>
 
-  <!-- ব্যানার অ্যাড (320x50) -->
-  <div class="ad-container">
-    <script>
-      atOptions = {
-        'key' : '8c51e3c6e22b700ea7f548944de49528',
-        'format' : 'iframe',
-        'height' : 50,
-        'width' : 320,
-        'params' : {}
-      };
-    </script>
-    <script src="https://bancadeltempoidea.org/22/8c51e3c6e22b700ea7f548944de49528"></script>
-  </div>
+    <!-- ব্যানার অ্যাড (320x50) -->
+    <div class="ad-container">
+      <script>
+        atOptions = {
+          'key' : '8c51e3c6e22b700ea7f548944de49528',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bancadeltempoidea.org/22/8c51e3c6e22b700ea7f548944de49528"></script>
+    </div>
 
-  <!-- হোম সেকশন (সামনে শুধু Trending আর Recently Added) -->
-  <div id="homeSectionsContainer">
+    <!-- Trending Now -->
     <div id="trendingSectionBlock" style="display: none;">
       <div class="section-header">
-        <span class="section-title">🔥 Trending</span>
-        <button class="see-all-btn" onclick="openTrendingView()">সব দেখুন ➔</button>
+        <span class="section-title">🔥 Trending Now</span>
+        <button class="see-all-btn" onclick="openTrendingView()">SEE ALL ➔</button>
       </div>
       <div class="horizontal-scroll-row" id="trendingRow"></div>
     </div>
 
+    <!-- Recently Added -->
     <div id="recentSectionBlock">
       <div class="section-header">
         <span class="section-title">🆕 Recently Added</span>
       </div>
       <div class="movies-grid" id="moviesList">
-        <div class="loader-box">ভিডিও লোড হচ্ছে... ⏳</div>
+        <div style="grid-column: span 3; text-align: center; padding: 40px 10px; color: #a1a1aa; font-size: 14px;">ভিডিও লোড হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন ⏳</div>
       </div>
       <div class="pagination-bar" id="homePaginationBar" style="display: none;"></div>
     </div>
   </div>
 
   <!-- ফিল্টার / ক্যাটাগরি / সার্চ ফুল লিস্ট ভিউ -->
-  <div id="fullListViewBlock" style="display: none;">
+  <div class="main-container" id="fullListViewBlock" style="display: none;">
     <div class="full-view-header">
       <h2 id="fullViewTitle">সব ভিডিও</h2>
-      <button class="back-home-btn" onclick="goHome()">🔙 হোম</button>
+      <button class="back-home-btn" onclick="goHome()">🔙 Back to Home</button>
     </div>
     <div class="movies-grid" id="fullListGrid"></div>
     <div class="pagination-bar" id="fullListPaginationBar" style="display: none;"></div>
   </div>
 
-  <!-- নেটিভ অ্যাড -->
-  <div class="ad-container" style="margin-top: 15px;">
-    <script async="async" data-cfasync="false" src="https://bancadeltempoidea.org/21/ec72bbd193cb50eb90320e65f0081446"></script>
-    <div id="container-ec72bbd193cb50eb90320e65f0081446"></div>
+  <!-- নিচের নেটিভ অ্যাড ও স্পন্সর -->
+  <div class="bottom-ad-section">
+    <div class="entry-ad-banner" onclick="openEntryAd()" style="margin:0;">
+      <p><span>SPONSOR</span> Check out sponsored offers 🎁</p>
+    </div>
+    <div class="ad-container" style="margin:0; min-height:auto; padding:6px;">
+      <script async="async" data-cfasync="false" src="https://bancadeltempoidea.org/21/ec72bbd193cb50eb90320e65f0081446"></script>
+      <div id="container-ec72bbd193cb50eb90320e65f0081446"></div>
+    </div>
   </div>
 
-  <!-- বটম নেভিগেশন -->
+  <!-- বটম নেভিগেশন (শুধু Home, Trending, Recently Added) -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="goHome()"><span class="nav-icon">🏠</span><span>Home</span></div>
     <div class="nav-item" onclick="openTrendingView()"><span class="nav-icon">🔥</span><span>Trending</span></div>
     <div class="nav-item" onclick="openRecentlyAddedView()"><span class="nav-icon">🆕</span><span>Recently Added</span></div>
   </nav>
 
-  <!-- ডিটেইল পেজ (ভিতরে শুধু ডাউনলোড অপশন — কোনো ট্রেইলার বা ওয়াচ মুভি নেই) -->
-  <div class="detail-view" id="detailView">
-    <div class="detail-top-nav">
-      <button class="detail-nav-btn" onclick="closeDetailView()">⬅️ Back</button>
-      <span style="font-size:13.5px; font-weight:800; color:var(--primary);">🎬 SS viral Zone</span>
-      <button class="detail-nav-btn" onclick="copyShareLink()">🔗 Share</button>
+  <!-- ডিটেইল পেজ (শুধু ডাউনলোড অপশন — কোনো ওয়াচ, ট্রেইলার, কাস্ট বা দৃশ্য নেই) -->
+  <div class="cine-detail-view" id="detailView">
+    <div class="cine-top-nav">
+      <button class="cine-back-btn" onclick="closeDetailView()">⬅️ Back</button>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
+          <rect x="2" y="2" width="44" height="44" rx="12" fill="#e11d48"/>
+          <text x="24" y="30" fill="#ffffff" font-size="16" font-weight="900" font-family="sans-serif" text-anchor="middle">18+</text>
+        </svg>
+        <span style="font-size: 13.5px; font-weight: 800; color: #ffffff;">SS Viral Zone</span>
+      </div>
+      <button class="cine-back-btn" onclick="copyShareLink()">🔗 Share</button>
     </div>
 
-    <div class="detail-hero" id="detailHero"></div>
+    <div class="cine-hero-banner" id="detailHero"></div>
 
-    <div class="detail-main">
-      <img src="" id="detailPoster" class="detail-poster" alt="Poster" onerror="handleImageError(this)">
-      <div class="detail-info">
-        <h2 class="detail-title" id="detailTitle">Title</h2>
-        <div class="detail-chips">
-          <span class="detail-chip" style="color:var(--accent-yellow);" id="detailRating">⭐ 8.0</span>
-          <span class="detail-chip" style="color:var(--primary);" id="detailBadge">HD</span>
+    <div class="cine-main-info">
+      <img src="" id="detailPoster" class="cine-poster" alt="Poster" onerror="handleImageError(this)">
+      <div class="cine-text-info">
+        <h2 class="cine-title" id="detailTitle">Title</h2>
+        <div class="cine-badges-wrap">
+          <span class="cine-chip chip-yellow" id="detailRating">⭐ 8.0</span>
+          <span class="cine-chip chip-red" id="detailBadge">18+ HD</span>
         </div>
       </div>
     </div>
 
-    <div class="detail-meta-box" id="detailMetaBox"></div>
+    <div class="cine-details-desc-box" id="detailMetaBox"></div>
 
-    <div class="download-section-box" id="downloadSectionBox">
-      <div class="download-box-title"><span>📥 Download Options:</span></div>
+    <div class="cine-section-box" id="downloadSectionBox">
+      <div class="cine-box-title"><span>📥 Download Options:</span></div>
 
       <div class="ad-unlock-box" id="adUnlockBox">
         <p id="adStepNotice" style="font-size:12.5px; color:#cbd5e1; margin-bottom:12px;">ডাউনলোড লিংক আনলক করতে ১ম বিজ্ঞাপনটি দেখুন:</p>
@@ -256,11 +454,26 @@
 
   <script>
     var GOOGLE_SHEET_ID = "13bBAZVd1Z3CCOF-1CM1qQCd0kjtlTqWCf6QXs-zd-zo";
+    var CINEVIBE_URL = "https://cinevibebd.pages.dev/";
     var ENTRY_AD_URL = "https://auctionr.org/4/65f43ffc33fe79a1323bfe7402ae52f3";
     var DEFAULT_AD2 = "https://asiafilm.org/4/13ea836dfdd1e0cc3f590b100bff3fb6";
 
     var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
     if (tg) { try { tg.ready(); tg.expand(); } catch (e) {} }
+
+    function hideSplash() {
+      var sp = document.getElementById('ssSplashOverlay');
+      if (sp) sp.classList.add('hide');
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(hideSplash, 2000);
+    });
+
+    window.addEventListener('scroll', function() {
+      var header = document.getElementById('topGlassHeader');
+      if (window.scrollY > 40) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
 
     function openSafeUrl(url) {
       if (!url || url === '#' || !/^https?:\/\//i.test(url)) return;
@@ -271,19 +484,43 @@
 
     function handleImageError(img) {
       img.onerror = null;
-      img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140"><rect width="100%" height="100%" fill="%231e293b"/><text x="50%" y="50%" fill="%2338bdf8" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle" dy=".3em">🎬 Viral Video</text></svg>';
+      img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140"><rect width="100%" height="100%" fill="%2312131a"/><text x="50%" y="50%" fill="%23e11d48" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle" dy=".3em">🔞 18+ Viral</text></svg>';
     }
 
     var movies = [];
+    var heroMovies = [];
+    var currentHeroIndex = 0;
+    var heroAutoTimer = null;
     var currentMovie = null;
     var activeCategory = 'All';
     var homePage = 1;
     var fullListPage = 1;
     var fullListMovies = [];
-    var itemsPerPage = 20;
+    var itemsPerPage = 21;
     var currentUnlockStep = 1;
     var stepCountdownTimer = null;
     var previousScrollY = 0;
+
+    /* CineVibeBD গেট চেক ও রিডাইরেক্ট লজিক */
+    function isCineVibeVerified() {
+      if (sessionStorage.getItem('ss_cv_verified') === '1') return true;
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('cv_pass') === '1') {
+        sessionStorage.setItem('ss_cv_verified', '1');
+        return true;
+      }
+      if (document.referrer && document.referrer.toLowerCase().indexOf('cinevibebd') !== -1) {
+        sessionStorage.setItem('ss_cv_verified', '1');
+        return true;
+      }
+      return false;
+    }
+
+    function redirectToCineVibe(movieId) {
+      var ssBase = window.location.origin + window.location.pathname;
+      var target = CINEVIBE_URL + "?viral_id=" + encodeURIComponent(movieId) + "&ss_url=" + encodeURIComponent(ssBase);
+      window.location.href = target;
+    }
 
     function getCellVal(c, index) {
       if (!c || !c[index] || c[index].v === null || c[index].v === undefined) return '';
@@ -389,7 +626,7 @@
               image: imgVal,
               ad1: ad1Val,
               ad2: ad2Val,
-              badge: 'HD',
+              badge: '18+ HD',
               links: (dlVal && dlVal !== '#') ? [{ link: dlVal, label: '📥 ডাউনলোড করুন [HD]' }] : [],
               structuredEpisodes: [],
               pinned: isPinned,
@@ -402,11 +639,12 @@
           }
           raw.reverse();
           movies = applyCustomSortAndPins(raw);
+          initHeroSlider();
           renderHome();
           checkDirectLink();
         })
         .catch(function() {
-          document.getElementById('moviesList').innerHTML = '<p style="grid-column:span 2; text-align:center; color:#ef4444; padding:30px;">ভিডিও লোড হতে সমস্যা হয়েছে!</p>';
+          document.getElementById('moviesList').innerHTML = '<p style="grid-column:span 3; text-align:center; color:#ef4444; padding:30px;">ভিডিও লোড হতে সমস্যা হয়েছে!</p>';
         });
     }
 
@@ -421,7 +659,7 @@
             fetchMoviesFromSheetFallback();
             return;
           }
-          var raw = list.map(function(m, idx) {
+          var raw = list.filter(function(m) { return !m.draft; }).map(function(m, idx) {
             var r = String(m.rating || '8.0').trim();
             var epParsed = parseStructuredEpisodes(m.episodes || '');
             var singleLinks = Array.isArray(m.links) ? m.links.slice() : [];
@@ -437,7 +675,7 @@
               image: m.image || '',
               ad1: (m.ad1 && /^https?:\/\//i.test(m.ad1)) ? m.ad1 : ENTRY_AD_URL,
               ad2: (m.ad2 && /^https?:\/\//i.test(m.ad2)) ? m.ad2 : DEFAULT_AD2,
-              badge: m.badge || 'HD',
+              badge: m.badge || '18+ HD',
               links: singleLinks.concat(epParsed.legacy),
               structuredEpisodes: epParsed.structured,
               pinned: !!m.pinned,
@@ -449,6 +687,7 @@
             };
           });
           movies = applyCustomSortAndPins(raw);
+          initHeroSlider();
           renderHome();
           checkDirectLink();
         })
@@ -457,21 +696,66 @@
         });
     }
 
+    /* হিরো ব্যানার স্লাইডার */
+    function initHeroSlider() {
+      if (!movies || movies.length === 0) return;
+      var featured = movies.filter(isTrendingItem);
+      heroMovies = (featured.length > 0 ? featured : movies).slice(0, 7);
+      currentHeroIndex = 0;
+      var dotsWrap = document.getElementById('heroDotsContainer');
+      dotsWrap.innerHTML = '';
+      heroMovies.forEach(function(_, idx) {
+        var dot = document.createElement('div');
+        dot.className = 'hero-dot' + (idx === 0 ? ' active' : '');
+        dot.onclick = function() { currentHeroIndex = idx; updateHeroView(); restartHeroAutoPlay(); };
+        dotsWrap.appendChild(dot);
+      });
+      updateHeroView();
+      restartHeroAutoPlay();
+    }
+
+    function updateHeroView() {
+      var m = heroMovies[currentHeroIndex];
+      if (!m) return;
+      document.getElementById('heroBgImg').src = m.image;
+      document.getElementById('heroTypeTag').innerText = '18+ EXCLUSIVE · ' + (m.badge || 'HD');
+      document.getElementById('heroTitle').innerText = m.title;
+      document.getElementById('heroRatingPill').innerText = '★ ' + String(m.rating || '8.0').replace(/[⭐★]/g, '').trim();
+      document.getElementById('heroCatText').innerText = m.category || 'ট্রেন্ডিং ভিডিও';
+      document.querySelectorAll('.hero-dot').forEach(function(d, idx) {
+        d.classList.toggle('active', idx === currentHeroIndex);
+      });
+    }
+
+    function restartHeroAutoPlay() {
+      clearInterval(heroAutoTimer);
+      if (heroMovies.length > 1) {
+        heroAutoTimer = setInterval(function() {
+          currentHeroIndex = (currentHeroIndex + 1) % heroMovies.length;
+          updateHeroView();
+        }, 4500);
+      }
+    }
+
+    function openHeroDetail() {
+      var m = heroMovies[currentHeroIndex];
+      if (m) openDetailView(m.id);
+    }
+
     function createCardHTML(m) {
       var pinTag = m.pinned ? '<div class="pin-badge">📌 PINNED</div>' : '';
       var badgeTag = m.badge ? '<div class="quality-badge">' + m.badge + '</div>' : '';
+      var ratingClean = String(m.rating || '8.0').replace(/[⭐★]/g, '').trim();
       return (
         '<div class="movie-card' + (m.pinned ? ' is-pinned' : '') + '" onclick="openDetailView(\'' + m.id + '\')">' +
-          pinTag + badgeTag +
           '<div class="movie-poster-wrap">' +
+            '<div class="card-rating-badge"><span>★</span> ' + ratingClean + '</div>' +
+            badgeTag + pinTag +
             '<img src="' + m.image + '" alt="' + m.title + '" loading="lazy" onerror="handleImageError(this)">' +
           '</div>' +
           '<div class="movie-info">' +
-            '<div>' +
-              '<div class="movie-title">' + m.title + '</div>' +
-              '<div class="movie-meta"><span>' + m.rating + '</span><span>' + m.category + '</span></div>' +
-            '</div>' +
-            '<button class="dl-trigger-btn">ডাউনলোড</button>' +
+            '<div class="movie-title" title="' + m.title + '">' + m.title + '</div>' +
+            '<div class="movie-submeta">' + (m.category || 'Viral') + '</div>' +
           '</div>' +
         '</div>'
       );
@@ -481,17 +765,27 @@
       var trendingItems = movies.filter(isTrendingItem);
       var trendBlock = document.getElementById('trendingSectionBlock');
       var trendRow = document.getElementById('trendingRow');
-      if (homePage === 1 && trendingItems.length > 0) {
-        trendBlock.style.display = 'block';
-        trendRow.innerHTML = trendingItems.slice(0, 12).map(createCardHTML).join('');
+      var heroSec = document.getElementById('heroBannerSection');
+
+      if (homePage > 1) {
+        if (heroSec) heroSec.style.display = 'none';
+        if (trendBlock) trendBlock.style.display = 'none';
+        document.getElementById('homeSectionsContainer').style.paddingTop = '62px';
       } else {
-        trendBlock.style.display = 'none';
+        if (heroSec) heroSec.style.display = 'block';
+        document.getElementById('homeSectionsContainer').style.paddingTop = '0';
+        if (trendingItems.length > 0) {
+          trendBlock.style.display = 'block';
+          trendRow.innerHTML = trendingItems.slice(0, 12).map(createCardHTML).join('');
+        } else {
+          trendBlock.style.display = 'none';
+        }
       }
 
       var container = document.getElementById('moviesList');
       var paged = movies.slice((homePage - 1) * itemsPerPage, homePage * itemsPerPage);
       if (paged.length === 0) {
-        container.innerHTML = '<p style="grid-column:span 2; text-align:center; color:#94a3b8; padding:40px;">কোনো ভিডিও পাওয়া যায়নি!</p>';
+        container.innerHTML = '<p style="grid-column:span 3; text-align:center; color:#94a3b8; padding:40px;">কোনো ভিডিও পাওয়া যায়নি!</p>';
       } else {
         container.innerHTML = paged.map(createCardHTML).join('');
       }
@@ -528,6 +822,7 @@
     }
 
     function renderFullListView(title, list) {
+      document.getElementById('heroBannerSection').style.display = 'none';
       document.getElementById('homeSectionsContainer').style.display = 'none';
       document.getElementById('fullListViewBlock').style.display = 'block';
       document.getElementById('fullViewTitle').innerText = title;
@@ -540,7 +835,7 @@
     function renderFullListPage() {
       var grid = document.getElementById('fullListGrid');
       if (fullListMovies.length === 0) {
-        grid.innerHTML = '<p style="grid-column:span 2; text-align:center; color:#94a3b8; padding:40px;">কোনো ভিডিও পাওয়া যায়নি!</p>';
+        grid.innerHTML = '<p style="grid-column:span 3; text-align:center; color:#94a3b8; padding:40px;">কোনো ভিডিও পাওয়া যায়নি!</p>';
         document.getElementById('fullListPaginationBar').style.display = 'none';
         return;
       }
@@ -551,6 +846,12 @@
         renderFullListPage();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
+    }
+
+    function toggleSearchPanel() {
+      var panel = document.getElementById('searchBarPanel');
+      panel.classList.toggle('open');
+      if (panel.classList.contains('open')) setTimeout(function() { document.getElementById('searchInput').focus(); }, 100);
     }
 
     function toggleMenu(event) {
@@ -566,7 +867,7 @@
     function openTrendingView(event) {
       if (event) event.stopPropagation();
       document.getElementById('dropdownMenu').style.display = 'none';
-      renderFullListView('🔥 Trending', movies.filter(isTrendingItem));
+      renderFullListView('🔥 Trending Now', movies.filter(isTrendingItem));
     }
 
     function openRecentlyAddedView(event) {
@@ -624,14 +925,21 @@
         p.classList.toggle('active', p.innerText.trim() === 'All');
       });
       document.getElementById('fullListViewBlock').style.display = 'none';
+      document.getElementById('heroBannerSection').style.display = 'block';
       document.getElementById('homeSectionsContainer').style.display = 'block';
+      document.getElementById('searchBarPanel').classList.remove('open');
       homePage = 1;
       renderHome();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* Detail Page & 2-Step Download Unlock (NO Watch / NO Trailer) */
+    /* ডিটেইল পেজ ও ২-ধাপের ডাউনলোড আনলক (কোনো ওয়াচ/ট্রেইলার/কাস্ট/দৃশ্য নেই) */
     function openDetailView(id) {
+      if (!isCineVibeVerified()) {
+        redirectToCineVibe(id);
+        return;
+      }
+
       var m = movies.find(function(x) { return String(x.id) === String(id); });
       if (!m) return;
       currentMovie = m;
@@ -641,11 +949,11 @@
       document.getElementById('detailPoster').src = m.image;
       document.getElementById('detailTitle').innerText = m.title;
       document.getElementById('detailRating').innerText = m.rating;
-      document.getElementById('detailBadge').innerText = m.badge || 'HD';
+      document.getElementById('detailBadge').innerText = m.badge || '18+ HD';
       document.getElementById('detailMetaBox').innerHTML =
         '<div>📂 <b>Category:</b> ' + (m.category || 'Viral') + '</div>' +
         '<div>🗣️ <b>Language:</b> ' + (m.language || 'বাংলা') + '</div>' +
-        '<div>📺 <b>Quality:</b> ' + (m.badge || 'HD') + '</div>' +
+        '<div>📺 <b>Quality:</b> ' + (m.badge || '18+ HD') + '</div>' +
         '<div>📅 <b>Release:</b> ' + (m.releaseDate || '2026') + '</div>';
 
       currentUnlockStep = 1;
@@ -707,7 +1015,7 @@
             currentUnlockStep = 3;
             btn.disabled = false;
             btn.className = 'ad-step-btn step3';
-            btn.innerText = '📥 আসল ডাউনলোড অপশন দেখুন 🎬';
+            btn.innerText = '📥 আসল ডাউনলোড অপশন দেখুন 🔞';
             notice.innerText = '🎉 ২টি বিজ্ঞাপন সফলভাবে সম্পন্ন হয়েছে! নিচে ক্লিক করুন:';
           }
         }, 1000);
@@ -777,8 +1085,11 @@
     }
 
     function checkDirectLink() {
-      var id = new URLSearchParams(window.location.search).get('id');
-      if (id) openDetailView(id);
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get('id');
+      if (id) {
+        openDetailView(id);
+      }
     }
 
     fetchMoviesFromGitHub();
